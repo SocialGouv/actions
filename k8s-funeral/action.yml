@@ -39,7 +39,6 @@ runs:
       shell: bash
       run: |
         mkdir ~/.kube
-        echo ${{ inputs.kube-config }} | base64 -d > ~/.kube/config
 
     - name: Delete k8s environment
       shell: bash
