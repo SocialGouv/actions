@@ -27,4 +27,4 @@ runs:
       uses: vmware-tanzu/carvel-setup-action@v1
       with:
         only: kapp
-        token: ${{ input.github-token }}
+        token: ${{ inputs.github-token }}
