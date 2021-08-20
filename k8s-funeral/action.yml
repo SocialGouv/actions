@@ -1,6 +1,10 @@
 name: "🪦"
 description: "Bury the review branch k8s environment"
-inputs: {}
+inputs:
+  github-token:
+    description: "GitHub Token as provided by secrets"
+    default: ${{ github.token }}
+    required: true
 outputs: {}
 runs:
   using: "composite"
@@ -18,3 +22,9 @@ runs:
         echo "branch : ${{ env.branch }}" 
         echo "project : ${{ env.project }}" 
         echo "namespace : ${{ env.namespace }}"
+
+    - name: Install Kapp
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: kapp
+        token: ${{ input.github-token }}
