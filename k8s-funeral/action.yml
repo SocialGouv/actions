@@ -39,6 +39,7 @@ runs:
       shell: bash
       run: |
         mkdir ~/.kube
+        echo "${{ inputs.kube-config }}" | base64 -d > ~/.kube/config
 
     - name: Delete k8s environment
       shell: bash
@@ -46,3 +47,11 @@ runs:
         echo "kapp delete --yes --namespace ${{ env.namespace }}"
         kapp delete --yes --namespace ${{ env.namespace }}
         echo "🪦"
+
+    - name: Mark environment as deactivated
+      uses: bobheadxi/deployments@v0.4.3
+      with:
+        step: deactivate-env
+        env: ${{ env.branch }}
+        token: ${{ inputs.github-token }}
+        desc: "Environment ${{ env.namespace }} has been deactivated"
