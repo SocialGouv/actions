@@ -3,10 +3,8 @@ description: "Mirror git to https://gitlab.factory.social.gouv.fr"
 inputs:
   project:
     description: "Where to sync to"
-  GITLAB_TOKEN:
-    required: false
+  gitlab-token:
     description: "Your gitlab token"
-    default: "${{ secrets.SOCIALGROOVYBOT_GITLAB_TOKEN }}"
 outputs: {}
 runs:
   using: "composite"
@@ -19,9 +17,8 @@ runs:
       run: |
         git config --global user.name 'SocialGroovyBot'
         git config --global user.email 'contact@fabrique.social.gouv.fr'
-        git remote add gitlab.factory.social.gouv.fr https://github:${{ inputs.GITLAB_TOKEN }}@gitlab.factory.social.gouv.fr/${{ inputs.project }}.git
+        git remote add gitlab.factory.social.gouv.fr https://github:${{ inputs.gitlab-token }}@gitlab.factory.social.gouv.fr/${{ inputs.project }}.git
     - name: Push
-      if: == 'push'
       shell: bash
       run: |
         # Get the ref name
