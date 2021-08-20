@@ -45,11 +45,3 @@ runs:
       shell: bash
       run: |
         kapp delete --yes --namespace ${{ env.namespace }}
-
-    - name: Mark environment as deactivated
-      uses: bobheadxi/deployments@v0.4.3
-      with:
-        step: deactivate-env
-        env: ${{ env.branch }}
-        token: ${{ inputs.github-token }}
-        desc: "Environment ${{ env.namespace }} has been deactivated"
