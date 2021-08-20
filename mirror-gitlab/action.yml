@@ -1,15 +1,15 @@
-name: 'Mirror Social Gouv Gitlab'
-description: 'Mirror git to https://gitlab.factory.social.gouv.fr'
+name: "Mirror Social Gouv Gitlab"
+description: "Mirror git to https://gitlab.factory.social.gouv.fr"
 inputs:
   project:
-    description: 'Where to sync to'
+    description: "Where to sync to"
 outputs: {}
 runs:
-    using: "composite"
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Set gitlab.factory.social.gouv.fr remote
       run: |
         git config --global user.name 'SocialGroovyBot'
