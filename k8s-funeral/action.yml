@@ -1,0 +1,20 @@
+name: "🪦"
+description: "Bury the review branch k8s environment"
+inputs: {}
+outputs: {}
+runs:
+  using: "composite"
+  steps:
+    - name: Get branch, project and namespace names
+      shell: bash
+      run: |
+        echo "branch=${GITHUB_HEAD_REF##*/}" >> $GITHUB_ENV
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_HEAD_REF##*/}" >> $GITHUB_ENV
+
+    - name: Get branch, project and namespace names
+      shell: bash
+      run: |
+        echo "branch : ${{ env.branch }}" 
+        echo "project : ${{ env.project }}" 
+        echo "namespace : ${{ env.namespace }}"
