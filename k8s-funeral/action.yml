@@ -11,6 +11,31 @@ outputs: {}
 runs:
   using: "composite"
   steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Load review environment variables
+      run: |
+        cat ".github/review.env" >> $GITHUB_ENV
+
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install kosko-charts autodevops
+      run: |
+        npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+        yarn --cwd /tmp/autodevops
+    - name: Copy application k8s config to autodevops
+      run: cp -r .socialgouv/environments .socialgouv/config.json /tmp/autodevops/
+
+    - name: Generate k8s manifests
+      run: |
+        echo SOCIALGOUV_BASE_DOMAIN: $SOCIALGOUV_BASE_DOMAIN
+        yarn --cwd /tmp/autodevops --silent generate:dev > manifests.yml
+      env:
+        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
     - name: Inject slug/short variables
       uses: rlespinasse/github-slug-action@3.5.1
 
