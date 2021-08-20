@@ -25,12 +25,6 @@ runs:
         echo "project : ${{ env.project }}" 
         echo "namespace : ${{ env.namespace }}"
 
-    - name: Install Kapp
-      uses: vmware-tanzu/carvel-setup-action@v1
-      with:
-        only: kapp
-        token: ${{ inputs.github-token }}
-
     - name: Create kubernetes config
       shell: bash
       run: |
@@ -39,7 +33,7 @@ runs:
 
     - name: Delete k8s environment
       shell: bash
-      run: kapp -y delete --namespace ${{ env.namespace }}
+      run: kubectl delete namespaces ${{ env.namespace }}
 
     - name: Mark environment as deactivated
       uses: bobheadxi/deployments@v0.4.3
