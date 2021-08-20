@@ -21,11 +21,18 @@ runs:
     - name: Push
       shell: bash
       run: |
-        # Get the ref name
-        # see https://stackoverflow.com/a/58034787
-        [[ "${{ github.event_name }}" = "push" ]] &&
-          git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}" &&
+        case "${{ github.event_name }}" in
+        "push")
+          # Get the ref name
+          # see https://stackoverflow.com/a/58034787
           echo "git push --force gitlab.factory.social.gouv.fr ${GITHUB_REF##*/}"
-        [[ "${{ github.event_name }}" = "delete" ]] &&
-          git push --force --delete gitlab.factory.social.gouv.fr "${{ github.event.ref }}" &&
+          git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}"
+          ;;
+        "delete")
           echo "git push --force --delete gitlab.factory.social.gouv.fr ${{ github.event.ref }}"
+          git push --force --delete gitlab.factory.social.gouv.fr "${{ github.event.ref }}"
+          ;;
+        *)
+          echo "Unexpected event : ${{ github.event_name }}"
+          exit 42
+        esac
