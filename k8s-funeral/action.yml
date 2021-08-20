@@ -15,6 +15,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Load review environment variables
+      shell: bash
       run: |
         cat ".github/review.env" >> $GITHUB_ENV
 
@@ -22,6 +23,7 @@ runs:
       uses: c-hive/gha-yarn-cache@v1
 
     - name: Install kosko-charts autodevops
+      shell: bash
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
         yarn --cwd /tmp/autodevops
@@ -29,6 +31,7 @@ runs:
       run: cp -r .socialgouv/environments .socialgouv/config.json /tmp/autodevops/
 
     - name: Generate k8s manifests
+      shell: bash
       run: |
         echo SOCIALGOUV_BASE_DOMAIN: $SOCIALGOUV_BASE_DOMAIN
         yarn --cwd /tmp/autodevops --silent generate:dev > manifests.yml
