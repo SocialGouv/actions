@@ -17,9 +17,9 @@ runs:
     - name: Get branch, project and namespace names
       shell: bash
       run: |
-        echo "branch=${GITHUB_REF_SLUG_URL}" >> $GITHUB_ENV
+        echo "branch=${GITHUB_HEAD_REF_SLUG_URL}" >> $GITHUB_ENV
         echo "project=${GITHUB_REPOSITORY_NAME_PART_SLUG_URL}" >> $GITHUB_ENV
-        echo "namespace=${GITHUB_REPOSITORY_NAME_PART_SLUG_URL}-${GITHUB_REF_SLUG_URL}" >> $GITHUB_ENV
+        echo "namespace=${GITHUB_REPOSITORY_NAME_PART_SLUG_URL}-${GITHUB_HEAD_REF_SLUG_URL}" >> $GITHUB_ENV
 
     - name: Get branch, project and namespace names
       shell: bash
