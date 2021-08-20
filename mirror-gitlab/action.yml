@@ -27,10 +27,8 @@ runs:
       run: |
         case "${{ github.event_name }}" in
         "push")
-          # Get the ref name
-          # see https://stackoverflow.com/a/58034787
-          echo "git push --force ${{ inputs.remote }} ${GITHUB_REF##*/}"
-          git push --force ${{ inputs.remote }} "${GITHUB_REF##*/}"
+          echo "git push --force ${{ inputs.remote }} "${{ github.event.ref }}""
+          git push --force ${{ inputs.remote }} "${{ github.event.ref }}"
           ;;
         "delete")
           echo "git push --force --delete ${{ inputs.remote }} ${{ github.event.ref }}"
