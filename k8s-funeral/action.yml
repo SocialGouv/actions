@@ -44,4 +44,6 @@ runs:
     - name: Delete k8s environment
       shell: bash
       run: |
+        echo "kapp delete --yes --namespace ${{ env.namespace }}"
         kapp delete --yes --namespace ${{ env.namespace }}
+        echo "🪦"
