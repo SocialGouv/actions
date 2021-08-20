@@ -24,6 +24,8 @@ runs:
         # Get the ref name
         # see https://stackoverflow.com/a/58034787
         [[ "${{ github.event_name }}" = "push" ]] &&
-          git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}"
+          git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}" &&
+          echo "git push --force gitlab.factory.social.gouv.fr ${GITHUB_REF##*/}"
         [[ "${{ github.event_name }}" = "delete" ]] &&
-          git push --force --delete gitlab.factory.social.gouv.fr "${{ github.event.ref }}"
+          git push --force --delete gitlab.factory.social.gouv.fr "${{ github.event.ref }}" &&
+          echo "git push --force --delete gitlab.factory.social.gouv.fr ${{ github.event.ref }}"
