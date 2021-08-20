@@ -45,7 +45,7 @@ runs:
       shell: bash
       run: |
         echo "kapp delete --yes --namespace ${{ env.namespace }}"
-        kapp delete --yes --namespace ${{ env.namespace }}
+        kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}
         echo "🪦"
 
     - name: Mark environment as deactivated
