@@ -1,8 +1,8 @@
 name: "🪞🔌🇫🇷"
 description: "Mirror git to https://gitlab.factory.social.gouv.fr"
 inputs:
-  gitlab-token:
-    description: "Your gitlab token"
+  token:
+    description: "Your token"
   project:
     description: "Where to sync to in your git remote"
   remote:
@@ -16,12 +16,12 @@ runs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Set gitlab.factory.social.gouv.fr remote
+    - name: Set ${{ inputs.remote }} remote
       shell: bash
       run: |
         git config --global user.name 'SocialGroovyBot'
         git config --global user.email 'contact@fabrique.social.gouv.fr'
-        git remote add ${{ inputs.remote }} https://github:${{ inputs.gitlab-token }}@${{ inputs.remote }}/${{ inputs.project }}.git
+        git remote add ${{ inputs.remote }} https://github:${{ inputs.token }}@${{ inputs.remote }}/${{ inputs.project }}.git
     - name: Push
       shell: bash
       run: |
