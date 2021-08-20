@@ -15,18 +15,18 @@ runs:
       with:
         fetch-depth: 0
     - name: Set gitlab.factory.social.gouv.fr remote
+      shell: bash
       run: |
         git config --global user.name 'SocialGroovyBot'
         git config --global user.email 'contact@fabrique.social.gouv.fr'
         git remote add gitlab.factory.social.gouv.fr https://github:${{ inputs.GITLAB_TOKEN }}@gitlab.factory.social.gouv.fr/${{ inputs.project }}.git
     - name: Push
-      if: github.event_name == 'push'
+      if: == 'push'
+      shell: bash
       run: |
         # Get the ref name
         # see https://stackoverflow.com/a/58034787
-        git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}"
-    - name: Delete
-      if: github.event_name == 'delete'
-      run: |
-        # The ref only exists in the github.event as its already gone from the repo
-        git push --force gitlab.factory.social.gouv.fr ":${{ github.event.ref }}"
+        [[ "${{ github.event_name }}" = "push" ]] &&
+          git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}"
+        [[ "${{ github.event_name }}" = "delete" ]] &&
+          git push --force --delete gitlab.factory.social.gouv.fr "${{ github.event.ref }}"
