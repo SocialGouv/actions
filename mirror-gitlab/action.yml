@@ -1,10 +1,14 @@
 name: "🪞🔌🇫🇷"
 description: "Mirror git to https://gitlab.factory.social.gouv.fr"
 inputs:
-  project:
-    description: "Where to sync to"
   gitlab-token:
     description: "Your gitlab token"
+  project:
+    description: "Where to sync to in your git remote"
+  remote:
+    required: false
+    description: 'The Git remote to push to'
+    default: 'gitlab.factory.social.gouv.fr'
 outputs: {}
 runs:
   using: "composite"
@@ -17,7 +21,7 @@ runs:
       run: |
         git config --global user.name 'SocialGroovyBot'
         git config --global user.email 'contact@fabrique.social.gouv.fr'
-        git remote add gitlab.factory.social.gouv.fr https://github:${{ inputs.gitlab-token }}@gitlab.factory.social.gouv.fr/${{ inputs.project }}.git
+        git remote add {{ inputs.remote }} https://github:${{ inputs.gitlab-token }}@${{ inputs.remote }}/${{ inputs.project }}.git
     - name: Push
       shell: bash
       run: |
@@ -25,12 +29,12 @@ runs:
         "push")
           # Get the ref name
           # see https://stackoverflow.com/a/58034787
-          echo "git push --force gitlab.factory.social.gouv.fr ${GITHUB_REF##*/}"
-          git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}"
+          echo "git push --force {{ inputs.remote }} ${GITHUB_REF##*/}"
+          git push --force {{ inputs.remote }} "${GITHUB_REF##*/}"
           ;;
         "delete")
-          echo "git push --force --delete gitlab.factory.social.gouv.fr ${{ github.event.ref }}"
-          git push --force --delete gitlab.factory.social.gouv.fr "${{ github.event.ref }}"
+          echo "git push --force --delete {{ inputs.remote }} ${{ github.event.ref }}"
+          git push --force --delete {{ inputs.remote }} "${{ github.event.ref }}"
           ;;
         *)
           echo "Unexpected event : ${{ github.event_name }}"
