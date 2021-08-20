@@ -1,0 +1,28 @@
+name: 'Mirror Social Gouv Gitlab'
+description: 'Mirror git to https://gitlab.factory.social.gouv.fr'
+inputs:
+  project:
+    description: 'Where to sync to'
+outputs: {}
+runs:
+    using: "composite"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+    - name: Set gitlab.factory.social.gouv.fr remote
+      run: |
+        git config --global user.name 'SocialGroovyBot'
+        git config --global user.email 'contact@fabrique.social.gouv.fr'
+        git remote add gitlab.factory.social.gouv.fr https://github:${{ secrets.SOCIALGROOVYBOT_GITLAB_TOKEN }}@gitlab.factory.social.gouv.fr/${{ inputs.project }}.git
+    - name: Push
+      if: github.event_name == 'push'
+      run: |
+        # Get the ref name
+        # see https://stackoverflow.com/a/58034787
+        git push --force gitlab.factory.social.gouv.fr "${GITHUB_REF##*/}"
+    - name: Delete
+      if: github.event_name == 'delete'
+      run: |
+        # The ref only exists in the github.event as its already gone from the repo
+        git push --force gitlab.factory.social.gouv.fr ":${{ github.event.ref }}"
