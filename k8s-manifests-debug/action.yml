@@ -22,6 +22,7 @@ runs:
         pwd
         env
         echo "${MANIFESTS}"
+        cat "${MANIFESTS}"
         TEXT=$(cat manifests.yml | npx @socialgouv/parse-manifests --text)
         echo "${TEXT}"
         MARKDOWN=$(cat manifests.yml | npx @socialgouv/parse-manifests --markdown)
