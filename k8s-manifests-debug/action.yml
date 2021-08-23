@@ -14,7 +14,8 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: ⛑ Debug manifests ⛑
+    - name: Debug manifests
+      shell: bash
       id: debug-manifests
       run: |
         ls
