@@ -40,8 +40,8 @@ jobs:
               "nginx:1.14.2"
             ]
           }'
+
           if [[ "$JSON" != "${{ steps.manifests-debug.outputs.json }}" ]]; then
             echo "Invalid JSON"
-            echo "${{ steps.manifests-debug.outputs.json }}"
-            exit 1
+            
           fi
