@@ -22,38 +22,39 @@ jobs:
 
       - name: "json output is correct"
         run: |
-          echo 3
           JSON='{
-            "isProduction": false,
-            "manifests": [
+            isProduction: false,
+            manifests: [
               {
-                "kind": "Deployment",
-                "name": "nginx-deployment"
+                kind: Deployment,
+                name: nginx-deployment
               },
               {
-                "kind": "Service",
-                "name": "nginx"
+                kind: Service,
+                name: nginx
               },
               {
-                "kind": "Ingress",
-                "name": "example-ingress"
+                kind: Ingress,
+                name: example-ingress
               }
             ],
-            "hosts": [
-              "hello-world.info"
+            hosts: [
+              hello-world.info
             ],
-            "images": [
-              "nginx:1.14.2"
+            images: [
+              nginx:1.14.2
             ]
           }'
 
           if [[ "${JSON}" != "${{ steps.manifests-debug.outputs.json }}" ]]; then
-            echo "---"
+            echo "------------------"
             echo "Invalid JSON"
+            echo "-"
+            echo "Expected:"
             echo "${JSON}"
             echo "---"
+            echo "Actual:"
             echo "${{ steps.manifests-debug.outputs.json }}"
-            echo "---"
-            echo "${{ steps.manifests-debug.outputs.json }}"
+            echo "------------------"
             exit 1
           fi
