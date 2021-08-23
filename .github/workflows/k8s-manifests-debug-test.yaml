@@ -12,6 +12,6 @@ jobs:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-        echo ${{ steps.test.outputs.markdown }}
-        echo ${{ steps.test.outputs.text }}
-        echo ${{ steps.test.outputs.json }}
+          echo ${{ steps.test.outputs.markdown }}
+          echo ${{ steps.test.outputs.text }}
+          echo ${{ steps.test.outputs.json }}
