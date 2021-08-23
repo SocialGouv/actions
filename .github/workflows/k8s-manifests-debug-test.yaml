@@ -12,6 +12,8 @@ jobs:
         with:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          HELLO: WORLD
       - name: "json output exist"
         run: |
           [[ -n "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "No json" && exit 1)
