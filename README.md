@@ -14,7 +14,7 @@ The SocialGouv Github Actions
     path: kubernetes-manifests.yaml
     token: ${{ secrets.GITHUB_TOKEN }}
   env:
-    RANCHER_PROJECT_ID: some-project-id
+    RANCHER_PROJECT_ID: some-project-id # to provide a decent rancher url
 ```
 
 see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-manifests-debug-test.yaml)
