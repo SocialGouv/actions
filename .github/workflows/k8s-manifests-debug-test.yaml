@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: wget https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
       - id: test
-        uses: ./../k8s-manifests-debug
+        uses: ./../../k8s-manifests-debug
         with:
           manifests: kubernetes-man ifests.yaml
       - run: echo ${{ steps.test.outputs.markdown }}
