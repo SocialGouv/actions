@@ -13,15 +13,13 @@ jobs:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          echo 1
           [[ -n "${{ steps.manifests-debug.outputs.markdown }}" ]] || (echo "No markdown" && exit 1)
-          echo 2
-          [[ -n "${{ steps.manifests-debug.outputs.text }}" ]] || (echo "No text" && exit 1)
-          echo 3
-          [[ -n "$JSON" == "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "Different JSON :/" && exit 1)
-          echo 4
+
       - run: |
-          echo 5
+          [[ -n "${{ steps.manifests-debug.outputs.text }}" ]] || (echo "No text" && exit 1)
+
+      - run: |
+          echo 3
           JSON='{
             "isProduction": false,
             "manifests": [
