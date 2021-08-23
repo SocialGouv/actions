@@ -13,7 +13,7 @@ jobs:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          HELLO: WORLD
+          RANCHER_PROJECT_ID: some-project-id
       - name: "json output exist"
         run: |
           [[ -n "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "No json" && exit 1)
@@ -48,7 +48,7 @@ jobs:
 
           #### 👮‍♂️ Rancher project undefined:
 
-          https://rancher.fabrique.social.gouv.fr/p//workloads'
+          https://rancher.fabrique.social.gouv.fr/p/some-project-id/workloads'
 
           if [[ "${TEXT}" != "${{ steps.manifests-debug.outputs.text }}" ]]; then
             echo "------------------"
