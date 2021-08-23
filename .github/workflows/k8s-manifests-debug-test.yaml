@@ -26,6 +26,7 @@ jobs:
 
       - name: "text output is correct"
         run: |
+
           TEXT='
           ### Ingresses
 
@@ -52,6 +53,8 @@ jobs:
           #### 👮‍♂️ Rancher project undefined:
 
           https://rancher.fabrique.social.gouv.fr/p/some-project-id/workloads'
+
+          diff <(echo "$TEXT") <(echo "${{ steps.manifests-debug.outputs.text }}")
 
           if [[ "${TEXT}" != "${{ steps.manifests-debug.outputs.text }}" ]]; then
             echo "------------------"
