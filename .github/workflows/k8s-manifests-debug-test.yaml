@@ -13,6 +13,6 @@ jobs:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          echo ${{ steps.manifests-debug.outputs.markdown }}
-          echo ${{ steps.manifests-debug.outputs.text }}
-          echo ${{ steps.manifests-debug.outputs.json }}
+          echo "${{ steps.manifests-debug.outputs.markdown }}"
+          echo "${{ steps.manifests-debug.outputs.text }}"
+          echo "${{ steps.manifests-debug.outputs.json }}"
