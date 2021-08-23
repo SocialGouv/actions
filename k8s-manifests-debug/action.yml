@@ -2,7 +2,7 @@ name: "⛑ Debug manifests ⛑"
 description: "Debug some kubernetes manifests"
 inputs:
   path:
-    description: "Your manifests YAML"
+    description: "Your manifests YAML file path"
   token:
     description: "Github token for PR comment"
   # env:
@@ -18,6 +18,7 @@ runs:
       shell: bash
       id: debug-manifests
       run: |
+        cat "${MANIFESTS}"
         TEXT=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --text)
         echo "${TEXT}"
         MARKDOWN=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --markdown)
