@@ -41,7 +41,13 @@ jobs:
             ]
           }'
 
-          if [[ "$JSON" != "${{ steps.manifests-debug.outputs.json }}" ]]; then
+          if [[ "${JSON}" != "${{ steps.manifests-debug.outputs.json }}" ]]; then
+            echo "---"
             echo "Invalid JSON"
-            
+            echo "${JSON}"
+            echo "---"
+            echo "${{ steps.manifests-debug.outputs.json }}"
+            echo "---"
+            echo "${{ steps.manifests-debug.outputs.json }}"
+            exit 1
           fi
