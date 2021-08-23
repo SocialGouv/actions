@@ -6,12 +6,13 @@ jobs:
     name: k8s-manifests-debug
     steps:
       - uses: actions/checkout@v2
-      - id: test
+      - id: manifests-debug
+        name: "⛑️ Debug Manifests ⛑️ "
         uses: ./k8s-manifests-debug
         with:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          echo ${{ steps.test.outputs.markdown }}
-          echo ${{ steps.test.outputs.text }}
-          echo ${{ steps.test.outputs.json }}
+          echo ${{ steps.manifests-debug.outputs.markdown }}
+          echo ${{ steps.manifests-debug.outputs.text }}
+          echo ${{ steps.manifests-debug.outputs.json }}

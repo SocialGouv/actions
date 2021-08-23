@@ -52,6 +52,6 @@ runs:
       with:
         number: ${{ steps.finder.outputs.pr }}
         message: |
-          Deployment ${{ github.sha }}.
+          🎉 Deployment for commit ${{ github.sha }} :
           ${{ steps.debug-manifests.outputs.markdown }}
         GITHUB_TOKEN: ${{ inputs.token }}
