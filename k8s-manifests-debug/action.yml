@@ -3,6 +3,10 @@ description: "Debug some kubernetes manifests"
 inputs:
   manifests:
     description: "Your manifests YAML"
+  token:
+    description: "Github token for PR comment"
+  # env:
+  #   description: "Env for the parse-manifests phase"
 outputs:
   markdown:
     description: "Markdown debug"
@@ -16,7 +20,7 @@ runs:
         ls
         pwd
         env
-        echo "${MANIFESTS}""
+        echo "${MANIFESTS}"
         TEXT=$(cat manifests.yml | npx @socialgouv/parse-manifests --text)
         echo "${TEXT}"
         MARKDOWN=$(cat manifests.yml | npx @socialgouv/parse-manifests --markdown)
@@ -24,7 +28,7 @@ runs:
         MARKDOWN="${MARKDOWN//$'\r'/'%0D'}"
         echo "::set-output name=markdown::$MARKDOWN"
       env:
-        RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
+        #RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }}
         MANIFESTS: ${{ inputs.manifests }}
 
     # necessary to find the PR on push events
@@ -38,4 +42,4 @@ runs:
         message: |
           Deployment ${{ github.sha }}.
           ${{ steps.debug-manifests.outputs.markdown }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}

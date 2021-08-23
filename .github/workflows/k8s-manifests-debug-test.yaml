@@ -11,4 +11,5 @@ jobs:
         uses: ./k8s-manifests-debug
         with:
           manifests: kubernetes-manifests.yaml
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.test.outputs.markdown }}
