@@ -13,6 +13,35 @@ jobs:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          echo "${{ steps.manifests-debug.outputs.markdown }}"
-          echo "${{ steps.manifests-debug.outputs.text }}"
-          echo "${{ steps.manifests-debug.outputs.json }}"
+          [[ -n "${{ steps.manifests-debug.outputs.markdown }}" ]] || (echo "No markdown" && exit 1)
+          [[ -n "${{ steps.manifests-debug.outputs.text }}" ]] || (echo "No text" && exit 1)
+          [[ "$JSON" == "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "Different JSON :/" && exit 1)
+      - run: |
+          JSON='{
+            "isProduction": false,
+            "manifests": [
+              {
+                "kind": "Deployment",
+                "name": "nginx-deployment"
+              },
+              {
+                "kind": "Service",
+                "name": "nginx"
+              },
+              {
+                "kind": "Ingress",
+                "name": "example-ingress"
+              }
+            ],
+            "hosts": [
+              "hello-world.info"
+            ],
+            "images": [
+              "nginx:1.14.2"
+            ]
+          }'
+          if [[ "$JSON" != "${{ steps.manifests-debug.outputs.json }}" ]]; then
+            echo "Invalid JSON"
+            echo "${{ steps.manifests-debug.outputs.json }}"
+            exit 1
+          fi
