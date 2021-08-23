@@ -6,6 +6,7 @@ jobs:
     name: k8s-manifests-debug tests
     steps:
       - uses: actions/checkout@v2
+
       - id: manifests-debug
         name: "⛑️ Debug Manifests ⛑️ "
         uses: ./k8s-manifests-debug
@@ -14,6 +15,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
           RANCHER_PROJECT_ID: some-project-id
+
       - name: "json output exist"
         run: |
           [[ -n "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "No json" && exit 1)
@@ -24,7 +26,8 @@ jobs:
 
       - name: "text output is correct"
         run: |
-          TEXT='### Ingresses
+          TEXT='
+          ### Ingresses
 
           - 🚀 https://hello-world.info
 
