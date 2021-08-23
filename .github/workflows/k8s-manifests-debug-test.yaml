@@ -9,6 +9,6 @@ jobs:
       - id: test
         uses: ./k8s-manifests-debug
         with:
-          path: ./k8s-manifests-debug/sample.yaml
+          path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.test.outputs.markdown }}
