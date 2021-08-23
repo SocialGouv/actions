@@ -3,7 +3,7 @@ on: [push]
 jobs:
   k8s-manifests-debug:
     runs-on: ubuntu-latest
-    name: k8s-manifests-debug
+    name: k8s-manifests-debug tests
     steps:
       - uses: actions/checkout@v2
       - id: manifests-debug
@@ -12,13 +12,16 @@ jobs:
         with:
           path: ./k8s-manifests-debug/sample.yml
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
+      - name: "markdown output exist"
+        run: |
           [[ -n "${{ steps.manifests-debug.outputs.markdown }}" ]] || (echo "No markdown" && exit 1)
 
-      - run: |
+      - name: "text output exist"
+        run: |
           [[ -n "${{ steps.manifests-debug.outputs.text }}" ]] || (echo "No text" && exit 1)
 
-      - run: |
+      - name: "json output is correct"
+        run: |
           echo 3
           JSON='{
             "isProduction": false,
