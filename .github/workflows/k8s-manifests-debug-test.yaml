@@ -15,7 +15,7 @@ jobs:
       - run: |
           [[ -n "${{ steps.manifests-debug.outputs.markdown }}" ]] || (echo "No markdown" && exit 1)
           [[ -n "${{ steps.manifests-debug.outputs.text }}" ]] || (echo "No text" && exit 1)
-          [[ "$JSON" == "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "Different JSON :/" && exit 1)
+          [[ -n "$JSON" == "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "Different JSON :/" && exit 1)
       - run: |
           JSON='{
             "isProduction": false,
