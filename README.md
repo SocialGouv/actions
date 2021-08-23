@@ -4,7 +4,7 @@ The SocialGouv Github Actions
 
 ## `socialgouv/actions/k8s-manifests-debug`
 
-- Display [useful informations from your kubernetes manifests](https://github.com/SocialGouv/sre-tools/tree/master/packages/parse-manifests) in the job log
+- Display [useful informations from your kubernetes manifests](https://github.com/SocialGouv/sre-tools/tree/master/packages/parse-manifests) in action log
 - Post a sticky comment in associated PR
 - Outputs : `markdown`, `json`, `text` variables
 
