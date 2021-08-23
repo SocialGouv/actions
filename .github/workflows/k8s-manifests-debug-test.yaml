@@ -6,10 +6,9 @@ jobs:
     name: k8s-manifests-debug
     steps:
       - uses: actions/checkout@v2
-      - run: wget https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
       - id: test
         uses: ./k8s-manifests-debug
         with:
-          path: kubernetes-manifests.yaml
+          path: ./k8s-manifests-debug/sample.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.test.outputs.markdown }}
