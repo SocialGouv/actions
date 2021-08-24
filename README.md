@@ -9,7 +9,7 @@ The SocialGouv Github Actions
 - Outputs : `markdown`, `json`, `text` variables
 
 ```yaml
-- uses: socialgouv/actions/k8s-manifests-debug@master
+- uses: socialgouv/actions/k8s-manifests-debug
   with:
     path: kubernetes-manifests.yaml
     token: ${{ secrets.GITHUB_TOKEN }}
