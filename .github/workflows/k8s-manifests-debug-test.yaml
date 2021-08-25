@@ -12,7 +12,7 @@ jobs:
         uses: ./k8s-manifests-debug
         with:
           path: ./k8s-manifests-debug/sample.yml
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
         env:
           RANCHER_PROJECT_ID: some-project-id
 
