@@ -1,0 +1,83 @@
+name: "Deploy"
+description: "Deploy over Kubernetes"
+inputs:
+  environment:
+    description: "The deployment environment (dev | preprod | prod)"
+  kubeconfig:
+    description: "The Kubernetes authentication configuration"
+  token:
+    description: "The Github authentication token"
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Checkout repository
+    uses: actions/checkout@v2
+
+  - name: Download k8s namespace
+    uses: actions/download-artifact@v2
+    with:
+      name: namespace.yml
+
+  - name: Download k8s manifests
+    uses: actions/download-artifact@v2
+    with:
+      name: manifests-${{ inputs.environment }}.yml
+
+  - name: Get namespace name
+    uses: mikefarah/yq@master
+    id: namespace
+    with:
+      cmd: yq eval '.metadata.name' namespace.yml
+
+  - name: Get project and namespace names
+    shell: bash
+    run: |
+      cat ".github/${{ inputs.environment }}.env" >> $GITHUB_ENV
+      echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+      #echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
+      echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
+    env:
+      NAMESPACE: ${{ steps.namespace.outputs.result }}
+
+  - name: Notify deployment start
+    uses: bobheadxi/deployments@v0.4.3
+    id: deployment
+    with:
+      step: start
+      env: ${{ env.namespace }}
+      token: ${{ inputs.token }}
+      desc: "Deploying environment: ${{ env.namespace }}"
+
+  - name: Install Kapp
+    uses: vmware-tanzu/carvel-setup-action@v1
+    with:
+      only: kapp
+      token: ${{ inputs.token }}
+
+  - name: Create kubernetes config
+    shell: bash
+    run: |
+      mkdir ~/.kube
+      touch ~/.kube/config
+      echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+
+  - name: Create k8s namespace and annotations
+    shell: bash
+    run: |
+      kubectl create ns ${{ env.namespace }} || true
+      kubectl annotate ns ${{ env.namespace }} azure-pg-admin-user=${{ env.project }} || true
+
+  - name: Deploy application
+    shell: bash
+    run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
+
+  - name: Notify deployment end
+    uses: bobheadxi/deployments@v0.4.3
+    with:
+      step: finish
+      status: ${{ job.status }}
+      token: ${{ inputs.token }}
+      deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
