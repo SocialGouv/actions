@@ -3,10 +3,8 @@ description: "Generate k8s manifests via kosko-charts autodevops"
 inputs:
   project:
     description: "The project name, usually the repository name"
-  group:
-    description: "The group name, usually the product name"
-  image:
-    description: "The image name, to override project name if needed"
+  imageName:
+    description: "The image registry path"
   dockerfile:
     description: "The docker file path"
   token:
@@ -23,7 +21,7 @@ runs:
     id: docker_meta
     uses: "crazy-max/ghaction-docker-meta@2e1a5c7fa42123697f82d479b551a1bbdb1bef88"
     with:
-      images: ghcr.io/socialgouv/${{ inputs.group || inputs.project }}/${{ inputs.image || inputs.project }}
+      images: ghcr.io/socialgouv/${{ inputs.imageName }}
       labels: |
         org.opencontainers.image.title=${{ inputs.project }}
         org.opencontainers.image.documentation=https://github.com/SocialGouv/${{ inputs.project }}/tree/${{ github.sha }}
