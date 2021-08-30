@@ -8,60 +8,60 @@ runs:
   using: "composite"
   steps:
 
-    - name: Checkout repository
-      uses: actions/checkout@v2
+  - name: Checkout repository
+    uses: actions/checkout@v2
 
-    - name: Load environment variables
-      shell: bash
-      run: |
-        cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
+  - name: Load environment variables
+    shell: bash
+    run: |
+      cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
 
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
+  - name: Yarn cache setup
+    uses: c-hive/gha-yarn-cache@v1
 
-    - name: Install kosko-charts autodevops
-      shell: bash
-      run: |
-        npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
-        yarn --cwd /tmp/autodevops
+  - name: Install kosko-charts autodevops
+    shell: bash
+    run: |
+      npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+      yarn --cwd /tmp/autodevops
 
-    - name: Copy application k8s config to autodevops
-      shell: bash
-      run: cp -r .socialgouv/environments .socialgouv/config.json /tmp/autodevops/
+  - name: Copy application k8s config to autodevops
+    shell: bash
+    run: cp -r .socialgouv/environments .socialgouv/config.json /tmp/autodevops/
 
-    - name: Generate k8s namespace
-      shell: bash
-      run: |
-        yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace.yml
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
-        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-        SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
-        SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+  - name: Generate k8s namespace
+    shell: bash
+    run: |
+      yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace.yml
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
+      SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
+      SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
 
-    - name: Generate k8s manifests
-      shell: bash
-      run: |
-        echo SOCIALGOUV_BASE_DOMAIN: $SOCIALGOUV_BASE_DOMAIN
-        yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
-        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-        SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
-        SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+  - name: Generate k8s manifests
+    shell: bash
+    run: |
+      echo SOCIALGOUV_BASE_DOMAIN: $SOCIALGOUV_BASE_DOMAIN
+      yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
+      SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
+      SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
 
-    - name: Archive k8s namespace
-      uses: actions/upload-artifact@v2
-      with:
-        name: namespace.yml
-        path: namespace.yml
+  - name: Archive k8s namespace
+    uses: actions/upload-artifact@v2
+    with:
+      name: namespace.yml
+      path: namespace.yml
 
-    - name: Archive k8s manifests
-      uses: actions/upload-artifact@v2
-      with:
-        name: manifests-${{ inputs.environment }}.yml
-        path: manifests-${{ inputs.environment }}.yml
+  - name: Archive k8s manifests
+    uses: actions/upload-artifact@v2
+    with:
+      name: manifests-${{ inputs.environment }}.yml
+      path: manifests-${{ inputs.environment }}.yml
