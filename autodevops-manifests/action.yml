@@ -34,7 +34,7 @@ runs:
   - name: Generate k8s namespace
     shell: bash
     run: |
-      yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace.yml
+      yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace-${ENVIRONMENT}.yml
     env:
       ENVIRONMENT: ${{ inputs.environment }}
       SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
@@ -57,8 +57,8 @@ runs:
   - name: Archive k8s namespace
     uses: actions/upload-artifact@v2
     with:
-      name: namespace.yml
-      path: namespace.yml
+      name: namespace-${{ inputs.environment }}.yml
+      path: namespace-${{ inputs.environment }}.yml
 
   - name: Archive k8s manifests
     uses: actions/upload-artifact@v2
