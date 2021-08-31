@@ -33,8 +33,9 @@ runs:
   - name: Generate k8s namespace
     shell: bash
     run: |
-      yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace.yml
+      yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-${ENVIRONMENT}.yml
     env:
+      ENVIRONMENT: ${{ inputs.environment }}
       SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
       SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
@@ -42,7 +43,7 @@ runs:
     uses: mikefarah/yq@master
     id: namespace
     with:
-      cmd: yq eval '.metadata.name' namespace.yml
+      cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
 
   - name: Generate restore-db manifests
     shell: bash
