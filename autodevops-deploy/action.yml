@@ -66,8 +66,9 @@ runs:
   - name: Create k8s namespace and annotations
     shell: bash
     run: |
-      kubectl create ns ${{ env.namespace }} || true
-      kubectl annotate ns ${{ env.namespace }} azure-pg-admin-user=${{ env.project }} || true
+      # kubectl create ns ${{ env.namespace }} || true
+      # kubectl annotate ns ${{ env.namespace }} azure-pg-admin-user=${{ env.project }} || true
+      kubectl apply -f namespace.yml
 
   - name: Deploy application
     shell: bash
