@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/SocialGouv/actions/compare/v1.0.2...v1.0.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* **k8s-funeral:** enfore GITHUB_REF with GITHUB_HEAD_REF ([51de6a4](https://github.com/SocialGouv/actions/commit/51de6a4f0fb43d911bebd65009d772a773222cb0))
+
 ## [1.0.2](https://github.com/SocialGouv/actions/compare/v1.0.1...v1.0.2) (2021-09-01)
 
 
