@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/SocialGouv/actions/compare/v1.0.4...v1.0.5) (2021-09-01)
+
+
+### Bug Fixes
+
+* **k8s-funeral:** run as dev only (2) ([0bc7e4f](https://github.com/SocialGouv/actions/commit/0bc7e4fe1d41bed6f6c0ea2e21cea4ec3cf43728))
+
 ## [1.0.4](https://github.com/SocialGouv/actions/compare/v1.0.3...v1.0.4) (2021-09-01)
 
 
