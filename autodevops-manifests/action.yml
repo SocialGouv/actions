@@ -3,6 +3,8 @@ description: "Generate k8s manifests via kosko-charts autodevops"
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+  productionNamespace:
+    description: "Override production namesapce"
 
 runs:
   using: "composite"
@@ -42,6 +44,7 @@ runs:
         ENVIRONMENT: ${{ inputs.environment }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
 
