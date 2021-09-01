@@ -11,17 +11,40 @@ outputs: {}
 runs:
   using: "composite"
   steps:
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/autodevops-manifests@master
-      with:
-        environment: "dev"
-      env:
-        GITHUB_REF: ${ GITHUB_HEAD_REF }
-        
-    - name: Download k8s manifests
-      uses: actions/download-artifact@v2
-      with:
-        name: namespace-dev.yml
+  - name: Checkout repository
+    uses: actions/checkout@v2
+
+  - name: Load environment variables
+    shell: bash
+    run: |
+      cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
+
+  - name: Yarn cache setup
+    uses: c-hive/gha-yarn-cache@v1
+
+  - name: Install kosko-charts autodevops
+    shell: bash
+    run: |
+      npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+      yarn --cwd /tmp/autodevops
+  - name: Copy application k8s config to autodevops
+    shell: bash
+    run: cp -r .socialgouv/environments .socialgouv/config.json /tmp/autodevops/
+
+  - name: Generate k8s namespace
+    shell: bash
+    run: |
+      echo "GITHUB_REF: ${ GITHUB_HEAD_REF }"
+      yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace-${ENVIRONMENT}.yml
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
+      GITHUB_REF: ${ GITHUB_HEAD_REF }
+      SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
+      SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
 
     - name: Get namespace name
       uses: mikefarah/yq@master
