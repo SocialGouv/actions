@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/SocialGouv/actions/compare/v1.0.6...v1.0.7) (2021-09-01)
+
+
+### Bug Fixes
+
+* Check if environments folder exists before copy. ([#9](https://github.com/SocialGouv/actions/issues/9)) ([c170635](https://github.com/SocialGouv/actions/commit/c1706350c5986b1681b7cef1138325df788dd9ba))
+
 ## [1.0.6](https://github.com/SocialGouv/actions/compare/v1.0.5...v1.0.6) (2021-09-01)
 
 
