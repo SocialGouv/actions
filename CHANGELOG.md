@@ -1,3 +1,38 @@
+## [1.0.6](https://github.com/SocialGouv/actions/compare/v1.0.5...v1.0.6) (2021-09-01)
+
+
+### Bug Fixes
+
+* **k8s-funeral:** run as dev only (3) ([1b716d0](https://github.com/SocialGouv/actions/commit/1b716d0da27cb8238f3241394deb16c66b42635b))
+
+## [1.0.5](https://github.com/SocialGouv/actions/compare/v1.0.4...v1.0.5) (2021-09-01)
+
+
+### Bug Fixes
+
+* **k8s-funeral:** run as dev only (2) ([0bc7e4f](https://github.com/SocialGouv/actions/commit/0bc7e4fe1d41bed6f6c0ea2e21cea4ec3cf43728))
+
+## [1.0.4](https://github.com/SocialGouv/actions/compare/v1.0.3...v1.0.4) (2021-09-01)
+
+
+### Bug Fixes
+
+* **k8s-funeral:** run as dev only ([61d7ab5](https://github.com/SocialGouv/actions/commit/61d7ab5f9a0838d5ab326185d04feb5c69c00680))
+
+## [1.0.3](https://github.com/SocialGouv/actions/compare/v1.0.2...v1.0.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* **k8s-funeral:** enfore GITHUB_REF with GITHUB_HEAD_REF ([51de6a4](https://github.com/SocialGouv/actions/commit/51de6a4f0fb43d911bebd65009d772a773222cb0))
+
+## [1.0.2](https://github.com/SocialGouv/actions/compare/v1.0.1...v1.0.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* **k8s-funeral:** try to get the namespace from the artifact ([0817024](https://github.com/SocialGouv/actions/commit/0817024f9d470b8118ebb0e1a2f1ee631f6ab07e))
+
 ## [1.0.1](https://github.com/SocialGouv/actions/compare/v1.0.0...v1.0.1) (2021-09-01)
 
 

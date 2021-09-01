@@ -7,64 +7,63 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-  - name: Checkout repository
-    uses: actions/checkout@v2
+    - name: Get project and namespace names
+      shell: bash
+      run: |
+        cat ".github/dev.env" >> $GITHUB_ENV
+        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-  - name: Get project and namespace names
-    shell: bash
-    run: |
-      cat ".github/dev.env" >> $GITHUB_ENV
-      echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
 
-  - name: Yarn cache setup
-    uses: c-hive/gha-yarn-cache@v1
+    - name: Install kosko-charts autodevops
+      shell: bash
+      run: |
+        npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+        yarn --cwd /tmp/autodevops
 
-  - name: Install kosko-charts autodevops
-    shell: bash
-    run: |
-      npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
-      yarn --cwd /tmp/autodevops
+    - name: Copy application k8s config to autodevops
+      shell: bash
+      run: cp -r .socialgouv/environments .socialgouv/config.json /tmp/autodevops/
 
-  - name: Copy application k8s config to autodevops
-    shell: bash
-    run: cp -r .socialgouv/environments .socialgouv/config.json /tmp/autodevops/
+    - name: Generate k8s namespace
+      shell: bash
+      run: |
+        yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-${ENVIRONMENT}.yml
+      env:
+        ENVIRONMENT: ${{ inputs.environment }}
+        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-  - name: Generate k8s namespace
-    shell: bash
-    run: |
-      yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-${ENVIRONMENT}.yml
-    env:
-      ENVIRONMENT: ${{ inputs.environment }}
-      SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    - name: Get namespace name
+      uses: mikefarah/yq@master
+      id: namespace
+      with:
+        cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
 
-  - name: Get namespace name
-    uses: mikefarah/yq@master
-    id: namespace
-    with:
-      cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
+    - name: Generate restore-db manifests
+      shell: bash
+      run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/restore-db > restore-db.yml
+      env:
+        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-  - name: Generate restore-db manifests
-    shell: bash
-    run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/restore-db > restore-db.yml
-    env:
-      SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    - name: Archive restore DB manifests
+      uses: actions/upload-artifact@v2
+      with:
+        name: restore-db.yml
+        path: restore-db.yml
 
-  - name: Archive restore DB manifests
-    uses: actions/upload-artifact@v2
-    with:
-      name: restore-db.yml
-      path: restore-db.yml
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir ~/.kube
+        touch ~/.kube/config
+        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
 
-  - name: Create kubernetes config
-    shell: bash
-    run: |
-      mkdir ~/.kube
-      touch ~/.kube/config
-      echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
-
-  - name: Restore database
-    shell: bash
-    run: kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f restore-db.yml
+    - name: Restore database
+      shell: bash
+      run: kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f restore-db.yml
