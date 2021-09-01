@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/SocialGouv/actions/compare/v1.0.7...v1.0.8) (2021-09-01)
+
+
+### Bug Fixes
+
+* Override production namespace. ([#10](https://github.com/SocialGouv/actions/issues/10)) ([6a9c7f1](https://github.com/SocialGouv/actions/commit/6a9c7f184ee3924fe1ec2814c8f42503e260c502))
+
 ## [1.0.7](https://github.com/SocialGouv/actions/compare/v1.0.6...v1.0.7) (2021-09-01)
 
 
