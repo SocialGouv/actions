@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/SocialGouv/actions/compare/v1.0.8...v1.0.9) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add productionNamespace to manifests generation. ([40b31b2](https://github.com/SocialGouv/actions/commit/40b31b208f061831a400a05eb48c82393fc8159f))
+
 ## [1.0.8](https://github.com/SocialGouv/actions/compare/v1.0.7...v1.0.8) (2021-09-01)
 
 
