@@ -35,11 +35,12 @@ runs:
     - name: Generate k8s namespace
       shell: bash
       run: |
-        echo "GITHUB_REF: ${ GITHUB_HEAD_REF }"
+        echo "GITHUB_REF: ${{ env.GITHUB_REF }}"
+        echo "GITHUB_HEAD_REF: ${{ env.GITHUB_HEAD_REF }}"
         yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-dev.yml
       env:
         ENVIRONMENT: dev
-        GITHUB_REF: ${ GITHUB_HEAD_REF }
+        GITHUB_REF: ${{ env.GITHUB_HEAD_REF }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION: ""
