@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/SocialGouv/actions/compare/v1.0.0...v1.0.1) (2021-09-01)
+
+
+### Bug Fixes
+
+* Avoid creating namesapce on prod. ([#7](https://github.com/SocialGouv/actions/issues/7)) ([abc4a04](https://github.com/SocialGouv/actions/commit/abc4a04200b3b2c85124d02fc247999ef0edaf4b))
+
 # 1.0.0 (2021-08-31)
 
 
