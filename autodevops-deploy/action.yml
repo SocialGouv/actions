@@ -65,7 +65,9 @@ runs:
   - name: Create k8s namespace and annotations
     shell: bash
     run: |
-      kubectl apply -f namespace-${ENVIRONMENT}.yml
+      if [ $ENVIRONMENT != "prod" ]; then
+        kubectl apply -f namespace-${ENVIRONMENT}.yml
+      fi
     env:
       ENVIRONMENT: ${{ inputs.environment }}
 
