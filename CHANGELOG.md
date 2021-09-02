@@ -1,3 +1,10 @@
+## [1.0.14](https://github.com/SocialGouv/actions/compare/v1.0.13...v1.0.14) (2021-09-02)
+
+
+### Bug Fixes
+
+* Add context input to autodevops build action. ([1382e84](https://github.com/SocialGouv/actions/commit/1382e84af7768238b2741f60a2c609326583410f))
+
 ## [1.0.13](https://github.com/SocialGouv/actions/compare/v1.0.12...v1.0.13) (2021-09-02)
 
 
