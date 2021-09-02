@@ -35,6 +35,9 @@ runs:
           cp -r .socialgouv/environments /tmp/autodevops/
         fi
         cp .socialgouv/config.json /tmp/autodevops/
+        ls /tmp/autodevops/
+        ls /tmp/autodevops/environments
+        ls /tmp/autodevops/environments/prod
 
     - name: Generate k8s namespace
       shell: bash
