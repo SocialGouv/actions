@@ -32,8 +32,10 @@ runs:
     - name: Copy application k8s config to autodevops
       shell: bash
       run: |
+        ls .socialgouv/environments
         if [ -f ".socialgouv/environments" ]; then
-          cp -r .socialgouv/environments /tmp/autodevops/
+          echo "$ cp -r .socialgouv/environments /tmp/autodevops/environments"
+          cp -r .socialgouv/environments /tmp/autodevops/environments
         fi
         cp .socialgouv/config.json /tmp/autodevops/
         ls /tmp/autodevops/
