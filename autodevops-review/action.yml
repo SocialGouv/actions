@@ -1,0 +1,37 @@
+name: "Review Branch"
+description: "Deploy a review branch"
+inputs:
+  project:
+    description: "The project name, usually the repository name"
+  imageName:
+    description: "The image registry path"
+  dockerfile:
+    description: "The docker file path"
+  token:
+    description: "The GHCR authentication token"
+  kubeconfig:
+    description: "The Kubernetes authentication config"
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Use autodevops build and register
+    uses: ../autodevops-build-register
+    with:
+      token: ${{ inputs.token }}
+      project: ${{ inputs.project }}
+      imageName: ${{ inputs.imageName }}
+
+  - name: Use autodevops manifests generation
+    uses: ../autodevops-manifests
+    with:
+      environment: "dev"
+
+  - name: Use autodevops deployment
+    uses: ../autodevops-deploy
+    with:
+      environment: "dev"
+      token: ${{ inputs.token }}
+      kubeconfig: ${{ inputs.kubeconfig }}
+      dockerfile: ${{ inputs.dockerfile || "./Dockerfile" }}
