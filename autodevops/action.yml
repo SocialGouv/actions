@@ -26,7 +26,7 @@ runs:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
       imageName: ${{ inputs.imageName }}
-      dockerfile: ${{ inputs.dockerfile || './Dockerfile' }}
+      dockerfile: ${{ inputs.dockerfile }}
 
   - name: Use autodevops manifests generation
     uses: SocialGouv/actions/autodevops-manifests@master

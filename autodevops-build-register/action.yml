@@ -6,6 +6,7 @@ inputs:
   imageName:
     description: "The image registry path"
   dockerfile:
+    default: './Dockerfile'
     description: "The docker file path"
   token:
     description: "The GHCR authentication token"
@@ -52,7 +53,7 @@ runs:
         push: "true"
         cache-from: "type=gha"
         cache-to: "type=gha,mode=max"
+        file: "${{ inputs.dockerfile }}"
         builder: ${{ steps.buildx.outputs.name }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
-        file: "${{ inputs.dockerfile || './Dockerfile' }}"
