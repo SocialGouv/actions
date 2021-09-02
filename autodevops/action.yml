@@ -1,5 +1,5 @@
-name: "Review Branch"
-description: "Deploy a review branch"
+name: "Autodevops"
+description: "SocialGouv automated deployment"
 inputs:
   project:
     description: "The project name, usually the repository name"
@@ -11,6 +11,8 @@ inputs:
     description: "The GHCR authentication token"
   kubeconfig:
     description: "The Kubernetes authentication config"
+  environment:
+    description: "The deployment environment (dev | preprod | prod)"
 
 runs:
   using: "composite"
@@ -27,11 +29,11 @@ runs:
   - name: Use autodevops manifests generation
     uses: SocialGouv/actions/autodevops-manifests@master
     with:
-      environment: "dev"
+      environment: ${{ inputs.environment }}
 
   - name: Use autodevops deployment
     uses: SocialGouv/actions/autodevops-deploy@master
     with:
-      environment: "dev"
       token: ${{ inputs.token }}
       kubeconfig: ${{ inputs.kubeconfig }}
+      environment: ${{ inputs.environment }}
