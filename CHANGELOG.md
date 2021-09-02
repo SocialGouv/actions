@@ -1,3 +1,10 @@
+## [1.0.10](https://github.com/SocialGouv/actions/compare/v1.0.9...v1.0.10) (2021-09-02)
+
+
+### Bug Fixes
+
+* **autodevops-manifests:** remove environments placeholder files ([22a1c01](https://github.com/SocialGouv/actions/commit/22a1c01a902703f86ef9d6c972b92b9233e7c40c))
+
 ## [1.0.9](https://github.com/SocialGouv/actions/compare/v1.0.8...v1.0.9) (2021-09-01)
 
 
