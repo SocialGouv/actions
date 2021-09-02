@@ -44,9 +44,9 @@ runs:
       id: deployment
       with:
         step: start
-        env: ${{ env.namespace }}
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
+        env: ${{ inputs.environment == "dev" && env.namespace || inputs.environment == "preproduction" && "preproduction" || "production" }}
 
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
@@ -61,7 +61,7 @@ runs:
         touch ~/.kube/config
         echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
 
-    - name: Create k8s namespace and annotations
+    - name: Create k8s namespace
       shell: bash
       run: |
         if [ $ENVIRONMENT != "prod" ]; then
