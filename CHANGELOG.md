@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/SocialGouv/actions/compare/v1.0.11...v1.0.12) (2021-09-02)
+
+
+### Bug Fixes
+
+* Add autodevops action. ([#11](https://github.com/SocialGouv/actions/issues/11)) ([fd50b00](https://github.com/SocialGouv/actions/commit/fd50b00355beb0c994948d8680de5247320daca4))
+
 ## [1.0.11](https://github.com/SocialGouv/actions/compare/v1.0.10...v1.0.11) (2021-09-02)
 
 
