@@ -21,7 +21,7 @@ runs:
   steps:
 
   - name: Use autodevops build and register
-    uses: SocialGouv/actions/autodevops-build-register@master
+    uses: ./autodevops-build-register
     with:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
@@ -29,13 +29,13 @@ runs:
       dockerfile: ${{ inputs.dockerfile }}
 
   - name: Use autodevops manifests generation
-    uses: SocialGouv/actions/autodevops-manifests@master
+    uses: ./autodevops-manifests
     with:
       environment: ${{ inputs.environment }}
       productionNamespace: ${{ inputs.productionNamespace }}
 
   - name: Use autodevops deployment
-    uses: SocialGouv/actions/autodevops-deploy@master
+    uses: ./autodevops-deploy
     with:
       token: ${{ inputs.token }}
       kubeconfig: ${{ inputs.kubeconfig }}
