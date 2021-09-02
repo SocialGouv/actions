@@ -32,14 +32,19 @@ runs:
     - name: Copy application k8s config to autodevops
       shell: bash
       run: |
+        echo "$ ls .socialgouv/environments"
         ls .socialgouv/environments
         if [ -f ".socialgouv/environments" ]; then
           echo "$ cp -r .socialgouv/environments /tmp/autodevops/environments"
           cp -r .socialgouv/environments /tmp/autodevops/environments
         fi
+        echo "$ cp .socialgouv/config.json /tmp/autodevops/"
         cp .socialgouv/config.json /tmp/autodevops/
+        echo "$ ls /tmp/autodevops/"
         ls /tmp/autodevops/
+        echo "$ ls /tmp/autodevops/environments"
         ls /tmp/autodevops/environments
+        echo "$ ls /tmp/autodevops/prod"
         ls /tmp/autodevops/environments/prod
 
     - name: Generate k8s namespace
