@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/SocialGouv/actions/compare/v1.0.10...v1.0.11) (2021-09-02)
+
+
+### Bug Fixes
+
+* **autodevops-manifests:** test if .socialgouv/environments is a directory not a file ([d86b756](https://github.com/SocialGouv/actions/commit/d86b7567577105837a548b54975a8a984723e3ff))
+
 ## [1.0.10](https://github.com/SocialGouv/actions/compare/v1.0.9...v1.0.10) (2021-09-02)
 
 
