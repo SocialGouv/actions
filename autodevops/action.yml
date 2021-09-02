@@ -13,6 +13,8 @@ inputs:
     description: "The Kubernetes authentication config"
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+  productionNamespace:
+    description: "Override production namesapce"
 
 runs:
   using: "composite"
@@ -30,6 +32,7 @@ runs:
     uses: SocialGouv/actions/autodevops-manifests@master
     with:
       environment: ${{ inputs.environment }}
+      productionNamespace: ${{ inputs.productionNamespace }}
 
   - name: Use autodevops deployment
     uses: SocialGouv/actions/autodevops-deploy@master
