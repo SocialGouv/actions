@@ -21,7 +21,7 @@ runs:
   steps:
 
   - name: Use autodevops build and register
-    uses: ./.github/actions/autodevops/build-register
+    uses: ./.github/actions/build-register
     with:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
@@ -29,13 +29,13 @@ runs:
       dockerfile: ${{ inputs.dockerfile }}
 
   - name: Use autodevops manifests generation
-    uses: ./.github/actions/autodevops/manifests
+    uses: ./.github/actions/manifests
     with:
       environment: ${{ inputs.environment }}
       productionNamespace: ${{ inputs.productionNamespace }}
 
   - name: Use autodevops deployment
-    uses: ./.github/actions/autodevops/deploy
+    uses: ./.github/actions/deploy
     with:
       token: ${{ inputs.token }}
       kubeconfig: ${{ inputs.kubeconfig }}
