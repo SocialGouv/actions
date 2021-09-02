@@ -34,4 +34,4 @@ runs:
       environment: "dev"
       token: ${{ inputs.token }}
       kubeconfig: ${{ inputs.kubeconfig }}
-      dockerfile: ${{ inputs.dockerfile || "./Dockerfile" }}
+      dockerfile: ${{ inputs.dockerfile || './Dockerfile' }}
