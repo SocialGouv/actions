@@ -34,7 +34,7 @@ runs:
       run: |
         echo "$ ls .socialgouv/environments"
         ls .socialgouv/environments
-        if [ -f ".socialgouv/environments" ]; then
+        if [ -d ".socialgouv/environments" ]; then
           echo "$ cp -r .socialgouv/environments /tmp/autodevops/environments"
           cp -r .socialgouv/environments /tmp/autodevops/environments
         fi
