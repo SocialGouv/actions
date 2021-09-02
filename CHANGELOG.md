@@ -1,3 +1,10 @@
+## [1.0.13](https://github.com/SocialGouv/actions/compare/v1.0.12...v1.0.13) (2021-09-02)
+
+
+### Bug Fixes
+
+* autodevops deploy quotes. ([09f6846](https://github.com/SocialGouv/actions/commit/09f684684692643e790831078cde2aaf2bb1269a))
+
 ## [1.0.12](https://github.com/SocialGouv/actions/compare/v1.0.11...v1.0.12) (2021-09-02)
 
 
