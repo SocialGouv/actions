@@ -22,6 +22,7 @@ runs:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
       imageName: ${{ inputs.imageName }}
+      dockerfile: ${{ inputs.dockerfile || './Dockerfile' }}
 
   - name: Use autodevops manifests generation
     uses: SocialGouv/actions/autodevops-manifests@master
@@ -34,4 +35,3 @@ runs:
       environment: "dev"
       token: ${{ inputs.token }}
       kubeconfig: ${{ inputs.kubeconfig }}
-      dockerfile: ${{ inputs.dockerfile || './Dockerfile' }}
