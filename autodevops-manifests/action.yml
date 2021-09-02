@@ -26,6 +26,7 @@ runs:
       shell: bash
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+        rm -rf /tmp/autodevops/environments
         yarn --cwd /tmp/autodevops
 
     - name: Copy application k8s config to autodevops
