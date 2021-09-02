@@ -21,13 +21,27 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 
 ## `socialgouv/actions/autodevops-build-register`
 
+- Deploy app/package to target environment
+
+```yaml
+- uses: SocialGouv/actions/autodevops
+  with:
+    project: "my_app"
+    environment: dev # dev, preprod, prod
+    imageName: my_product/my_app
+    token: ${{ secrets.GITHUB_TOKEN }}
+    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+```
+
+## `socialgouv/actions/autodevops-build-register`
+
 - Build docker image and register it to GHCR
 
 ```yaml
 - uses: SocialGouv/actions/autodevops-build-register
   with:
     project: "my_app"
-    group: "my_product"
+    imageName: my_product/my_app
     token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
