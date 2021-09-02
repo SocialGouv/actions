@@ -17,19 +17,19 @@ runs:
   steps:
 
   - name: Use autodevops build and register
-    uses: ../autodevops-build-register
+    uses: ./../autodevops-build-register
     with:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
       imageName: ${{ inputs.imageName }}
 
   - name: Use autodevops manifests generation
-    uses: ../autodevops-manifests
+    uses: ./../autodevops-manifests
     with:
       environment: "dev"
 
   - name: Use autodevops deployment
-    uses: ../autodevops-deploy
+    uses: ./../autodevops-deploy
     with:
       environment: "dev"
       token: ${{ inputs.token }}
