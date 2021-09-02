@@ -17,19 +17,19 @@ runs:
   steps:
 
   - name: Use autodevops build and register
-    uses: ./../autodevops-build-register
+    uses: SocialGouv/actions/autodevops-build-register@master
     with:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
       imageName: ${{ inputs.imageName }}
 
   - name: Use autodevops manifests generation
-    uses: ./../autodevops-manifests
+    uses: SocialGouv/actions/autodevops-manifests@master
     with:
       environment: "dev"
 
   - name: Use autodevops deployment
-    uses: ./../autodevops-deploy
+    uses: SocialGouv/actions/autodevops-deploy@master
     with:
       environment: "dev"
       token: ${{ inputs.token }}
