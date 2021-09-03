@@ -28,12 +28,16 @@ runs:
         run: yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} > manifests-${{ inputs.environment }}.yml
         env:
           SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+          SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
+          SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
 
       - name: Generate k8s namespace
         shell: bash
         run: yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} _namespace > namespace-${{ inputs.environment }}.yml
         env:
           SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+          SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
+          SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
 
       - name: Archive k8s manifests
         uses: actions/upload-artifact@v2
