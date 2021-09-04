@@ -88,7 +88,7 @@ runs:
     - name: ⛑ Debug manifests ⛑
       uses: socialgouv/actions/k8s-manifests-debug@master
       with:
-        path: manifests.yml
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ inputs.token }}
+        path: manifests-${{ inputs.environment }}.yml
       env:
         RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
