@@ -15,6 +15,8 @@ inputs:
     description: "The deployment environment (dev | preprod | prod)"
   productionNamespace:
     description: "Override production namesapce"
+  rancherId:
+    description: "The Rancher project ID"
 
 runs:
   using: "composite"
@@ -38,5 +40,6 @@ runs:
     uses: SocialGouv/actions/autodevops-deploy@master
     with:
       token: ${{ inputs.token }}
+      rancherId: ${{ inputs.rancherId }}
       kubeconfig: ${{ inputs.kubeconfig }}
       environment: ${{ inputs.environment }}

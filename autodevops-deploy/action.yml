@@ -7,6 +7,8 @@ inputs:
     description: "The Kubernetes authentication configuration"
   token:
     description: "The Github authentication token"
+  rancherId:
+    description: "The Rancher project ID"
 
 runs:
   using: "composite"
@@ -82,3 +84,11 @@ runs:
         token: ${{ inputs.token }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: ⛑ Debug manifests ⛑
+      uses: socialgouv/actions/k8s-manifests-debug@master
+      with:
+        path: manifests.yml
+        token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
