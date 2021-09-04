@@ -85,7 +85,7 @@ runs:
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-    - name: ⛑ Debug manifests ⛑
+    - name: Debug manifests
       uses: socialgouv/actions/k8s-manifests-debug@master
       with:
         token: ${{ inputs.token }}
