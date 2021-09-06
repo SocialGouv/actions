@@ -39,17 +39,12 @@ runs:
     - name: Generate k8s namespace
       shell: bash
       run: |
-        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
-        echo "GITHUB_REF: $GITHUB_REF"
-        export GITHUB_REF="$GITHUB_HEAD_REF"
-        echo "GITHUB_REF: $GITHUB_REF"
         yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-dev.yml
       env:
         ENVIRONMENT: dev
+        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-        SOCIALGOUV_PRODUCTION: ""
-        SOCIALGOUV_PREPRODUCTION: ""
 
     - name: Get namespace name
       uses: mikefarah/yq@master

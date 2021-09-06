@@ -3,8 +3,6 @@ description: "Generate k8s manifests based on .k8s folder"
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
-  rancherId:
-    description: "The Rancher project ID"
 
 runs:
   using: "composite"
@@ -29,7 +27,7 @@ runs:
         shell: bash
         run: yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} > manifests-${{ inputs.environment }}.yml
         env:
-          RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
+          RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
           SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
           SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
           SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
@@ -38,7 +36,7 @@ runs:
         shell: bash
         run: yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} _namespace > namespace-${{ inputs.environment }}.yml
         env:
-          RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
+          RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
           SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
           SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
           SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
