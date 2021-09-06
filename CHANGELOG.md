@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/SocialGouv/actions/compare/v1.0.14...v1.1.0) (2021-09-06)
+
+
+### Features
+
+* Add k8s manifests generation action. ([#13](https://github.com/SocialGouv/actions/issues/13)) ([5f0de5d](https://github.com/SocialGouv/actions/commit/5f0de5d621e3c1e94e2931a3c7b5bea4124a7bed))
+
 ## [1.0.14](https://github.com/SocialGouv/actions/compare/v1.0.13...v1.0.14) (2021-09-02)
 
 
