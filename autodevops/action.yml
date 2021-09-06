@@ -33,6 +33,7 @@ runs:
   - name: Use autodevops manifests generation
     uses: SocialGouv/actions/autodevops-manifests@master
     with:
+      rancherId: ${{ inputs.rancherId }}
       environment: ${{ inputs.environment }}
       productionNamespace: ${{ inputs.productionNamespace }}
 
