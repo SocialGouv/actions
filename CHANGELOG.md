@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/SocialGouv/actions/compare/v1.1.0...v1.1.1) (2021-09-07)
+
+
+### Bug Fixes
+
+* Get Rancher ID from env files. ([#14](https://github.com/SocialGouv/actions/issues/14)) ([5408e34](https://github.com/SocialGouv/actions/commit/5408e34f97011eb78d81c5f7ce13296159660fe3))
+
 # [1.1.0](https://github.com/SocialGouv/actions/compare/v1.0.14...v1.1.0) (2021-09-06)
 
 
