@@ -12,6 +12,7 @@ runs:
     uses: actions/checkout@v2
 
   - name: Load review environment variables
+    shell: bash
     run: |
       cat ".github/dev.env" >> $GITHUB_ENV
 
@@ -19,14 +20,17 @@ runs:
     uses: c-hive/gha-yarn-cache@v2
 
   - name: Install kosko-charts dependencies
+    shell: bash
     run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
 
   - name: Generate k8s namespace
+    shell: bash
     run: yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
     env:
       SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
   - name: Generate restore-db job manifest
+    shell: bash
     run: yarn --cwd .k8s --silent generate --env dev jobs/restore > restore-db.yml
     env:
       SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
@@ -44,12 +48,14 @@ runs:
       cmd: yq eval '.metadata.name' namespace-dev.yml
 
   - name: Create kubernetes config
+    shell: bash
     run: |
       mkdir ~/.kube
       touch ~/.kube/config
       echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
 
   - name: Seed database
+    shell: bash
     run: |
       kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
       kubectl apply -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }}
