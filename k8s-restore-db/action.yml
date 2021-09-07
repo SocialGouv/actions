@@ -1,0 +1,55 @@
+name: "Generate manifests"
+description: "Generate restore manifests based on k8s config folder"
+inputs:
+  kubeconfig:
+    description: "The Kubernetes authentication configuration"
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Checkout repository
+    uses: actions/checkout@v2
+
+  - name: Load review environment variables
+    run: |
+      cat ".github/dev.env" >> $GITHUB_ENV
+
+  - name: Yarn cache setup
+    uses: c-hive/gha-yarn-cache@v2
+
+  - name: Install kosko-charts dependencies
+    run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+
+  - name: Generate k8s namespace
+    run: yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
+    env:
+      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+  - name: Generate restore-db job manifest
+    run: yarn --cwd .k8s --silent generate --env dev jobs/restore > restore-db.yml
+    env:
+      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+  - name: Archive restore-db job
+    uses: actions/upload-artifact@v2
+    with:
+      name: restore-db.yml
+      path: restore-db.yml
+
+  - name: Get namespace name
+    uses: mikefarah/yq@master
+    id: namespace
+    with:
+      cmd: yq eval '.metadata.name' namespace-dev.yml
+
+  - name: Create kubernetes config
+    run: |
+      mkdir ~/.kube
+      touch ~/.kube/config
+      echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+
+  - name: Seed database
+    run: |
+      kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
+      kubectl apply -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }}
