@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/SocialGouv/actions/compare/v1.1.1...v1.1.2) (2021-09-08)
+
+
+### Bug Fixes
+
+* Add k8s restore db action. ([#15](https://github.com/SocialGouv/actions/issues/15)) ([fad5e93](https://github.com/SocialGouv/actions/commit/fad5e937c2f912c7299d2cb80b09cc4248726ac6))
+
 ## [1.1.1](https://github.com/SocialGouv/actions/compare/v1.1.0...v1.1.1) (2021-09-07)
 
 
