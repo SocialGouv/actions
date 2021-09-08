@@ -1,0 +1,105 @@
+name: Deactivate
+description: "Delete review branch environment and database"
+inputs:
+  kube-config:
+    description: "The base64 of the kubeconfig"
+  github-token:
+    description: "GitHub Token as provided by secrets"
+    default: ${{ github.token }}
+    required: true
+outputs: {}
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Load environment variables
+      shell: bash
+      run: |
+        cat ".github/dev.env" >> $GITHUB_ENV
+
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
+
+    # - name: Install kosko-charts autodevops
+    #   shell: bash
+    #   run: |
+    #     npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+    #     yarn --cwd /tmp/autodevops
+
+    - name: Install kosko-charts dependencies
+      shell: bash
+      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+
+    # - name: Copy application k8s config to autodevops
+    #   shell: bash
+    #   run: |
+    #     if [ -f ".socialgouv/environments" ]; then
+    #       cp -r .socialgouv/environments /tmp/autodevops/
+    #     fi
+    #     cp .socialgouv/config.json /tmp/autodevops/
+
+    - name: Generate k8s namespace
+      shell: bash
+      run: |
+        yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} > manifests-${{ inputs.environment }}.yml
+      env:
+        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Get namespace name
+      uses: mikefarah/yq@master
+      id: namespace
+      with:
+        cmd: yq eval '.metadata.name' namespace-dev.yml
+
+    - name: Inject slug/short variables
+      uses: rlespinasse/github-slug-action@3.5.1
+
+    - name: Get branch, project and namespace names
+      shell: bash
+      run: |
+        echo "branch=${GITHUB_HEAD_REF_SLUG_URL}" >> $GITHUB_ENV
+        echo "project=${GITHUB_REPOSITORY_NAME_PART_SLUG_URL}" >> $GITHUB_ENV
+        echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
+      env:
+        NAMESPACE: ${{ steps.namespace.outputs.result }}
+
+    - name: Get branch, project and namespace names
+      shell: bash
+      run: |
+        echo "branch : ${{ env.branch }}" 
+        echo "project : ${{ env.project }}" 
+        echo "namespace : ${{ env.namespace }}"
+
+    - name: Install Kapp
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: kapp
+        token: ${{ inputs.github-token }}
+
+    - name: Debug kapp version
+      shell: bash
+      run: kapp --version
+
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir ~/.kube
+        echo "${{ inputs.kube-config }}" | base64 -d > ~/.kube/config
+
+    - name: Delete k8s environment
+      shell: bash
+      run: |
+        echo "kapp delete --yes --namespace ${{ env.namespace }}"
+        kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}
+        echo "🪦"
+
+    - name: Mark environment as deactivated
+      uses: bobheadxi/deployments@v0.4.3
+      with:
+        step: deactivate-env
+        env: ${{ env.branch }}
+        token: ${{ inputs.github-token }}
+        desc: "Environment ${{ env.namespace }} has been deactivated"
