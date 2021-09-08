@@ -89,7 +89,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 
 ## `socialgouv/actions/k8s-restore-db`
 
-- Restore database base on custom `.k8s` config
+- Restore database based on custom `.k8s` config and a `jobs/restore`.
 
 ```yaml
 - uses: SocialGouv/actions/k8s-restore-db
