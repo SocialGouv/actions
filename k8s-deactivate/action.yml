@@ -40,10 +40,20 @@ runs:
     #     fi
     #     cp .socialgouv/config.json /tmp/autodevops/
 
+    # - name: Generate k8s namespace
+    #   shell: bash
+    #   run: |
+    #     yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-dev.yml
+    #   env:
+    #     ENVIRONMENT: dev
+    #     RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
+    #     SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+    #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
     - name: Generate k8s namespace
       shell: bash
       run: |
-        yarn --cwd .k8s --silent generate --env ${{ inputs.environment }} > manifests-${{ inputs.environment }}.yml
+        yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
       env:
         RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
