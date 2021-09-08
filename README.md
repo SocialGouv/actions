@@ -45,9 +45,19 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
     token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+## `socialgouv/actions/k8s-manifests`
+
+- Generate kubernetes manifests based on custom `.k8s` config
+
+```yaml
+- uses: SocialGouv/actions/autodevops-manifests
+  with:
+    environment: "dev"
+```
+
 ## `socialgouv/actions/autodevops-manifests`
 
-- Generate kubernetes manifests via kosko-charts
+- Generate kubernetes manifests based on autodevops (`.socialgouv`) config
 
 ```yaml
 - uses: SocialGouv/actions/autodevops-manifests
@@ -69,10 +79,20 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 
 ## `socialgouv/actions/autodevops-restore-db`
 
-- Restore database
+- Restore database based on autodevops (`.socialgouv`) config
 
 ```yaml
 - uses: SocialGouv/actions/autodevops-restore-db
+  with:
+    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+```
+
+## `socialgouv/actions/k8s-restore-db`
+
+- Restore database based on custom `.k8s` config and a `jobs/restore`.
+
+```yaml
+- uses: SocialGouv/actions/k8s-restore-db
   with:
     kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
 ```
