@@ -80,7 +80,7 @@ runs:
       shell: bash
       run: |
         echo "kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}"
-        kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}
+        kapp delete namespace --yes --app ${{ env.project }} --namespace ${{ env.namespace }} --all
         echo "🪦"
 
     - name: Mark environment as deactivated
