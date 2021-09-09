@@ -17,8 +17,6 @@ runs:
     - name: Load environment variables
       shell: bash
       run: |
-        echo "GITHUB_REF: $GITHUB_REF"
-        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
         cat ".github/dev.env" >> $GITHUB_ENV
 
     - name: Yarn cache setup
@@ -55,9 +53,13 @@ runs:
     - name: Generate k8s namespace
       shell: bash
       run: |
+        echo "GITHUB_REF: $GITHUB_REF"
+        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+        GITHUB_REF=$GITHUB_HEAD_REF
+        echo "GITHUB_REF: $GITHUB_REF"
         yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
       env:
-        GITHUB_REF: ${{ env.GITHUB_HEAD_REF }}
+        #GITHUB_REF: ${{ env.GITHUB_HEAD_REF }}
         RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
