@@ -55,6 +55,7 @@ runs:
       run: |
         yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
       env:
+        GITHUB_REF: ${{ env.GITHUB_HEAD_REF }}
         RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
