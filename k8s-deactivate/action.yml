@@ -22,44 +22,16 @@ runs:
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
 
-    # - name: Install kosko-charts autodevops
-    #   shell: bash
-    #   run: |
-    #     npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
-    #     yarn --cwd /tmp/autodevops
-
     - name: Install kosko-charts dependencies
       shell: bash
       run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
 
-    # - name: Copy application k8s config to autodevops
-    #   shell: bash
-    #   run: |
-    #     if [ -f ".socialgouv/environments" ]; then
-    #       cp -r .socialgouv/environments /tmp/autodevops/
-    #     fi
-    #     cp .socialgouv/config.json /tmp/autodevops/
-
-    # - name: Generate k8s namespace
-    #   shell: bash
-    #   run: |
-    #     yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-dev.yml
-    #   env:
-    #     ENVIRONMENT: dev
-    #     RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
-    #     SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-    #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
     - name: Generate k8s namespace
       shell: bash
       run: |
-        echo "GITHUB_REF: $GITHUB_REF"
-        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
         GITHUB_REF=$GITHUB_HEAD_REF
-        echo "GITHUB_REF: $GITHUB_REF"
         yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
       env:
-        #GITHUB_REF: ${{ env.GITHUB_HEAD_REF }}
         RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
@@ -107,7 +79,7 @@ runs:
     - name: Delete k8s environment
       shell: bash
       run: |
-        echo "kapp delete --yes --namespace ${{ env.namespace }}"
+        echo "kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}"
         kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}
         echo "🪦"
 
