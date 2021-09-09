@@ -17,6 +17,8 @@ runs:
     - name: Load environment variables
       shell: bash
       run: |
+        echo "GITHUB_REF: $GITHUB_REF"
+        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
         cat ".github/dev.env" >> $GITHUB_ENV
 
     - name: Yarn cache setup
