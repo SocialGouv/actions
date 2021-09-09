@@ -11,6 +11,8 @@ inputs:
   dockercontext:
     default: '.'
     description: "The docker build context"
+  dockerbuildargs:
+    description: "The docker build arguments"
   token:
     description: "The GHCR authentication token"
 
@@ -60,3 +62,4 @@ runs:
         builder: ${{ steps.buildx.outputs.name }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
+        build-args: ${{ inputs.dockerbuildargs }}
