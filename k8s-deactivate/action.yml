@@ -76,11 +76,18 @@ runs:
         mkdir ~/.kube
         echo "${{ inputs.kube-config }}" | base64 -d > ~/.kube/config
 
+    # - name: Delete k8s environment
+    #   shell: bash
+    #   run: |
+    #     echo "kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}"
+    #     kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}
+    #     echo "🪦"
+
     - name: Delete k8s environment
       shell: bash
       run: |
-        echo "kapp delete --yes --app ${{ env.project }} --namespace ${{ env.namespace }}"
-        kapp delete namespace --yes --app ${{ env.project }} --namespace ${{ env.namespace }}
+        echo "kubectl delete namespace --namespace=${{ env.namespace }} --all"
+        kubectl delete -f ./namespace-dev.yml
         echo "🪦"
 
     - name: Mark environment as deactivated
