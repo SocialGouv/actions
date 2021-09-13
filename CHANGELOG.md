@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/SocialGouv/actions/compare/v1.1.3...v1.2.0) (2021-09-13)
+
+
+### Features
+
+* Add k8s-deactivate action. ([#18](https://github.com/SocialGouv/actions/issues/18)) ([220593f](https://github.com/SocialGouv/actions/commit/220593fe9105f47fbda77d2aa4b31815bcda0d12))
+
 ## [1.1.3](https://github.com/SocialGouv/actions/compare/v1.1.2...v1.1.3) (2021-09-09)
 
 
