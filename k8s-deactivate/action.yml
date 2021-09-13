@@ -87,6 +87,6 @@ runs:
       uses: bobheadxi/deployments@v0.4.3
       with:
         step: deactivate-env
-        env: ${{ env.branch }}
         token: ${{ inputs.github-token }}
+        env: ${{ steps.namespace.outputs.result }}
         desc: "Environment ${{ env.namespace }} has been deactivated"
