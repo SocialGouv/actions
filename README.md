@@ -96,3 +96,13 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
   with:
     kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
 ```
+
+## `socialgouv/actions/k8s-deactivate`
+
+- Clean review branches whenever a pull request is closed.
+
+```yaml
+- uses: SocialGouv/actions/k8s-deactivate
+  with:
+    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+```
