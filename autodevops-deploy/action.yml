@@ -9,7 +9,9 @@ inputs:
     description: "The Github authentication token"
   rancherId:
     description: "The Rancher project ID"
-
+  envUrl:
+    description: "Environment URL for the notification"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -76,6 +78,16 @@ runs:
       shell: bash
       run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
 
+    - name: Define environment URL
+      id: environment-url
+      shell: bash
+      run: |
+        if [ ${{ inputs.envUrl }} ]; then
+          echo "::set-output name=url::${{ inputs.envUrl }}"
+        else
+          echo "::set-output name=url::https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}"
+        fi
+
     - name: Notify deployment end
       uses: bobheadxi/deployments@v0.4.3
       with:
@@ -83,7 +95,7 @@ runs:
         status: ${{ job.status }}
         token: ${{ inputs.token }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-        env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        env_url: ${{ steps.environment-url.outputs.url }}
 
     - name: Debug manifests
       uses: socialgouv/actions/k8s-manifests-debug@master
