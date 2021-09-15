@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/SocialGouv/actions/compare/v1.2.0...v1.2.1) (2021-09-15)
+
+
+### Bug Fixes
+
+* **k8s-manifests:** yarn cache for .k8s ([#20](https://github.com/SocialGouv/actions/issues/20)) ([d6a5b1f](https://github.com/SocialGouv/actions/commit/d6a5b1f5367816e527ccddfe0aa2adec3ba397b3))
+
 # [1.2.0](https://github.com/SocialGouv/actions/compare/v1.1.3...v1.2.0) (2021-09-13)
 
 
