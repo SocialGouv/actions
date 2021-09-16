@@ -1,4 +1,7 @@
-on: [push]
+on:
+  push:
+    paths:
+      - 'k8s-manifests-debug/**'
 
 jobs:
   k8s-manifests-debug:
