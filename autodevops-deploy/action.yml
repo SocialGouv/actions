@@ -9,9 +9,7 @@ inputs:
     description: "The Github authentication token"
   rancherId:
     description: "The Rancher project ID"
-  envUrl:
-    description: "Environment URL for the notification"
-    required: false
+
 runs:
   using: "composite"
   steps:
@@ -82,11 +80,9 @@ runs:
       id: environment-url
       shell: bash
       run: |
-        if [ ${{ inputs.envUrl }} ]; then
-          echo "::set-output name=url::${{ inputs.envUrl }}"
-        else
-          echo "::set-output name=url::https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}"
-        fi
+        HOST=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host' - | head -n 1)
+        echo $HOST
+        echo "::set-output name=url::https://$HOST"
 
     - name: Notify deployment end
       uses: bobheadxi/deployments@v0.4.3
