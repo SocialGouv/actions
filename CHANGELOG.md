@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/SocialGouv/actions/compare/v1.2.1...v1.2.2) (2021-09-20)
+
+
+### Bug Fixes
+
+* Update major version tag on release ([ca2187f](https://github.com/SocialGouv/actions/commit/ca2187f3931beca344168b6b9fff3cdb9f928b5d))
+
 ## [1.2.1](https://github.com/SocialGouv/actions/compare/v1.2.0...v1.2.1) (2021-09-15)
 
 
