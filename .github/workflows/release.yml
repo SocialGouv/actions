@@ -10,11 +10,6 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
 
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -23,6 +18,7 @@ jobs:
           persist-credentials: false
 
       - name: Semantic Release
+        id: semantic
         uses: cycjimmy/semantic-release-action@v2
         with:
           semantic_version: 17
