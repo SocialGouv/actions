@@ -71,11 +71,14 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 
 ```yaml
 - uses: SocialGouv/actions/autodevops-deploy
+  id: deploy
   with:
     environment: "dev"
     token: ${{ secrets.GITHUB_TOKEN }}
     kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG }}
 ```
+
+Export main URL as `steps.deploy.outputs.url`
 
 ## `socialgouv/actions/autodevops-restore-db`
 

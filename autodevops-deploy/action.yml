@@ -9,7 +9,10 @@ inputs:
     description: "The Github authentication token"
   rancherId:
     description: "The Rancher project ID"
-
+outputs:
+  url:
+    description: "Main URL extracted from kube manifests"
+    value: ${{ steps.environment-url.outputs.url }}
 runs:
   using: "composite"
   steps:
