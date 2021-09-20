@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/SocialGouv/actions/compare/v1.3.0...v1.3.1) (2021-09-20)
+
+
+### Bug Fixes
+
+* Output deploy url from autodevops action ([83d6f9b](https://github.com/SocialGouv/actions/commit/83d6f9bf73cb31df6900c84a74afe09a5b6dd857))
+
 # [1.3.0](https://github.com/SocialGouv/actions/compare/v1.2.3...v1.3.0) (2021-09-20)
 
 
