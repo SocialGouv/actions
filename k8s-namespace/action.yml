@@ -6,7 +6,7 @@ inputs:
 outputs:
   value:
     description: "Namespace value"
-    value: ${{ steps.namespace.outputs.value }}
+    value: ${{ steps.namespace.outputs.result }}
 
 runs:
   using: "composite"
@@ -42,7 +42,4 @@ runs:
         uses: mikefarah/yq@master
         id: namespace
         with:
-          cmd: |
-            NAMESPACE=$(yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml)
-            echo NAMESPACE $NAMESPACE
-            echo "::set-output name=value::$NAMESPACE"
+          cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
