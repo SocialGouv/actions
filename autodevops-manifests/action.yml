@@ -5,19 +5,13 @@ inputs:
     description: "The deployment environment (dev | preprod | prod)"
   productionNamespace:
     description: "Override production namesapce"
-
+  rancherProjectId:
+    description: "Rancher ID, usually secrets.RANCHER_PROJECT_ID"
 runs:
   using: "composite"
   steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Load environment variables
-      shell: bash
-      run: |
-        cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
 
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
@@ -45,7 +39,7 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherProjectId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
@@ -59,7 +53,7 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherProjectId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
