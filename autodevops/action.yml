@@ -17,6 +17,10 @@ inputs:
     description: "Override production namesapce"
   rancherId:
     description: "The Rancher project ID"
+outputs:
+  url:
+    description: "Main URL extracted from kube manifests"
+    value: ${{ steps.deploy.outputs.url }}
 
 runs:
   using: "composite"
@@ -38,6 +42,7 @@ runs:
       productionNamespace: ${{ inputs.productionNamespace }}
 
   - name: Use autodevops deployment
+    id: deploy
     uses: SocialGouv/actions/autodevops-deploy@master
     with:
       token: ${{ inputs.token }}
