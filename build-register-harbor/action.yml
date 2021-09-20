@@ -1,0 +1,71 @@
+name: "Build and Register"
+description: "Build and register a docker image on harbor"
+inputs:
+  project:
+    description: "The project name, usually the repository name"
+  imageName:
+    description: "The image registry path"
+  dockerfile:
+    default: './Dockerfile'
+    description: "The docker file path"
+  dockercontext:
+    default: '.'
+    description: "The docker build context"
+  dockerbuildargs:
+    description: "The docker build arguments"
+  harborUsername:
+    description: "Harbor username"
+  harborPassword:
+    description: "Harbor password"
+  harborProject:
+    description: "Harbor project name"
+  harborUrl:
+    description: "Harbor url"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Create image labels and tags
+      id: docker_meta
+      uses: "crazy-max/ghaction-docker-meta@2e1a5c7fa42123697f82d479b551a1bbdb1bef88"
+      with:
+        images: ghcr.io/socialgouv/${{ inputs.harborProject }}/${{ inputs.imageName }}
+        labels: |
+          org.opencontainers.image.title=${{ inputs.project }}
+          org.opencontainers.image.documentation=https://github.com/SocialGouv/${{ inputs.project }}/tree/${{ github.sha }}
+        tags: |
+          type=sha
+          type=ref,event=pr
+          type=ref,event=branch
+          type=semver,pattern={{version}}
+          type=raw,value=sha-${{ github.sha }}
+          type=semver,pattern={{major}}.{{minor}}
+
+    - name: Set up Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@master
+      with:
+        install: true
+
+    - name: Registry authentication
+      uses: docker/login-action@v1
+      with:
+        registry: harbor.fabrique.social.gouv.fr
+        username: ${{ inputs.harborUsername }}
+        password: ${{ inputs.harborPassword }}
+
+    - name: Image build and register
+      uses: docker/build-push-action@v2
+      with:
+        push: "true"
+        cache-from: "type=gha"
+        cache-to: "type=gha,mode=max"
+        file: "${{ inputs.dockerfile }}"
+        context: ${{ inputs.dockercontext }}
+        builder: ${{ steps.buildx.outputs.name }}
+        tags: "${{ steps.docker_meta.outputs.tags }}"
+        labels: "${{ steps.docker_meta.outputs.labels }}"
+        build-args: ${{ inputs.dockerbuildargs }}
