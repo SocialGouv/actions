@@ -5,6 +5,8 @@ inputs:
     description: "The deployment environment (dev | preprod | prod)"
   productionNamespace:
     description: "Override production namesapce"
+  rancherId:
+    description: "The Rancher project ID"
 
 runs:
   using: "composite"
@@ -45,7 +47,7 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
@@ -59,7 +61,7 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
