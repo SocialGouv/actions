@@ -7,6 +7,8 @@ inputs:
     description: "Override production namesapce"
   rancherProjectId:
     description: "Rancher ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain: 
+    description: "Base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
 runs:
   using: "composite"
   steps:
@@ -41,7 +43,7 @@ runs:
         ENVIRONMENT: ${{ inputs.environment }}
         RANCHER_PROJECT_ID: ${{ inputs.rancherProjectId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
@@ -55,7 +57,7 @@ runs:
         ENVIRONMENT: ${{ inputs.environment }}
         RANCHER_PROJECT_ID: ${{ inputs.rancherProjectId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.inputs.socialgouvBaseDomain }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
