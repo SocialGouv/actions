@@ -57,7 +57,7 @@ runs:
         ENVIRONMENT: ${{ inputs.environment }}
         RANCHER_PROJECT_ID: ${{ inputs.rancherProjectId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.inputs.socialgouvBaseDomain }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
