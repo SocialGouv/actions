@@ -1,9 +1,6 @@
 name: "Build and Register"
 description: "Build and register a docker image on harbor"
 inputs:
-  project:
-    description: "The project name, usually the repository name"
-    required: true
   imageName:
     description: "The image registry path"
     required: true
@@ -21,9 +18,6 @@ inputs:
   harborPassword:
     description: "Harbor password"
     required: true
-  harborProject:
-    description: "Harbor project name"
-    required: true
   harborUrl:
     description: "Harbor url"
     default: harbor.fabrique.social.gouv.fr
@@ -38,7 +32,7 @@ runs:
       id: docker_meta
       uses: "crazy-max/ghaction-docker-meta@2e1a5c7fa42123697f82d479b551a1bbdb1bef88"
       with:
-        images: ghcr.io/socialgouv/${{ inputs.harborProject }}/${{ inputs.imageName }}
+        images: ${{ inputs.harborUrl}}/${{ inputs.imageName }}
         labels: |
           org.opencontainers.image.title=${{ inputs.project }}
           org.opencontainers.image.documentation=https://github.com/SocialGouv/${{ inputs.project }}/tree/${{ github.sha }}
