@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/SocialGouv/actions/compare/v1.3.2...v1.3.3) (2021-09-20)
+
+
+### Bug Fixes
+
+* Add rancherId input to autodevops-manifests action ([674d494](https://github.com/SocialGouv/actions/commit/674d494ab28b4b09c0d5dede34893133ea3413aa))
+
 ## [1.3.2](https://github.com/SocialGouv/actions/compare/v1.3.1...v1.3.2) (2021-09-20)
 
 
