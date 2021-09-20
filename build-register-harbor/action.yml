@@ -38,7 +38,7 @@ runs:
       id: docker_meta
       uses: "crazy-max/ghaction-docker-meta@2e1a5c7fa42123697f82d479b551a1bbdb1bef88"
       with:
-        images: ghcr.io/socialgouv/${{ inputs.harborProject }}/${{ inputs.imageName }}
+        images: ${{ inputs.harborUrl }}/socialgouv/${{ inputs.harborProject }}/${{ inputs.imageName }}
         labels: |
           org.opencontainers.image.title=${{ inputs.project }}
           org.opencontainers.image.documentation=https://github.com/SocialGouv/${{ inputs.project }}/tree/${{ github.sha }}
