@@ -44,4 +44,5 @@ runs:
         with:
           cmd: |
             NAMESPACE=$(yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml)
+            echo NAMESPACE $NAMESPACE
             echo "::set-output name=value::$NAMESPACE"
