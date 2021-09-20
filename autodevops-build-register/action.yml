@@ -1,5 +1,5 @@
 name: "Build and Register"
-description: "Generate k8s manifests via kosko-charts autodevops"
+description: "Build and register a docker image on ghcr.io"
 inputs:
   project:
     description: "The project name, usually the repository name"
