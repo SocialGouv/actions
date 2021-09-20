@@ -70,7 +70,7 @@ runs:
       shell: bash
       run: |
         if [ $ENVIRONMENT != "prod" ]; then
-          kubectl apply -f namespace-${ENVIRONMENT}.yml
+          kubectl create -f namespace-${ENVIRONMENT}.yml
         fi
       env:
         ENVIRONMENT: ${{ inputs.environment }}
