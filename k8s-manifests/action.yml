@@ -5,8 +5,10 @@ inputs:
     description: "The deployment environment (dev | preprod | prod)"
   rancherProjectId:
     description: "Rancher ID, usually secrets.RANCHER_PROJECT_ID"
+    required: true
   socialgouvBaseDomain: 
     description: "Base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+    required: true
 runs:
   using: "composite"
   steps:
