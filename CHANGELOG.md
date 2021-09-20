@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/SocialGouv/actions/compare/v1.2.2...v1.2.3) (2021-09-20)
+
+
+### Bug Fixes
+
+* Add id to semantic workflow step ([0757d20](https://github.com/SocialGouv/actions/commit/0757d204b9aa975ac9ba823b824ceb2975fad6ab))
+
 ## [1.2.2](https://github.com/SocialGouv/actions/compare/v1.2.1...v1.2.2) (2021-09-20)
 
 
