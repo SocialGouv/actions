@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/SocialGouv/actions/compare/v1.3.3...v1.4.0) (2021-09-21)
+
+
+### Features
+
+* add harbor-build-register action ([#25](https://github.com/SocialGouv/actions/issues/25)) ([14f36cf](https://github.com/SocialGouv/actions/commit/14f36cfb50e8692e02898263ee0074daa048969f))
+
 ## [1.3.3](https://github.com/SocialGouv/actions/compare/v1.3.2...v1.3.3) (2021-09-20)
 
 
