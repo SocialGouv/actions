@@ -8,16 +8,21 @@ inputs:
     description: "Override production namesapce"
   rancherId:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
-    required: true
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
-    required: true
 
 runs:
   using: "composite"
   steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Load environment variables
+      shell: bash
+      run: |
+        cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
+      env:
+        ENVIRONMENT: ${{ inputs.environment }}
 
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
@@ -45,9 +50,9 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
@@ -59,9 +64,9 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId|| env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
