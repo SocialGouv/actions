@@ -20,11 +20,9 @@ runs:
     - name: Load environment variables
       shell: bash
       run: |
-        if test -f ".github/$ENVIRONMENT.env"; then
-          cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
+        if test -f ".github/${{ inputs.environment }}.env"; then
+          cat ".github/${{ inputs.environment }}.env" >> $GITHUB_ENV
         fi
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
 
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
