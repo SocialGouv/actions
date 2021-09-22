@@ -1,3 +1,24 @@
+# [1.4.0](https://github.com/SocialGouv/actions/compare/v1.3.3...v1.4.0) (2021-09-21)
+
+
+### Features
+
+* add harbor-build-register action ([#25](https://github.com/SocialGouv/actions/issues/25)) ([14f36cf](https://github.com/SocialGouv/actions/commit/14f36cfb50e8692e02898263ee0074daa048969f))
+
+## [1.3.3](https://github.com/SocialGouv/actions/compare/v1.3.2...v1.3.3) (2021-09-20)
+
+
+### Bug Fixes
+
+* Add rancherId input to autodevops-manifests action ([674d494](https://github.com/SocialGouv/actions/commit/674d494ab28b4b09c0d5dede34893133ea3413aa))
+
+## [1.3.2](https://github.com/SocialGouv/actions/compare/v1.3.1...v1.3.2) (2021-09-20)
+
+
+### Bug Fixes
+
+* **deploy:** Create instead of apply for k8s namespace ([#23](https://github.com/SocialGouv/actions/issues/23)) ([c7bdfc4](https://github.com/SocialGouv/actions/commit/c7bdfc4472b6e7d4b6514b04fea92dfd97a4d9d7))
+
 ## [1.3.1](https://github.com/SocialGouv/actions/compare/v1.3.0...v1.3.1) (2021-09-20)
 
 
