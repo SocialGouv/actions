@@ -20,7 +20,9 @@ runs:
     - name: Load environment variables
       shell: bash
       run: |
-        cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
+        if test -f ".github/$ENVIRONMENT.env"; then
+          cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
+        fi
       env:
         ENVIRONMENT: ${{ inputs.environment }}
 
