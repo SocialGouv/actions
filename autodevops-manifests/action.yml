@@ -3,15 +3,13 @@ description: "Generate k8s manifests via kosko-charts autodevops"
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
-    required: true
   productionNamespace:
     description: "Override production namesapce"
-  rancherProjectId:
-    description: "Rancher ID, usually secrets.RANCHER_PROJECT_ID"
-    required: true
-  socialgouvBaseDomain: 
-    description: "Base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
-    required: true
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+
 runs:
   using: "composite"
   steps:
@@ -44,7 +42,7 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ inputs.rancherProjectId }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
@@ -58,7 +56,7 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ inputs.rancherProjectId }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
