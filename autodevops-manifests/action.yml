@@ -3,12 +3,15 @@ description: "Generate k8s manifests via kosko-charts autodevops"
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+    required: true
   productionNamespace:
     description: "Override production namesapce"
   rancherId:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+    required: true
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+    required: true
 
 runs:
   using: "composite"
