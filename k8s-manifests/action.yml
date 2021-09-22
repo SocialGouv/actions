@@ -3,6 +3,7 @@ description: "Generate k8s manifests based on .k8s folder"
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+    required: true
   rancherId:
     description: "Rancher ID, usually secrets.RANCHER_PROJECT_ID"
     required: true
