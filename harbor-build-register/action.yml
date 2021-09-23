@@ -61,11 +61,11 @@ runs:
       uses: docker/build-push-action@v2
       with:
         push: "true"
-        cache-from: "type=gha"
-        cache-to: "type=gha,mode=max"
         file: "${{ inputs.dockerfile }}"
         context: ${{ inputs.dockercontext }}
         builder: ${{ steps.buildx.outputs.name }}
+        build-args: ${{ inputs.dockerbuildargs }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
-        build-args: ${{ inputs.dockerbuildargs }}
+        cache-from: "type=gha,scope=${{ inputs.project }}-cache"
+        cache-to: "type=gha,scope=${{ inputs.project }}-cache,mode=max"
