@@ -3,10 +3,13 @@ description: "Generate k8s manifests via kosko-charts autodevops"
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+    required: true
   productionNamespace:
     description: "Override production namesapce"
   rancherId:
-    description: "The Rancher project ID"
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
 
 runs:
   using: "composite"
@@ -17,9 +20,9 @@ runs:
     - name: Load environment variables
       shell: bash
       run: |
-        cat ".github/$ENVIRONMENT.env" >> $GITHUB_ENV
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
+        if test -f ".github/${{ inputs.environment }}.env"; then
+          cat ".github/${{ inputs.environment }}.env" >> $GITHUB_ENV
+        fi
 
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
@@ -47,9 +50,9 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} _namespace > namespace-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
@@ -61,9 +64,9 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
-        RANCHER_PROJECT_ID: ${{ inputs.rancherId }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
