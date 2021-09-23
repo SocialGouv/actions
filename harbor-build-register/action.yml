@@ -61,8 +61,10 @@ runs:
       uses: docker/build-push-action@v2
       with:
         push: "true"
-        cache-from: type=registry,ref=${{ inputs.imageName }}/cache:buildcache
-        cache-to: type=registry,ref=${{ inputs.imageName }}/cache:buildcache,mode=max
+        cache-from: "type=gha,scope=${{ inputs.project }}-cache"
+        cache-to: "type=gha,scope=${{ inputs.project }}-cache,mode=max"
+        # cache-from: type=registry
+        # cache-to: type=registry,mode=max
         file: "${{ inputs.dockerfile }}"
         context: ${{ inputs.dockercontext }}
         builder: ${{ steps.buildx.outputs.name }}
