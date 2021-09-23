@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/SocialGouv/actions/compare/v1.4.0...v1.5.0) (2021-09-23)
+
+
+### Features
+
+* **autodevops-manifests:** add inputs.rancherId ([#24](https://github.com/SocialGouv/actions/issues/24)) ([42ad9b9](https://github.com/SocialGouv/actions/commit/42ad9b9f2d3e4c3692860e7d97e42525db259a8d))
+
 # [1.4.0](https://github.com/SocialGouv/actions/compare/v1.3.3...v1.4.0) (2021-09-21)
 
 
