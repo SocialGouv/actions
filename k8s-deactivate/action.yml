@@ -80,7 +80,7 @@ runs:
       shell: bash
       run: |
         echo "kubectl delete -f ./namespace-dev.yml"
-        kubectl delete -f ./namespace-dev.yml
+        kubectl delete -f ./namespace-dev.yml || true
         echo "🪦"
 
     - name: Mark environment as deactivated
