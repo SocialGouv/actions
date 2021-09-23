@@ -62,7 +62,7 @@ runs:
       with:
         push: "true"
         cache-from: type=registry
-        cache-to: type=registry,mode=max
+        cache-to: type=registry,ref=${{ inputs.imageName }}/cache,mode=max
         file: "${{ inputs.dockerfile }}"
         context: ${{ inputs.dockercontext }}
         builder: ${{ steps.buildx.outputs.name }}
