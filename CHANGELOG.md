@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/SocialGouv/actions/compare/v1.5.0...v1.5.1) (2021-09-23)
+
+
+### Bug Fixes
+
+* Add scope to GHA image build cache ([#28](https://github.com/SocialGouv/actions/issues/28)) ([f124337](https://github.com/SocialGouv/actions/commit/f124337adc8e106f2ac57ad97465c71c6b1dd833))
+
 # [1.5.0](https://github.com/SocialGouv/actions/compare/v1.4.0...v1.5.0) (2021-09-23)
 
 
