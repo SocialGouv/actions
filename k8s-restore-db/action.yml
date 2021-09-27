@@ -3,6 +3,8 @@ description: "Generate restore manifests based on k8s config folder"
 inputs:
   kubeconfig:
     description: "The Kubernetes authentication configuration"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
 
 runs:
   using: "composite"
@@ -11,10 +13,12 @@ runs:
   - name: Checkout repository
     uses: actions/checkout@v2
 
-  - name: Load review environment variables
+  - name: Load environment variables
     shell: bash
     run: |
-      cat ".github/dev.env" >> $GITHUB_ENV
+      if test -f ".github/dev.env"; then
+        cat ".github/dev.env" >> $GITHUB_ENV
+      fi
 
   - name: Yarn cache setup
     uses: c-hive/gha-yarn-cache@v2
@@ -27,13 +31,13 @@ runs:
     shell: bash
     run: yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
     env:
-      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
 
   - name: Generate restore-db job manifest
     shell: bash
     run: yarn --cwd .k8s --silent generate --env dev jobs/restore > restore-db.yml
     env:
-      SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
 
   - name: Archive restore-db job
     uses: actions/upload-artifact@v2
