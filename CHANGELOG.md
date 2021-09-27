@@ -1,3 +1,10 @@
+## [1.5.3](https://github.com/SocialGouv/actions/compare/v1.5.2...v1.5.3) (2021-09-27)
+
+
+### Bug Fixes
+
+* Add socialgouvBaseDomain to autodevops action ([dcb647b](https://github.com/SocialGouv/actions/commit/dcb647b1a1bee33846cbfedf9e218510e6e8f73d))
+
 ## [1.5.2](https://github.com/SocialGouv/actions/compare/v1.5.1...v1.5.2) (2021-09-23)
 
 
