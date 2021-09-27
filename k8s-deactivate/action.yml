@@ -7,7 +7,11 @@ inputs:
     description: "GitHub Token as provided by secrets"
     default: ${{ github.token }}
     required: true
-outputs: {}
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+
 runs:
   using: "composite"
   steps:
@@ -17,7 +21,9 @@ runs:
     - name: Load environment variables
       shell: bash
       run: |
-        cat ".github/dev.env" >> $GITHUB_ENV
+        if test -f ".github/dev.env"; then
+          cat ".github/dev.env" >> $GITHUB_ENV
+        fi
 
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
@@ -32,8 +38,8 @@ runs:
         GITHUB_REF=$GITHUB_HEAD_REF
         yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
       env:
-        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
 
     - name: Get namespace name
       uses: mikefarah/yq@master
@@ -53,7 +59,7 @@ runs:
       env:
         NAMESPACE: ${{ steps.namespace.outputs.result }}
 
-    - name: Get branch, project and namespace names
+    - name: Log branch, project and namespace names
       shell: bash
       run: |
         echo "branch : ${{ env.branch }}" 
