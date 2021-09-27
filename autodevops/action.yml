@@ -17,6 +17,8 @@ inputs:
     description: "Override production namesapce"
   rancherId:
     description: "The Rancher project ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
 outputs:
   url:
     description: "Main URL extracted from kube manifests"
@@ -40,6 +42,7 @@ runs:
       rancherId: ${{ inputs.rancherId }}
       environment: ${{ inputs.environment }}
       productionNamespace: ${{ inputs.productionNamespace }}
+      socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
 
   - name: Use autodevops deployment
     id: deploy
