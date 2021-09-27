@@ -1,3 +1,10 @@
+## [1.5.4](https://github.com/SocialGouv/actions/compare/v1.5.3...v1.5.4) (2021-09-27)
+
+
+### Bug Fixes
+
+* Use image name as scope within register action ([#30](https://github.com/SocialGouv/actions/issues/30)) ([4e2c252](https://github.com/SocialGouv/actions/commit/4e2c252590ad11136fce180d0409b2a0fd40b7e3))
+
 ## [1.5.3](https://github.com/SocialGouv/actions/compare/v1.5.2...v1.5.3) (2021-09-27)
 
 
