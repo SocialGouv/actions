@@ -1,3 +1,10 @@
+## [1.5.6](https://github.com/SocialGouv/actions/compare/v1.5.5...v1.5.6) (2021-09-27)
+
+
+### Bug Fixes
+
+* Add rancherId and socialgouvBaseDomain inputs to k8s-deactivate action ([11d4cb0](https://github.com/SocialGouv/actions/commit/11d4cb0a7370a504da94c7cc767657aa7bbcfa9e))
+
 ## [1.5.5](https://github.com/SocialGouv/actions/compare/v1.5.4...v1.5.5) (2021-09-27)
 
 
