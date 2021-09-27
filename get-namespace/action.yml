@@ -2,7 +2,7 @@ name: "Get kube namespace"
 description: "Get kube namespace"
 inputs:
 outputs:
-  namespace:
+  name:
     value: ${{ steps.namespace.outputs.name }}
 runs:
   using: "composite"
