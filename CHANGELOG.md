@@ -1,3 +1,10 @@
+## [1.5.7](https://github.com/SocialGouv/actions/compare/v1.5.6...v1.5.7) (2021-09-27)
+
+
+### Bug Fixes
+
+* Add socialgouvBaseDomain inputs to k8s-restore-db action ([51fb54a](https://github.com/SocialGouv/actions/commit/51fb54a642f52cd8a3edeb0b16bea0a3ab160175))
+
 ## [1.5.6](https://github.com/SocialGouv/actions/compare/v1.5.5...v1.5.6) (2021-09-27)
 
 
