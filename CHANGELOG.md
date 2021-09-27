@@ -1,3 +1,10 @@
+## [1.5.5](https://github.com/SocialGouv/actions/compare/v1.5.4...v1.5.5) (2021-09-27)
+
+
+### Bug Fixes
+
+* Use inputs for RANCHER_PROJECT_ID and SOCIALGOUV_BASE_DOMAIN within restore-db ([eaef395](https://github.com/SocialGouv/actions/commit/eaef395575e2fea0e5b9c7d096d4e6bf6c1a48cd))
+
 ## [1.5.4](https://github.com/SocialGouv/actions/compare/v1.5.3...v1.5.4) (2021-09-27)
 
 
