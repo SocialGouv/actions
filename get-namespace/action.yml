@@ -5,18 +5,20 @@ outputs:
     value: ${{ steps.namespace.outputs.name }}
 runs:
   using: "composite"
-  shell: bash
   steps:
     - name: Set branch name
       id: branch
+      shell: bash
       run: echo "::set-output name=name::$(echo ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}})"
     - name: Set namespace name
       id: namespace
+      shell: bash
       run: |
         yarn add @socialgouv/kosko-charts
         NAMESPACE=$(node -e "console.log(require('@socialgouv/kosko-charts/utils/environmentSlug').generate('${{ steps.branch.outputs.name }}'))")
         echo "::set-output name=name::$(echo ${NAMESPACE})"
     - name: Debug
+      shell: bash
       run: |
         echo ${{ steps.branch.outputs.name }}
         echo ${{ steps.namespace.outputs.name }}
