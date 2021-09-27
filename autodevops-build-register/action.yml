@@ -61,5 +61,5 @@ runs:
         build-args: ${{ inputs.dockerbuildargs }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
-        cache-from: "type=gha,scope=${{ inputs.project }}-cache"
-        cache-to: "type=gha,scope=${{ inputs.project }}-cache,mode=max"
+        cache-from: "type=gha,scope=${{ inputs.imageName }}-cache"
+        cache-to: "type=gha,scope=${{ inputs.imageName }}-cache,mode=max"
