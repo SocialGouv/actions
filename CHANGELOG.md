@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/SocialGouv/actions/compare/v1.6.0...v1.6.1) (2021-09-28)
+
+
+### Bug Fixes
+
+* Add rancherId inputs to k8s-restore-db action ([a647887](https://github.com/SocialGouv/actions/commit/a647887d3d5125f498c99d3831591af4ed2b83b3))
+
 # [1.6.0](https://github.com/SocialGouv/actions/compare/v1.5.7...v1.6.0) (2021-09-28)
 
 
