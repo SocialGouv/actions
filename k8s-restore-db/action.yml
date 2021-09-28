@@ -3,6 +3,8 @@ description: "Generate restore manifests based on k8s config folder"
 inputs:
   kubeconfig:
     description: "The Kubernetes authentication configuration"
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
 
@@ -31,12 +33,14 @@ runs:
     shell: bash
     run: yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
     env:
+      RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
       SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
 
   - name: Generate restore-db job manifest
     shell: bash
     run: yarn --cwd .k8s --silent generate --env dev jobs/restore > restore-db.yml
     env:
+      RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
       SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
 
   - name: Archive restore-db job
