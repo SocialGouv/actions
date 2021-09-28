@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/SocialGouv/actions/compare/v1.5.7...v1.6.0) (2021-09-28)
+
+
+### Features
+
+* Add k8s-namespace action ([#32](https://github.com/SocialGouv/actions/issues/32)) ([676dd59](https://github.com/SocialGouv/actions/commit/676dd59d40a2583bb4e5a21d485e6784af2ac64b))
+
 ## [1.5.7](https://github.com/SocialGouv/actions/compare/v1.5.6...v1.5.7) (2021-09-27)
 
 
