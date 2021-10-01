@@ -55,12 +55,6 @@ runs:
         desc: "Deploying environment: ${{ env.namespace }}"
         env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
 
-    - name: Install Kapp
-      uses: vmware-tanzu/carvel-setup-action@v1
-      with:
-        only: kapp
-        token: ${{ inputs.token }}
-
     - name: Create kubernetes config
       shell: bash
       run: |
@@ -79,7 +73,7 @@ runs:
 
     - name: Deploy application
       shell: bash
-      run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
+      run: kubectl apply --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
 
     - name: Define environment URL
       id: environment-url
