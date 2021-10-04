@@ -27,6 +27,8 @@ runs:
 
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
+      with:
+        directory: .k8s
 
     - name: Install kosko-charts dependencies
       shell: bash
