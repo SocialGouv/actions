@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/SocialGouv/actions/compare/v1.6.3...v1.6.4) (2021-10-04)
+
+
+### Bug Fixes
+
+* **deactivate:** rm useless ([#34](https://github.com/SocialGouv/actions/issues/34)) ([3771bdd](https://github.com/SocialGouv/actions/commit/3771bddb25f87bc3ea53d433b1bc9726b9ce60a9))
+
 ## [1.6.3](https://github.com/SocialGouv/actions/compare/v1.6.2...v1.6.3) (2021-10-04)
 
 
