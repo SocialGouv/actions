@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/SocialGouv/actions/compare/v1.6.1...v1.6.2) (2021-10-04)
+
+
+### Bug Fixes
+
+* **deactivate:** run yarn cache in .k8s directory ([#36](https://github.com/SocialGouv/actions/issues/36)) ([e9f7e30](https://github.com/SocialGouv/actions/commit/e9f7e307398476edb082ddbcccfbef0e8dcbf346))
+
 ## [1.6.1](https://github.com/SocialGouv/actions/compare/v1.6.0...v1.6.1) (2021-09-28)
 
 
