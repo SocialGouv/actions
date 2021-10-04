@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/SocialGouv/actions/compare/v1.6.2...v1.6.3) (2021-10-04)
+
+
+### Bug Fixes
+
+* **deactivate:** directory works only with v2 ([#37](https://github.com/SocialGouv/actions/issues/37)) ([a1be969](https://github.com/SocialGouv/actions/commit/a1be969dce67fab31a7f649670a488d8cd08f647))
+
 ## [1.6.2](https://github.com/SocialGouv/actions/compare/v1.6.1...v1.6.2) (2021-10-04)
 
 
