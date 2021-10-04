@@ -68,16 +68,6 @@ runs:
         echo "project : ${{ env.project }}" 
         echo "namespace : ${{ env.namespace }}"
 
-    - name: Install Kapp
-      uses: vmware-tanzu/carvel-setup-action@v1
-      with:
-        only: kapp
-        token: ${{ inputs.github-token }}
-
-    - name: Debug kapp version
-      shell: bash
-      run: kapp --version
-
     - name: Create kubernetes config
       shell: bash
       run: |
