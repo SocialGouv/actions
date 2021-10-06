@@ -4,6 +4,8 @@ inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
     required: true
+  productionNamespace:
+    description: "Override production namesapce"
   rancherId:
     description: "Rancher ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain: 
@@ -39,6 +41,7 @@ runs:
           SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
           SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
           SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+          SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
 
       - name: Generate k8s namespace
         shell: bash
@@ -48,6 +51,7 @@ runs:
           SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
           SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
           SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+          SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
 
       - name: Archive k8s manifests
         uses: actions/upload-artifact@v2
