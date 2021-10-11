@@ -1,3 +1,10 @@
+## [1.6.6](https://github.com/SocialGouv/actions/compare/v1.6.5...v1.6.6) (2021-10-11)
+
+
+### Bug Fixes
+
+* Add sleep between namespace creation and app deployment ([98454ac](https://github.com/SocialGouv/actions/commit/98454ace3872cd2899dc2885010df05316619164))
+
 ## [1.6.5](https://github.com/SocialGouv/actions/compare/v1.6.4...v1.6.5) (2021-10-06)
 
 
