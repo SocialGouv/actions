@@ -1,3 +1,10 @@
+## [1.6.5](https://github.com/SocialGouv/actions/compare/v1.6.4...v1.6.5) (2021-10-06)
+
+
+### Bug Fixes
+
+* Add SOCIALGOUV_PRODUCTION_NAMESPACE to k8s-manifests action ([ce4ff7c](https://github.com/SocialGouv/actions/commit/ce4ff7cb0a97d4bec412c1d9d8332faaf6bcd8c8))
+
 ## [1.6.4](https://github.com/SocialGouv/actions/compare/v1.6.3...v1.6.4) (2021-10-04)
 
 
