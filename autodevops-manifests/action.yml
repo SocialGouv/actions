@@ -24,15 +24,16 @@ runs:
           cat ".github/${{ inputs.environment }}.env" >> $GITHUB_ENV
         fi
 
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
-
-    - name: Install kosko-charts autodevops
+    - name: Degit autodevops template
       shell: bash
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
         rm -rf /tmp/autodevops/environments
-        yarn --cwd /tmp/autodevops
+
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
+      with:
+        directory: /tmp/autodevops
 
     - name: Copy application k8s config to autodevops
       shell: bash
@@ -41,8 +42,28 @@ runs:
           echo "$ cp -r .socialgouv/environments /tmp/autodevops/environments"
           cp -r .socialgouv/environments /tmp/autodevops/environments
         fi
-        echo "$ cp .socialgouv/config.json /tmp/autodevops/"
-        cp .socialgouv/config.json /tmp/autodevops/
+        if [ -d ".socialgouv/components" ]; then
+          # use userland components instead of autodevops ones
+          echo "$ rm -rf $DEST/components;"
+          rm -rf $DEST/components
+          echo "$ cp -r .socialgouv/* $DEST/"
+          cp -r .socialgouv/* $DEST/
+        fi
+        if [ -f ".socialgouv/config.json" ]; then
+          echo "$ cp .socialgouv/config.json $DEST/"
+          cp .socialgouv/config.json $DEST/
+        fi
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        yarn --cwd /tmp/autodevops
+
+    # For example
+    - name: Run kosko tests
+      shell: bash
+      run: |
+        yarn --cwd /tmp/autodevops test
 
     - name: Generate k8s namespace
       shell: bash
