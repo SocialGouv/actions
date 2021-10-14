@@ -1,3 +1,10 @@
+## [1.6.7](https://github.com/SocialGouv/actions/compare/v1.6.6...v1.6.7) (2021-10-14)
+
+
+### Bug Fixes
+
+* Add rancher and base domain input to k8s-funeral ([c6e6638](https://github.com/SocialGouv/actions/commit/c6e663800eed6bb956fa8ee8d2971462e572eaa9))
+
 ## [1.6.6](https://github.com/SocialGouv/actions/compare/v1.6.5...v1.6.6) (2021-10-11)
 
 
