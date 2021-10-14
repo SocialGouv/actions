@@ -2,7 +2,9 @@ on:
   push:
     paths:
       - 'k8s-manifests-debug/**'
-
+  pull_request:
+    paths:
+      - 'k8s-manifests-debug/**'
 jobs:
   k8s-manifests-debug:
     runs-on: ubuntu-latest
