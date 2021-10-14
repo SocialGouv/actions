@@ -1,4 +1,4 @@
-name: "🪦"
+name: "Deactivate"
 description: "Bury the review branch k8s environment"
 inputs:
   kube-config:
@@ -7,7 +7,13 @@ inputs:
     description: "GitHub Token as provided by secrets"
     default: ${{ github.token }}
     required: true
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+
 outputs: {}
+
 runs:
   using: "composite"
   steps:
@@ -17,7 +23,9 @@ runs:
     - name: Load environment variables
       shell: bash
       run: |
-        cat ".github/dev.env" >> $GITHUB_ENV
+        if test -f ".github/dev.env"; then
+          cat ".github/dev.env" >> $GITHUB_ENV
+        fi
 
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v1
@@ -42,9 +50,9 @@ runs:
         yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-dev.yml
       env:
         ENVIRONMENT: dev
-        RANCHER_PROJECT_ID: ${{ env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+        ANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
 
     - name: Get namespace name
       uses: mikefarah/yq@master
