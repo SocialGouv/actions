@@ -1,0 +1,39 @@
+name: Release
+description: "Delete review branch environment and database"
+inputs:
+  github-token:
+    required: true
+    default: ${{ github.token }}
+    description: "GitHub Token as provided by secrets"
+  author-name:
+    required: true
+    description: "Committer name"
+  author-email:
+    required: true
+    description: "Committer email"
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Checkout repository
+    uses: actions/checkout@v2
+    with:
+      fetch-depth: 0
+      persist-credentials: false
+
+  - name: Semantic Release
+    uses: cycjimmy/semantic-release-action@v2
+    with:
+      semantic_version: 17
+      extra_plugins: |
+        @semantic-release/changelog@5.0.1
+        @semantic-release/git@9.0.0
+      extends: |
+        @socialgouv/releaserc
+    env:
+      GITHUB_TOKEN: ${{ inputs.github-token }}
+      GIT_AUTHOR_NAME: ${{ inputs.author-name }}
+      GIT_AUTHOR_EMAIL: ${{ inputs.author-email }}
+      GIT_COMMITTER_NAME: ${{ inputs.author-name }}
+      GIT_COMMITTER_EMAIL: ${{ inputs.author-email }}
