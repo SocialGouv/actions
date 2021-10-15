@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/SocialGouv/actions/compare/v1.6.7...v1.7.0) (2021-10-15)
+
+
+### Features
+
+* autodevops-deactivate ([#39](https://github.com/SocialGouv/actions/issues/39)) ([f653ac2](https://github.com/SocialGouv/actions/commit/f653ac22402e6a02c4d8e196b7be783614730959))
+
 ## [1.6.7](https://github.com/SocialGouv/actions/compare/v1.6.6...v1.6.7) (2021-10-14)
 
 
