@@ -29,7 +29,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` o
     path: kubernetes-manifests.yaml
     token: ${{ secrets.GITHUB_TOKEN }}
   env:
-    RANCHER_PROJECT_ID: some-project-id # to provide a decent rancher url
+    RANCHER_PROJECT_ID: ${{ secrets.RANCHER_PROJECT_ID }} # optional
 ```
 
 see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-manifests-debug-test.yaml)
@@ -45,7 +45,9 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
     environment: dev # dev, preprod, prod
     imageName: my_product/my_app
     token: ${{ secrets.GITHUB_TOKEN }}
-    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+    kubeconfig: ${{ secrets.KUBECONFIG }}
+    rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+    socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 ```
 
 ## `socialgouv/actions/autodevops-build-register`
@@ -55,9 +57,13 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 ```yaml
 - uses: SocialGouv/actions/autodevops-build-register
   with:
-    project: "my_app"
-    imageName: my_product/my_app
+    project: "my_product"
+    imageName: my_product/my_component
     token: ${{ secrets.GITHUB_TOKEN }}
+    dockerfile: "/path/to/Dockerfile" # optional
+    dockercontext: "/path/to/content" # optional
+    dockerbuildargs: | # optional
+      NODE_ENV=production
 ```
 
 ## `socialgouv/actions/k8s-manifests`
@@ -65,9 +71,12 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 - Generate kubernetes manifests based on custom `.k8s` config
 
 ```yaml
-- uses: SocialGouv/actions/autodevops-manifests
+- uses: SocialGouv/actions/k8s-manifests
   with:
     environment: "dev"
+    productionNamespace: "alternative-namespace" # optional
+    rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+    socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 ```
 
 ## `socialgouv/actions/autodevops-manifests`
@@ -78,6 +87,9 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 - uses: SocialGouv/actions/autodevops-manifests
   with:
     environment: "dev"
+    productionNamespace: "alternative-namespace" # optional
+    rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+    socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 ```
 
 ## `socialgouv/actions/autodevops-deploy`
@@ -90,7 +102,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
   with:
     environment: "dev"
     token: ${{ secrets.GITHUB_TOKEN }}
-    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG }}
+    kubeconfig: ${{ secrets.KUBECONFIG }}
 ```
 
 Export main URL as `steps.deploy.outputs.url`
@@ -102,7 +114,7 @@ Export main URL as `steps.deploy.outputs.url`
 ```yaml
 - uses: SocialGouv/actions/autodevops-restore-db
   with:
-    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+    kubeconfig: ${{ secrets.KUBECONFIG }}
 ```
 
 ## `socialgouv/actions/k8s-restore-db`
@@ -112,7 +124,7 @@ Export main URL as `steps.deploy.outputs.url`
 ```yaml
 - uses: SocialGouv/actions/k8s-restore-db
   with:
-    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+    kubeconfig: ${{ secrets.KUBECONFIG }}
 ```
 
 ## `socialgouv/actions/k8s-deactivate`
@@ -122,7 +134,7 @@ Export main URL as `steps.deploy.outputs.url`
 ```yaml
 - uses: SocialGouv/actions/k8s-deactivate
   with:
-    kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+    kubeconfig: ${{ secrets.KUBECONFIG }}
 ```
 
 ## `socialgouv/actions/autodevops-deactivate`
