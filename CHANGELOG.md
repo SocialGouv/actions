@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/SocialGouv/actions/compare/v1.7.0...v1.7.1) (2021-10-15)
+
+
+### Bug Fixes
+
+* **restore-db:** run yarn cache in .k8s directory ([#38](https://github.com/SocialGouv/actions/issues/38)) ([798ef52](https://github.com/SocialGouv/actions/commit/798ef5249afa5f399f84b6e4973bbd4af02bd64f))
+
 # [1.7.0](https://github.com/SocialGouv/actions/compare/v1.6.7...v1.7.0) (2021-10-15)
 
 
