@@ -24,15 +24,17 @@ runs:
           cat ".github/${{ inputs.environment }}.env" >> $GITHUB_ENV
         fi
 
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
-
     - name: Install kosko-charts autodevops
       shell: bash
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
         rm -rf /tmp/autodevops/environments
         yarn --cwd /tmp/autodevops
+
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v2
+      with:
+        directory: /tmp/autodevops
 
     - name: Copy application k8s config to autodevops
       shell: bash
