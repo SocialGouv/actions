@@ -2,22 +2,20 @@
 
 The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` or a `.k8s` folder.
 
-
-| Action                                                                   | usage                                                        |  target project      |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------ |:--------------------:|
-| [k8s-manifests](#socialgouvactionsk8s-manifests)                         | Generate kubernetes manifests                                | `.k8s` folder        |
-| [k8s-restore-db](#socialgouvactionsk8s-restore-db)                       | -                                                            | `.k8s` folder        |
-| [k8s-manifests-debug](#socialgouvactionsk8s-manifests-debug)             | Output useful infos from your manifests                      |        `*`           |
-| [k8s-deactivate](#socialgouvactionsk8s-deactivate)                       | Deactivate obsolete environments                             |        `*`           |
-| [autodevops-manifests](#socialgouvactionsautodevops-manifests)           | Generate kubernetes manifests                                |        `*`           |
-| [autodevops-deploy](#socialgouvactionsautodevops-deploy)                 | Deploy kubernetes manifests                                  |        `*`           |
-| [harbor-build-register](#socialgouvactionsharbor-build-register)         | Build and register docker images on internal harbor registry |        `*`           |
+| Action                                                                   | usage                                                        |    target project    |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------ | :------------------: |
+| [k8s-manifests](#socialgouvactionsk8s-manifests)                         | Generate kubernetes manifests                                |    `.k8s` folder     |
+| [k8s-restore-db](#socialgouvactionsk8s-restore-db)                       | -                                                            |    `.k8s` folder     |
+| [k8s-manifests-debug](#socialgouvactionsk8s-manifests-debug)             | Output useful infos from your manifests                      |         `*`          |
+| [k8s-deactivate](#socialgouvactionsk8s-deactivate)                       | Deactivate obsolete environments                             |         `*`          |
+| [autodevops-manifests](#socialgouvactionsautodevops-manifests)           | Generate kubernetes manifests                                |         `*`          |
+| [autodevops-deploy](#socialgouvactionsautodevops-deploy)                 | Deploy kubernetes manifests                                  |         `*`          |
+| [autodevops-deactivate](#socialgouvactionsautodevops-deactivate)         | Cleanup environments and databases                           |         `*`          |
+| [harbor-build-register](#socialgouvactionsharbor-build-register)         | Build and register docker images on internal harbor registry |         `*`          |
 | [autodevops](#socialgouvactionsautodevops)                               | Register and Deploy application                              | `.socialgouv` folder |
 | [autodevops-build-register](#socialgouvactionsautodevops-build-register) | Build and register docker images on ghcr.io                  | `.socialgouv` folder |
 | [autodevops-restore-db](#socialgouvactionsautodevops-restore-db)         | -                                                            | `.socialgouv` folder |
-| [mirror-gitlab](#socialgouvactionsmirror-gitlab)                         | Push changes to GitLab                                       |        `*`           |
-
-
+| [mirror-gitlab](#socialgouvactionsmirror-gitlab)                         | Push changes to GitLab                                       |         `*`          |
 
 ## `socialgouv/actions/k8s-manifests-debug`
 
@@ -125,4 +123,29 @@ Export main URL as `steps.deploy.outputs.url`
 - uses: SocialGouv/actions/k8s-deactivate
   with:
     kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }}
+```
+
+## `socialgouv/actions/autodevops-deactivate`
+
+- Clean review branches whenever a pull request is closed.
+- Drop branch databases
+
+Should be added as `.github/workflows/deactivate.yml` in your repo.
+
+```yaml
+name: Deactivate
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  bury_review_env:
+    name: Deactivate review branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: SocialGouv/actions/autodevops-deactivate@v1
+        with:
+          kube-config: ${{ secrets.KUBECONFIG }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
