@@ -15,7 +15,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` o
 | [autodevops](#socialgouvactionsautodevops)                               | Register and Deploy application                              | `.socialgouv` folder |
 | [autodevops-build-register](#socialgouvactionsautodevops-build-register) | Build and register docker images on ghcr.io                  | `.socialgouv` folder |
 | [autodevops-restore-db](#socialgouvactionsautodevops-restore-db)         | -                                                            | `.socialgouv` folder |
-| [autodevops-release](#socialgouvactionsautodevops-restore-db)            | Trigger semantic release run                                 |         `*`          |
+| [autodevops-release](#socialgouvactionsautodevops-release)            | Trigger semantic release run                                 |         `*`          |
 | [mirror-gitlab](#socialgouvactionsmirror-gitlab)                         | Push changes to GitLab                                       |         `*`          |
 
 ## `socialgouv/actions/k8s-manifests-debug`
