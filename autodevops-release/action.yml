@@ -1,5 +1,5 @@
 name: Release
-description: "Delete review branch environment and database"
+description: "Run semantic release"
 inputs:
   github-token:
     required: true
