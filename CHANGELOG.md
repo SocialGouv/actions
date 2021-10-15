@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/SocialGouv/actions/compare/v1.7.1...v1.7.2) (2021-10-15)
+
+
+### Bug Fixes
+
+* Upgrade c-hive/gha-yarn-cache to v2 and use directory option ([30544dc](https://github.com/SocialGouv/actions/commit/30544dc8d2aa47957f17c02e4758f2d94fdd4de7))
+
 ## [1.7.1](https://github.com/SocialGouv/actions/compare/v1.7.0...v1.7.1) (2021-10-15)
 
 
