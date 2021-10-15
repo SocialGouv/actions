@@ -10,6 +10,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` o
 | [k8s-deactivate](#socialgouvactionsk8s-deactivate)                       | Deactivate obsolete environments                             |         `*`          |
 | [autodevops-manifests](#socialgouvactionsautodevops-manifests)           | Generate kubernetes manifests                                |         `*`          |
 | [autodevops-deploy](#socialgouvactionsautodevops-deploy)                 | Deploy kubernetes manifests                                  |         `*`          |
+| [autodevops-deactivate](#socialgouvactionsautodevops-deactivate)         | Cleanup environments and databases                           |         `*`          |
 | [harbor-build-register](#socialgouvactionsharbor-build-register)         | Build and register docker images on internal harbor registry |         `*`          |
 | [autodevops](#socialgouvactionsautodevops)                               | Register and Deploy application                              | `.socialgouv` folder |
 | [autodevops-build-register](#socialgouvactionsautodevops-build-register) | Build and register docker images on ghcr.io                  | `.socialgouv` folder |
