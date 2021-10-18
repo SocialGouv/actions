@@ -15,6 +15,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` o
 | [autodevops](#socialgouvactionsautodevops)                               | Register and Deploy application                              | `.socialgouv` folder |
 | [autodevops-build-register](#socialgouvactionsautodevops-build-register) | Build and register docker images on ghcr.io                  | `.socialgouv` folder |
 | [autodevops-restore-db](#socialgouvactionsautodevops-restore-db)         | -                                                            | `.socialgouv` folder |
+| [autodevops-release](#socialgouvactionsautodevops-release)            | Trigger semantic release run                                 |         `*`          |
 | [mirror-gitlab](#socialgouvactionsmirror-gitlab)                         | Push changes to GitLab                                       |         `*`          |
 
 ## `socialgouv/actions/k8s-manifests-debug`
@@ -24,7 +25,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` o
 - Outputs : `markdown`, `json`, `text` variables
 
 ```yaml
-- uses: socialgouv/actions/k8s-manifests-debug
+- uses: socialgouv/actions/k8s-manifests-debug@v1
   with:
     path: kubernetes-manifests.yaml
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,7 +40,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 - Deploy app/package to target environment
 
 ```yaml
-- uses: SocialGouv/actions/autodevops
+- uses: SocialGouv/actions/autodevops@v1
   with:
     project: "my_app"
     environment: dev # dev, preprod, prod
@@ -55,7 +56,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 - Build docker image and register it to GHCR
 
 ```yaml
-- uses: SocialGouv/actions/autodevops-build-register
+- uses: SocialGouv/actions/autodevops-build-register@v1
   with:
     project: "my_product"
     imageName: my_product/my_component
@@ -71,7 +72,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 - Generate kubernetes manifests based on custom `.k8s` config
 
 ```yaml
-- uses: SocialGouv/actions/k8s-manifests
+- uses: SocialGouv/actions/k8s-manifests@v1
   with:
     environment: "dev"
     productionNamespace: "alternative-namespace" # optional
@@ -84,7 +85,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 - Generate kubernetes manifests based on autodevops (`.socialgouv`) config
 
 ```yaml
-- uses: SocialGouv/actions/autodevops-manifests
+- uses: SocialGouv/actions/autodevops-manifests@v1
   with:
     environment: "dev"
     productionNamespace: "alternative-namespace" # optional
@@ -97,7 +98,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 - Deploy application over kubernetes
 
 ```yaml
-- uses: SocialGouv/actions/autodevops-deploy
+- uses: SocialGouv/actions/autodevops-deploy@v1
   id: deploy
   with:
     environment: "dev"
@@ -112,9 +113,21 @@ Export main URL as `steps.deploy.outputs.url`
 - Restore database based on autodevops (`.socialgouv`) config
 
 ```yaml
-- uses: SocialGouv/actions/autodevops-restore-db
+- uses: SocialGouv/actions/autodevops-restore-db@v1
   with:
     kubeconfig: ${{ secrets.KUBECONFIG }}
+```
+
+## `socialgouv/actions/autodevops-release`
+
+- Trigger semantic release run
+
+```yaml
+- uses: SocialGouv/actions/autodevops-release@v1
+  with:
+    github-token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
+    author-name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+    author-email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
 ```
 
 ## `socialgouv/actions/k8s-restore-db`
@@ -122,7 +135,7 @@ Export main URL as `steps.deploy.outputs.url`
 - Restore database based on custom `.k8s` config and a `jobs/restore`.
 
 ```yaml
-- uses: SocialGouv/actions/k8s-restore-db
+- uses: SocialGouv/actions/k8s-restore-db@v1
   with:
     kubeconfig: ${{ secrets.KUBECONFIG }}
 ```
@@ -132,7 +145,7 @@ Export main URL as `steps.deploy.outputs.url`
 - Clean review branches whenever a pull request is closed.
 
 ```yaml
-- uses: SocialGouv/actions/k8s-deactivate
+- uses: SocialGouv/actions/k8s-deactivate@v1
   with:
     kubeconfig: ${{ secrets.KUBECONFIG }}
 ```

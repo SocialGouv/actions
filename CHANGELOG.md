@@ -1,3 +1,24 @@
+# [1.8.0](https://github.com/SocialGouv/actions/compare/v1.7.2...v1.8.0) (2021-10-18)
+
+
+### Features
+
+* **release:** Add autodevops-release action ([#43](https://github.com/SocialGouv/actions/issues/43)) ([c1d31ab](https://github.com/SocialGouv/actions/commit/c1d31abb28f7bae24c5690c6bbe49ff457706700))
+
+## [1.7.2](https://github.com/SocialGouv/actions/compare/v1.7.1...v1.7.2) (2021-10-15)
+
+
+### Bug Fixes
+
+* Upgrade c-hive/gha-yarn-cache to v2 and use directory option ([30544dc](https://github.com/SocialGouv/actions/commit/30544dc8d2aa47957f17c02e4758f2d94fdd4de7))
+
+## [1.7.1](https://github.com/SocialGouv/actions/compare/v1.7.0...v1.7.1) (2021-10-15)
+
+
+### Bug Fixes
+
+* **restore-db:** run yarn cache in .k8s directory ([#38](https://github.com/SocialGouv/actions/issues/38)) ([798ef52](https://github.com/SocialGouv/actions/commit/798ef5249afa5f399f84b6e4973bbd4af02bd64f))
+
 # [1.7.0](https://github.com/SocialGouv/actions/compare/v1.6.7...v1.7.0) (2021-10-15)
 
 
