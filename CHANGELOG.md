@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/SocialGouv/actions/compare/v1.7.2...v1.8.0) (2021-10-18)
+
+
+### Features
+
+* **release:** Add autodevops-release action ([#43](https://github.com/SocialGouv/actions/issues/43)) ([c1d31ab](https://github.com/SocialGouv/actions/commit/c1d31abb28f7bae24c5690c6bbe49ff457706700))
+
 ## [1.7.2](https://github.com/SocialGouv/actions/compare/v1.7.1...v1.7.2) (2021-10-15)
 
 
