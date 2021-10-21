@@ -52,7 +52,7 @@ runs:
         SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
 
     - name: Get namespace name
-      uses: mikefarah/yq@master
+      uses: mikefarah/yq@v4.13.4
       id: namespace
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
