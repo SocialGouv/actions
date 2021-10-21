@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/SocialGouv/actions/compare/v1.8.0...v1.8.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* **yq:** do not rely on master for mikefarah/yq ([#47](https://github.com/SocialGouv/actions/issues/47)) ([a0e3450](https://github.com/SocialGouv/actions/commit/a0e34507f43c453203e1a38e0581bf268e5b71ba))
+
 # [1.8.0](https://github.com/SocialGouv/actions/compare/v1.7.2...v1.8.0) (2021-10-18)
 
 
