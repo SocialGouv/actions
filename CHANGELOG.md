@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/SocialGouv/actions/compare/v1.8.1...v1.9.0) (2021-10-27)
+
+
+### Features
+
+* Add environment tag ([#48](https://github.com/SocialGouv/actions/issues/48)) ([4eec907](https://github.com/SocialGouv/actions/commit/4eec90789a18b7a31304c2325620c1e181438a26))
+
 ## [1.8.1](https://github.com/SocialGouv/actions/compare/v1.8.0...v1.8.1) (2021-10-21)
 
 
