@@ -89,6 +89,7 @@ runs:
       run: |
         HOST=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host' -)
         echo $HOST
+        echo "::set-output name=url::$HOST"
 
     - name: Notify deployment end
       uses: maxgfr/deployments@master
