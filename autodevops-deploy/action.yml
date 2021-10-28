@@ -88,8 +88,9 @@ runs:
       shell: bash
       run: |
         HOST=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host' -)
-        echo $HOST
-        echo "::set-output name=url::$HOST"
+        ONE_LINE_HOST=$(echo $HOST | xargs echo -n)
+        echo $ONE_LINE_HOST
+        echo "::set-output name=url::$ONE_LINE_HOST"
 
     - name: Notify deployment end
       uses: maxgfr/deployments@master
