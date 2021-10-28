@@ -91,7 +91,7 @@ runs:
         echo $HOST
 
     - name: Notify deployment end
-      uses: maxgfr/deployments@v0.0.1
+      uses: maxgfr/deployments@master
       with:
         step: finish
         status: ${{ job.status }}
