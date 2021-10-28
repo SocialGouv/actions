@@ -99,7 +99,7 @@ runs:
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         env_urls: ${{ steps.environment-url.outputs.url }}
         prefix_url: https://
-        splitter: \n---\n
+        splitter: " --- "
 
     - name: Debug manifests
       uses: socialgouv/actions/k8s-manifests-debug@master
