@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/SocialGouv/actions/compare/v1.9.0...v1.9.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* Add sha to preprod image tag ([053f179](https://github.com/SocialGouv/actions/commit/053f179452a1e98e21c42a401eb2774315890c34))
+
 # [1.9.0](https://github.com/SocialGouv/actions/compare/v1.8.1...v1.9.0) (2021-10-27)
 
 
