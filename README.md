@@ -147,7 +147,10 @@ Export main URL as `steps.deploy.outputs.url`
 ```yaml
 - uses: SocialGouv/actions/k8s-deactivate@v1
   with:
-    kubeconfig: ${{ secrets.KUBECONFIG }}
+    kube-config: ${{ secrets.KUBECONFIG }}
+    github-token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
+    rancherId: ${{ secrets.RANCHER_PROJECT_ID }} # optional
+    socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }} # optional
 ```
 
 ## `socialgouv/actions/autodevops-deactivate`
