@@ -92,7 +92,6 @@ runs:
         env_urls: ${{ steps.environment-url.outputs.url }}
         prefix_url: https://
         splitter: " --- "
-        desc: "Deploying environment: ${{ env.namespace }}"
         env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
 
     - name: Debug manifests
