@@ -92,8 +92,7 @@ runs:
         env_urls: ${{ steps.environment-url.outputs.url }}
         prefix_url: https://
         splitter: " --- "
-        env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
-
+        
     - name: Debug manifests
       uses: socialgouv/actions/k8s-manifests-debug@master
       with:
