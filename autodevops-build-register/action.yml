@@ -47,6 +47,8 @@ runs:
           type=semver,pattern={{version}}
           type=raw,value=sha-${{ github.sha }}
           type=semver,pattern={{major}}.{{minor}}
+          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}
+          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}-${{ github.sha }}
           type=raw,value=${{ inputs.environment }}-${{ github.sha }}
 
     - name: Set up Buildx
