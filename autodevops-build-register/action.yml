@@ -3,22 +3,28 @@ description: "Build and register a docker image on ghcr.io"
 inputs:
   project:
     description: "The project name, usually the repository name"
+    required: true
   imageName:
     description: "The image registry path"
+    required: true
   dockerfile:
     default: './Dockerfile'
     description: "The docker file path"
+    required: false
   dockercontext:
     default: '.'
     description: "The docker build context"
+    required: false
   dockerbuildargs:
     description: "The docker build arguments"
+    required: false
   token:
     description: "The GHCR authentication token"
+    required: true
   environment:
     default: 'dev'
     description: "The deployment environment (dev | preprod | prod)"
-
+    required: false
 
 runs:
   using: "composite"
@@ -41,8 +47,7 @@ runs:
           type=semver,pattern={{version}}
           type=raw,value=sha-${{ github.sha }}
           type=semver,pattern={{major}}.{{minor}}
-          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}
-          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}-${{ github.sha }}
+          type=raw,value=${{ inputs.environment }}-${{ github.sha }}
 
     - name: Set up Buildx
       id: buildx
