@@ -41,8 +41,8 @@ runs:
           type=semver,pattern={{version}}
           type=raw,value=sha-${{ github.sha }}
           type=semver,pattern={{major}}.{{minor}}
-          type=raw,value=${{ inputs.environment || startsWith(github.ref, 'refs/tags/v') && 'prod' || 'dev' }}
-          type=raw,value=${{ inputs.environment || startsWith(github.ref, 'refs/tags/v') && 'prod' || 'dev' }}-${{ github.sha }}
+          type=raw,value=${{ inputs.environment || (startsWith(github.ref, 'refs/tags/v') && 'prod' || 'dev') }}
+          type=raw,value=${{ inputs.environment || (startsWith(github.ref, 'refs/tags/v') && 'prod' || 'dev') }}-${{ github.sha }}
 
     - name: Set up Buildx
       id: buildx
