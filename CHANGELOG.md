@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/SocialGouv/actions/compare/v1.9.1...v1.9.2) (2021-11-15)
+
+
+### Bug Fixes
+
+* ** k8s-manifests-debug:** always recreate comment ([#56](https://github.com/SocialGouv/actions/issues/56)) ([97ef06c](https://github.com/SocialGouv/actions/commit/97ef06c7775f397ea2ddcb7d1646555192b65561))
+
 ## [1.9.1](https://github.com/SocialGouv/actions/compare/v1.9.0...v1.9.1) (2021-10-28)
 
 
