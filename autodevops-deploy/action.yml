@@ -7,7 +7,6 @@ inputs:
   num_environment:
     description: "The number of deployment environment to deploy"
     required: false
-    default: "1"
   kubeconfig:
     description: "The Kubernetes authentication configuration"
     required: true
