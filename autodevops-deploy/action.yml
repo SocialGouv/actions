@@ -3,12 +3,20 @@ description: "Deploy over Kubernetes"
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+    required: true
+  num_environment:
+    description: "The number of deployment environment to deploy"
+    required: false
+    default: "1"
   kubeconfig:
     description: "The Kubernetes authentication configuration"
+    required: true
   token:
     description: "The Github authentication token"
+    required: true
   rancherId:
     description: "The Rancher project ID"
+    required: true
 outputs:
   url:
     description: "Main URL extracted from kube manifests"
@@ -34,6 +42,7 @@ runs:
       id: namespace
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
+        
 
     - name: Get project and namespace names
       shell: bash
@@ -45,6 +54,16 @@ runs:
         echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
       env:
         NAMESPACE: ${{ steps.namespace.outputs.result }}
+
+    - name: Notify deployment start
+      uses: bobheadxi/deployments@v0.4.3
+      id: deployment
+      with:
+        step: start-multi
+        token: ${{ inputs.token }}
+        desc: "Deploying environment: ${{ env.namespace }}"
+        env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
+        num_env: ${{ inputs.num_environment}}
 
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
@@ -86,12 +105,13 @@ runs:
     - name: Notify deployment
       uses: maxgfr/deployments@master
       with:
-        step: global
+        step: end-multi
         status: ${{ job.status }}
         token: ${{ inputs.token }}
         env_urls: ${{ steps.environment-url.outputs.url }}
         prefix_url: https://
         splitter: " --- "
+        deployment_ids: ${{ steps.deployment.outputs.deployment_ids }}
         
     - name: Debug manifests
       uses: socialgouv/actions/k8s-manifests-debug@master
