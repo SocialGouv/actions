@@ -100,6 +100,17 @@ runs:
         ONE_LINE_HOST=$(echo $HOST | xargs echo -n)
         echo $ONE_LINE_HOST
         echo "::set-output name=url::$ONE_LINE_HOST"
+    
+    - name: Format the URL
+      uses: actions/github-script@v5
+      id: array-url
+      env:
+        url: ${{ steps.environment-url.outputs.url }}
+      with:
+        script: |
+          const urlArray = JSON.stringify(process.env.url.split(" --- ").map(v => v.replace(/ /g, "")).map(v => `https://${v}`));
+          console.log(urlArray);
+          process.stdout.write(`::set-output name=url::${urlArray}`);
 
     - name: Notify deployment
       uses: maxgfr/deployments@master
@@ -107,9 +118,7 @@ runs:
         step: end-multi
         status: ${{ job.status }}
         token: ${{ inputs.token }}
-        env_urls: ${{ steps.environment-url.outputs.url }}
-        prefix_url: https://
-        splitter: " --- "
+        env_urls: ${{ steps.array-url.outputs.url }}
         deployment_ids: ${{ steps.deployment.outputs.deployment_ids }}
         
     - name: Debug manifests
