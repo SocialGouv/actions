@@ -62,7 +62,7 @@ runs:
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
         env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
-        num_environment: ${{ inputs.num_environment}}
+        num_environment: ${{ inputs.num_environment }}
 
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
@@ -109,7 +109,6 @@ runs:
       with:
         script: |
           const urlArray = JSON.stringify(process.env.url.split(" --- ").map(v => v.replace(/ /g, "")).map(v => `https://${v}`));
-          console.log(urlArray);
           process.stdout.write(`::set-output name=url::${urlArray}`);
 
     - name: Notify deployment
