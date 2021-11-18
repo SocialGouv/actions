@@ -55,7 +55,7 @@ runs:
         NAMESPACE: ${{ steps.namespace.outputs.result }}
 
     - name: Notify deployment start
-      uses: bobheadxi/deployments@v0.4.3
+      uses: maxgfr/deployments@master
       id: deployment
       with:
         step: start-multi
