@@ -58,7 +58,7 @@ runs:
       uses: maxgfr/deployments@master
       id: deployment
       with:
-        step: start-multi
+        step: start
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
         env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
@@ -115,7 +115,7 @@ runs:
     - name: Notify deployment
       uses: maxgfr/deployments@master
       with:
-        step: end-multi
+        step: finish
         status: ${{ job.status }}
         token: ${{ inputs.token }}
         env_urls: ${{ steps.array-url.outputs.url }}
