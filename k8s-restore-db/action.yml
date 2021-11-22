@@ -24,6 +24,8 @@ runs:
 
   - name: Yarn cache setup
     uses: c-hive/gha-yarn-cache@v2
+    with:
+      directory: .k8s
 
   - name: Install kosko-charts dependencies
     shell: bash
@@ -50,7 +52,7 @@ runs:
       path: restore-db.yml
 
   - name: Get namespace name
-    uses: mikefarah/yq@master
+    uses: mikefarah/yq@v4.13.4
     id: namespace
     with:
       cmd: yq eval '.metadata.name' namespace-dev.yml

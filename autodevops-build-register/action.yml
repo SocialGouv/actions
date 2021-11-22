@@ -15,6 +15,10 @@ inputs:
     description: "The docker build arguments"
   token:
     description: "The GHCR authentication token"
+  environment:
+    default: 'dev'
+    description: "The deployment environment (dev | preprod | prod)"
+
 
 runs:
   using: "composite"
@@ -37,6 +41,8 @@ runs:
           type=semver,pattern={{version}}
           type=raw,value=sha-${{ github.sha }}
           type=semver,pattern={{major}}.{{minor}}
+          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}
+          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}-${{ github.sha }}
 
     - name: Set up Buildx
       id: buildx

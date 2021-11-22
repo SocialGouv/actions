@@ -5,8 +5,6 @@ inputs:
     description: "Your manifests YAML file path"
   token:
     description: "Github token for PR comment"
-  # env:
-  #   description: "Env for the parse-manifests phase"
 outputs:
   json:
     description: "Json debug"
@@ -51,6 +49,7 @@ runs:
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         number: ${{ steps.finder.outputs.pr }}
+        recreate: true
         message: |
           🎉 Deployment for commit ${{ github.sha }} :
           ${{ steps.debug-manifests.outputs.markdown }}

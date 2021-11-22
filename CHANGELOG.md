@@ -1,3 +1,66 @@
+## [1.9.2](https://github.com/SocialGouv/actions/compare/v1.9.1...v1.9.2) (2021-11-15)
+
+
+### Bug Fixes
+
+* ** k8s-manifests-debug:** always recreate comment ([#56](https://github.com/SocialGouv/actions/issues/56)) ([97ef06c](https://github.com/SocialGouv/actions/commit/97ef06c7775f397ea2ddcb7d1646555192b65561))
+
+## [1.9.1](https://github.com/SocialGouv/actions/compare/v1.9.0...v1.9.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* Add sha to preprod image tag ([053f179](https://github.com/SocialGouv/actions/commit/053f179452a1e98e21c42a401eb2774315890c34))
+
+# [1.9.0](https://github.com/SocialGouv/actions/compare/v1.8.1...v1.9.0) (2021-10-27)
+
+
+### Features
+
+* Add environment tag ([#48](https://github.com/SocialGouv/actions/issues/48)) ([4eec907](https://github.com/SocialGouv/actions/commit/4eec90789a18b7a31304c2325620c1e181438a26))
+
+## [1.8.1](https://github.com/SocialGouv/actions/compare/v1.8.0...v1.8.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* **yq:** do not rely on master for mikefarah/yq ([#47](https://github.com/SocialGouv/actions/issues/47)) ([a0e3450](https://github.com/SocialGouv/actions/commit/a0e34507f43c453203e1a38e0581bf268e5b71ba))
+
+# [1.8.0](https://github.com/SocialGouv/actions/compare/v1.7.2...v1.8.0) (2021-10-18)
+
+
+### Features
+
+* **release:** Add autodevops-release action ([#43](https://github.com/SocialGouv/actions/issues/43)) ([c1d31ab](https://github.com/SocialGouv/actions/commit/c1d31abb28f7bae24c5690c6bbe49ff457706700))
+
+## [1.7.2](https://github.com/SocialGouv/actions/compare/v1.7.1...v1.7.2) (2021-10-15)
+
+
+### Bug Fixes
+
+* Upgrade c-hive/gha-yarn-cache to v2 and use directory option ([30544dc](https://github.com/SocialGouv/actions/commit/30544dc8d2aa47957f17c02e4758f2d94fdd4de7))
+
+## [1.7.1](https://github.com/SocialGouv/actions/compare/v1.7.0...v1.7.1) (2021-10-15)
+
+
+### Bug Fixes
+
+* **restore-db:** run yarn cache in .k8s directory ([#38](https://github.com/SocialGouv/actions/issues/38)) ([798ef52](https://github.com/SocialGouv/actions/commit/798ef5249afa5f399f84b6e4973bbd4af02bd64f))
+
+# [1.7.0](https://github.com/SocialGouv/actions/compare/v1.6.7...v1.7.0) (2021-10-15)
+
+
+### Features
+
+* autodevops-deactivate ([#39](https://github.com/SocialGouv/actions/issues/39)) ([f653ac2](https://github.com/SocialGouv/actions/commit/f653ac22402e6a02c4d8e196b7be783614730959))
+
+## [1.6.7](https://github.com/SocialGouv/actions/compare/v1.6.6...v1.6.7) (2021-10-14)
+
+
+### Bug Fixes
+
+* Add rancher and base domain input to k8s-funeral ([c6e6638](https://github.com/SocialGouv/actions/commit/c6e663800eed6bb956fa8ee8d2971462e572eaa9))
+
 ## [1.6.6](https://github.com/SocialGouv/actions/compare/v1.6.5...v1.6.6) (2021-10-11)
 
 

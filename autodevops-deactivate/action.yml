@@ -1,0 +1,62 @@
+name: Deactivate
+description: "Delete review branch environment and database"
+inputs:
+  kube-config:
+    description: "The base64 of the kubeconfig"
+  github-token:
+    description: "GitHub Token as provided by secrets"
+    default: ${{ github.token }}
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install
+      shell: bash
+      run: |
+        yarn add @socialgouv/kosko-charts
+
+    # could be extracted in some external action
+    - name: Get k8s infos
+      id: k8s
+      shell: bash
+      run: |
+        RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+        BRANCH=$(node -e "console.log(require('@socialgouv/kosko-charts/utils/environmentSlug').generate('${RAW_BRANCH}'))")
+        PROJECT=${GITHUB_REPOSITORY##*/}
+        NAMESPACE=$(node -e "console.log(require('@socialgouv/kosko-charts/utils/environmentSlug').generate('${PROJECT}-${RAW_BRANCH}'))")
+        echo "::set-output name=namespace::$(echo ${NAMESPACE})"
+        echo "::set-output name=project::$(echo ${PROJECT})"
+        echo "::set-output name=branch::$(echo ${BRANCH})"
+
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir ~/.kube
+        echo "${{ inputs.kube-config }}" | base64 -d > ~/.kube/config
+
+    - name: Delete k8s environment
+      shell: bash
+      run: |
+        echo "kubectl delete ns ${{ steps.k8s.outputs.namespace }}"
+        kubectl delete ns ${{ steps.k8s.outputs.namespace }} || true
+        echo "🪦"
+
+    - name: Drop database
+      shell: bash
+      env:
+        SOCIALGOUV_BASE_DOMAIN: some-domain # mandatory to trigger GitHub environment in kosko-charts
+      run: |
+        PROJECT=${GITHUB_REPOSITORY#*/}
+        npx @socialgouv/azure-db drop --application ${PROJECT} --database autodevops_${{ steps.k8s.outputs.branch }} --user user_${{ steps.k8s.outputs.branch }}
+
+    - name: Mark environment as deactivated
+      uses: bobheadxi/deployments@v0.4.3
+      with:
+        step: deactivate-env
+        token: ${{ inputs.github-token }}
+        env: dev
+        desc: "Environment ${{ steps.k8s.outputs.namespace }} has been deactivated"
