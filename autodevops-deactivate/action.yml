@@ -14,20 +14,15 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install
-      shell: bash
-      run: |
-        yarn add @socialgouv/kosko-charts
-
     # could be extracted in some external action
     - name: Get k8s infos
       id: k8s
       shell: bash
       run: |
         RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-        BRANCH=$(node -e "console.log(require('@socialgouv/kosko-charts/utils/environmentSlug').generate('${RAW_BRANCH}'))")
+        BRANCH=$(npx @socialgouv/env-slug "${RAW_BRANCH}")
         PROJECT=${GITHUB_REPOSITORY##*/}
-        NAMESPACE=$(node -e "console.log(require('@socialgouv/kosko-charts/utils/environmentSlug').generate('${PROJECT}-${RAW_BRANCH}'))")
+        NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT}-${RAW_BRANCH}")
         echo "::set-output name=namespace::$(echo ${NAMESPACE})"
         echo "::set-output name=project::$(echo ${PROJECT})"
         echo "::set-output name=branch::$(echo ${BRANCH})"
