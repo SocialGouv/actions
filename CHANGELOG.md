@@ -1,3 +1,11 @@
+# [1.10.0](https://github.com/SocialGouv/actions/compare/v1.9.2...v1.10.0) (2021-11-23)
+
+
+### Features
+
+* **actions:** add create-db and create-db-secret ([#57](https://github.com/SocialGouv/actions/issues/57)) ([d395399](https://github.com/SocialGouv/actions/commit/d395399627192476506348b5b9397c4cbc3daac9))
+* **env-slug:** implement decoupled npx lib ([#58](https://github.com/SocialGouv/actions/issues/58)) ([3352f54](https://github.com/SocialGouv/actions/commit/3352f54a997892bf4edce6e30966968fc2ec05ad))
+
 ## [1.9.2](https://github.com/SocialGouv/actions/compare/v1.9.1...v1.9.2) (2021-11-15)
 
 
