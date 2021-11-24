@@ -16,8 +16,11 @@ outputs:
 runs:
   using: "composite"
   steps:
+
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        submodules: recursive
 
     - name: Download k8s namespace
       uses: actions/download-artifact@v2

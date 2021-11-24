@@ -25,8 +25,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        submodules: recursive
 
     - name: Create image labels and tags
       id: docker_meta

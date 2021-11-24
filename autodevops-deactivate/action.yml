@@ -11,8 +11,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        submodules: recursive
 
     # could be extracted in some external action
     - name: Get k8s infos

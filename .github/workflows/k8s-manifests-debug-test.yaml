@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     name: k8s-manifests-debug tests
     steps:
+
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - id: manifests-debug
         name: "⛑️ Debug Manifests ⛑️ "

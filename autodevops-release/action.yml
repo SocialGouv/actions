@@ -20,6 +20,7 @@ runs:
     uses: actions/checkout@v2
     with:
       fetch-depth: 0
+      submodules: recursive
       persist-credentials: false
 
   - name: Semantic Release

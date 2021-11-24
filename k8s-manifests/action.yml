@@ -16,6 +16,8 @@ runs:
 
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Load review environment variables
         shell: bash

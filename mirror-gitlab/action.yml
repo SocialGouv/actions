@@ -13,15 +13,19 @@ outputs: {}
 runs:
   using: "composite"
   steps:
+
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        submodules: recursive
+
     - name: Set ${{ inputs.remote }} remote
       shell: bash
       run: |
         git config --global user.name 'SocialGroovyBot'
         git config --global user.email 'contact@fabrique.social.gouv.fr'
         git remote add ${{ inputs.remote }} https://github:${{ inputs.token }}@${{ inputs.remote }}/${{ inputs.project }}.git
+
     - name: Push
       shell: bash
       run: |

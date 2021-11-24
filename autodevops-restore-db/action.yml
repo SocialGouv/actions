@@ -11,8 +11,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        submodules: recursive
 
     - name: Get project and namespace names
       shell: bash
