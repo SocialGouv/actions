@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/SocialGouv/actions/compare/v1.10.0...v1.10.1) (2021-11-24)
+
+
+### Bug Fixes
+
+* **autodevops:** Add dockerbuildargs to autodevops simple action ([e09f0e3](https://github.com/SocialGouv/actions/commit/e09f0e3e3253b609050eac345b7eea2e6cd344f9))
+
 # [1.10.0](https://github.com/SocialGouv/actions/compare/v1.9.2...v1.10.0) (2021-11-23)
 
 
