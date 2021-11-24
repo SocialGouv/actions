@@ -7,6 +7,8 @@ inputs:
     description: "The image registry path"
   dockerfile:
     description: "The docker file path"
+  dockerbuildargs:
+    description: "The docker build arguments"
   token:
     description: "The GHCR authentication token"
   kubeconfig:
@@ -35,6 +37,8 @@ runs:
       project: ${{ inputs.project }}
       imageName: ${{ inputs.imageName }}
       dockerfile: ${{ inputs.dockerfile }}
+      environment:  ${{ inputs.environment }}
+      dockerbuildargs: ${{ inputs.dockerbuildargs }}
 
   - name: Use autodevops manifests generation
     uses: SocialGouv/actions/autodevops-manifests@master
