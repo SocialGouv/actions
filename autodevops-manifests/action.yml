@@ -60,10 +60,12 @@ runs:
         yarn --cwd /tmp/autodevops
 
     # For example
-    - name: Run kosko tests
+    - name: Run kosko manifests tests
       shell: bash
       run: |
-        yarn --cwd /tmp/autodevops test
+        if [ -f ".socialgouv/__tests__" ]; then
+          yarn --cwd /tmp/autodevops test
+        fi
 
     - name: Generate k8s namespace
       shell: bash
