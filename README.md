@@ -132,6 +132,9 @@ on:
 
 jobs:
   release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
     - uses: SocialGouv/actions/autodevops-release@v1
       with:
         github-token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
