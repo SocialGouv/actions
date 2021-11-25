@@ -33,9 +33,10 @@ runs:
     - name: Copy application k8s config to autodevops
       shell: bash
       run: |
+        DEST="/tmp/autodevops"
         if [ -d ".socialgouv/environments" ]; then
-          echo "$ cp -r .socialgouv/environments /tmp/autodevops/environments"
-          cp -r .socialgouv/environments /tmp/autodevops/environments
+          echo "$ cp -r .socialgouv/environments $DEST/environments"
+          cp -r .socialgouv/environments $DEST/environments
         fi
         if [ -d ".socialgouv/components" ]; then
           # use userland components instead of autodevops ones
