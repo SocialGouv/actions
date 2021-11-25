@@ -31,11 +31,6 @@ runs:
         rm -rf /tmp/autodevops/environments
 
     - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
-      with:
-        directory: /tmp/autodevops
-
-    - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v2
       with:
         directory: /tmp/autodevops
@@ -57,6 +52,10 @@ runs:
         if [ -f ".socialgouv/config.json" ]; then
           echo "$ cp .socialgouv/config.json $DEST/"
           cp .socialgouv/config.json $DEST/
+        fi
+        if [ -f ".socialgouv/kosko.toml" ]; then
+          echo "$ cp .socialgouv/kosko.toml $DEST/"
+          cp .socialgouv/kosko.toml $DEST/
         fi
 
     - name: Install dependencies
