@@ -63,7 +63,8 @@ runs:
     - name: Run kosko manifests tests
       shell: bash
       run: |
-        if [ -f ".socialgouv/__tests__" ]; then
+        if [ -d ".socialgouv/__tests__" ]; then
+          echo "Run kosko manifests tests"
           yarn --cwd /tmp/autodevops test
         fi
 
