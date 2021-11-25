@@ -123,11 +123,20 @@ Export main URL as `steps.deploy.outputs.url`
 - Trigger semantic release run
 
 ```yaml
-- uses: SocialGouv/actions/autodevops-release@v1
-  with:
-    github-token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
-    author-name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
-    author-email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master, main, alpha, beta, next]
+
+jobs:
+  release:
+    - uses: SocialGouv/actions/autodevops-release@v1
+      with:
+        github-token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
+        author-name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+        author-email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
 ```
 
 ## `socialgouv/actions/k8s-restore-db`
