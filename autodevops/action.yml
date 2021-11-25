@@ -31,7 +31,7 @@ runs:
   steps:
 
   - name: Use autodevops build and register
-    uses: SocialGouv/actions/autodevops-build-register@master
+    uses: SocialGouv/actions/autodevops-build-register@submodules
     with:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
@@ -41,7 +41,7 @@ runs:
       dockerbuildargs: ${{ inputs.dockerbuildargs }}
 
   - name: Use autodevops manifests generation
-    uses: SocialGouv/actions/autodevops-manifests@master
+    uses: SocialGouv/actions/autodevops-manifests@submodules
     with:
       rancherId: ${{ inputs.rancherId }}
       environment: ${{ inputs.environment }}
@@ -50,7 +50,7 @@ runs:
 
   - name: Use autodevops deployment
     id: deploy
-    uses: SocialGouv/actions/autodevops-deploy@master
+    uses: SocialGouv/actions/autodevops-deploy@submodules
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}
