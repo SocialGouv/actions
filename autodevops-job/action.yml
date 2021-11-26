@@ -31,6 +31,10 @@ runs:
       name: manifests-dev.yml
       path: manifests-dev.yml
 
+  - name: debug
+    run: |
+      cat manifests-dev.yml
+      
 #  - name: Create kubernetes config
 #    shell: bash
 #    run: |
