@@ -4,7 +4,7 @@ inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
     required: true
-  kubeconfig:
+  kube-config:
     description: "The Kubernetes authentication configuration"
   rancherId:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
