@@ -22,7 +22,7 @@ runs:
   - name: Generate manifests
     uses: socialgouv/actions/autodevops-manifests@manifests-kosko-args
     with:
-      environment: dev
+      environment: ${{ inputs.environment }}
       kosko-args: ${{ inputs.kosko-args }}
       rancherId: ${{ inputs.rancherId }}
       socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
@@ -30,21 +30,19 @@ runs:
   - name: Archive manifests
     uses: actions/upload-artifact@v2
     with:
-      name: manifests-dev.yml
-      path: manifests-dev.yml
+      name: manifests-${{ inputs.environment }}.yml
+      path: manifests-${{ inputs.environment }}.yml
 
   - name: debug
     shell: bash
     run: |
-      pwd
-      ls
-      cat manifests-dev.yml
+      cat manifests-${{ inputs.environment }}.yml
 
   - name: Get namespace name
     uses: mikefarah/yq@v4.13.4
     id: namespace
     with:
-      cmd: yq eval '.metadata.name' namespace-dev.yml
+      cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
 
   - name: Create kubernetes config
     shell: bash
@@ -56,5 +54,5 @@ runs:
   - name: Run Job
     shell: bash
     run: |
-      kubectl delete -f manifests-dev.yml --namespace ${{ steps.namespace.outputs.result }} || true
-      kubectl apply -f manifests-dev.yml --namespace ${{ steps.namespace.outputs.result }}
+      kubectl delete -f manifests-${{ inputs.environment }}.yml --namespace ${{ steps.namespace.outputs.result }} || true
+      kubectl apply -f manifests-${{ inputs.environment }}.yml --namespace ${{ steps.namespace.outputs.result }}
