@@ -19,6 +19,8 @@ jobs:
       
       - run: |
          ls
+         mkdir -p .socialgouv
+         echo '{"name": "example", "type": "app", "restoreDb": true}' > .socialgouv/config.json
 
       - id: autodevops-job
         uses: ./autodevops-job
