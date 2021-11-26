@@ -1,5 +1,6 @@
 
-   
+name: Test autodevops-job
+
 on:
   workflow_dispatch:
   push:
@@ -8,6 +9,7 @@ on:
   pull_request:
     paths:
       - 'autodevops-job/**'
+      
 jobs:
   autodevops-job:
     runs-on: ubuntu-latest
@@ -17,6 +19,8 @@ jobs:
       
       - run: |
          ls
+         mkdir .socialgouv
+         echo '{"name":"app","type":"app"}' > .socialgouv/config.json
 
       - id: autodevops-job
         uses: ./autodevops-job
