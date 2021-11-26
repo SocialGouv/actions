@@ -39,21 +39,16 @@ runs:
           cp -r .socialgouv/environments $DEST/environments
         fi
         if [ -d ".socialgouv/components" ]; then
-          # use userland components instead of autodevops ones
-          echo "$ rm -rf $DEST/components;"
+          # use userland `.socialgouv` folder instead of autodevops template when `components` folder is found
+          echo "rm -rf $DEST/components"
           rm -rf $DEST/components
           echo "$ cp -r .socialgouv/* $DEST/"
           cp -r .socialgouv/* $DEST/
         fi
-        if [ -f ".socialgouv/config.json" ]; then
-          echo "$ cp .socialgouv/config.json $DEST/"
-          cp .socialgouv/config.json $DEST/
+        if [ -f ".socialgouv/config.json" ]; then	
+          echo "$ cp .socialgouv/config.json $DEST/"	
+          cp .socialgouv/config.json $DEST/	
         fi
-        if [ -f ".socialgouv/kosko.toml" ]; then
-          echo "$ cp .socialgouv/kosko.toml $DEST/"
-          cp .socialgouv/kosko.toml $DEST/
-        fi
-
     - name: Install dependencies
       shell: bash
       run: |
@@ -65,6 +60,8 @@ runs:
       run: |
         if [ -d ".socialgouv/__tests__" ]; then
           echo "Run kosko manifests tests"
+          echo "Copy tests"
+          cp -r .socialgouv/__tests__ $DEST/__tests__
           yarn --cwd /tmp/autodevops test
         fi
 
