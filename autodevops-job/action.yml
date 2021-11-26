@@ -36,6 +36,8 @@ runs:
   - name: debug
     shell: debug
     run: |
+      pwd
+      ls
       cat manifests-dev.yml
 
   - name: Get namespace name
