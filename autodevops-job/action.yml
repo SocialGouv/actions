@@ -38,16 +38,21 @@ runs:
     run: |
       cat manifests-dev.yml
 
+  - name: Get namespace name
+    uses: mikefarah/yq@v4.13.4
+    id: namespace
+    with:
+      cmd: yq eval '.metadata.name' namespace-dev.yml
 
-#  - name: Create kubernetes config
-#    shell: bash
-#    run: |
-#      mkdir ~/.kube
-#      touch ~/.kube/config
-#      echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+  - name: Create kubernetes config
+    shell: bash
+    run: |
+      mkdir ~/.kube
+      touch ~/.kube/config
+      echo ${{ inputs.kube-config }} | base64 -d > ~/.kube/config
 
-#  - name: Seed database
-#    shell: bash
-#    run: |
-#      kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
-#      kubectl apply -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }}
+  - name: Run Job
+    shell: bash
+    run: |
+      kubectl delete -f manifests-dev.yml --namespace ${{ steps.namespace.outputs.result }} || true
+      kubectl apply -f manifests-dev.yml --namespace ${{ steps.namespace.outputs.result }}
