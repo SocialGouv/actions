@@ -44,13 +44,13 @@ runs:
           # use autodevops kosko-charts template
           echo "$ cp .socialgouv/config.json $DEST/"	
           cp .socialgouv/config.json $DEST/	
-        else if [ -d ".socialgouv/components" ]; then
+        elif [ -d ".socialgouv/components" ]; then
           # use userland `.socialgouv` folder instead of autodevops template when `components` folder is found
           echo "rm -rf $DEST/components"
           rm -rf $DEST/components
           echo "$ cp -r .socialgouv/* $DEST/"
           cp -r .socialgouv/* $DEST/
-        else;
+        else
           echo "no socialgouv config.json or components found :/"
           exit 1
         fi
