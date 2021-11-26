@@ -1,0 +1,45 @@
+name: "Run job"
+description: "Generate manifests and deploy to kube"
+inputs:
+  environment:
+    description: "The deployment environment (dev | preprod | prod)"
+    required: true
+  kubeconfig:
+    description: "The Kubernetes authentication configuration"
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  kosko-args:
+    description: "Specify which kosko components to use"
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Generate manifests
+    uses: socialgouv/autodevops-manifests@manifests-kosko-args
+    with:
+      environment: dev
+      kosko-args: ${{ inputs.kosko-args }}
+      rancherId: ${{ inputs.rancherId }}
+      socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
+      
+  - name: Archive manifests
+    uses: actions/upload-artifact@v2
+    with:
+      name: manifests-dev.yml
+      path: manifests-dev.yml
+
+#  - name: Create kubernetes config
+#    shell: bash
+#    run: |
+#      mkdir ~/.kube
+#      touch ~/.kube/config
+#      echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+
+#  - name: Seed database
+#    shell: bash
+#    run: |
+#      kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
+#      kubectl apply -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }}
