@@ -34,20 +34,25 @@ runs:
       shell: bash
       run: |
         DEST="/tmp/autodevops"
+        
         if [ -d ".socialgouv/environments" ]; then
           echo "$ cp -r .socialgouv/environments $DEST/environments"
           cp -r .socialgouv/environments $DEST/environments
         fi
-        if [ -d ".socialgouv/components" ]; then
+
+        if [ -f ".socialgouv/config.json" ]; then	
+          # use autodevops kosko-charts template
+          echo "$ cp .socialgouv/config.json $DEST/"	
+          cp .socialgouv/config.json $DEST/	
+        elif [ -d ".socialgouv/components" ]; then
           # use userland `.socialgouv` folder instead of autodevops template when `components` folder is found
           echo "rm -rf $DEST/components"
           rm -rf $DEST/components
           echo "$ cp -r .socialgouv/* $DEST/"
           cp -r .socialgouv/* $DEST/
-        fi
-        if [ -f ".socialgouv/config.json" ]; then	
-          echo "$ cp .socialgouv/config.json $DEST/"	
-          cp .socialgouv/config.json $DEST/	
+        else;
+          echo "no socialgouv config.json or components found :/"
+          exit 1
         fi
     - name: Install dependencies
       shell: bash
