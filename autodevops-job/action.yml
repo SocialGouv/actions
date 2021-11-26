@@ -15,6 +15,7 @@ inputs:
   kosko-args:
     description: "Specify which kosko components to use"
 
+
 runs:
   using: "composite"
   steps:
