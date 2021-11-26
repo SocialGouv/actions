@@ -32,6 +32,7 @@ runs:
       path: manifests-dev.yml
 
   - name: debug
+    shell: debug
     run: |
       cat manifests-dev.yml
       
