@@ -18,7 +18,7 @@ runs:
   steps:
 
   - name: Generate manifests
-    uses: socialgouv/autodevops-manifests@manifests-kosko-args
+    uses: socialgouv/actions/autodevops-manifests@manifests-kosko-args
     with:
       environment: dev
       kosko-args: ${{ inputs.kosko-args }}
