@@ -1,0 +1,31 @@
+
+   
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'autodevops-job/**'
+  pull_request:
+    paths:
+      - 'autodevops-job/**'
+jobs:
+  autodevops-job:
+    runs-on: ubuntu-latest
+    name: k8s-manifests-debug tests
+    steps:
+      - uses: actions/checkout@v2
+      
+      - run: |
+        ls
+
+      - id: autodevops-job
+        uses: ./autodevops-job
+        with: 
+          environment: dev
+          kube-config: blablabla
+          rancherId: some-project-id
+          socialgouvBaseDomain: test
+          kosko-args: jobs/restore
+          
+      - run: |
+        ls
