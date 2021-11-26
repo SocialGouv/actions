@@ -37,7 +37,8 @@ runs:
     shell: debug
     run: |
       cat manifests-dev.yml
-      
+
+
 #  - name: Create kubernetes config
 #    shell: bash
 #    run: |
