@@ -54,6 +54,10 @@ runs:
           echo "no socialgouv config.json or components found :/"
           exit 1
         fi
+        if [ -d ".socialgouv/__tests__" ]; then
+          echo "Copy tests"
+          cp -r .socialgouv/__tests__ $DEST/__tests__
+        fi
     - name: Install dependencies
       shell: bash
       run: |
@@ -65,8 +69,6 @@ runs:
       run: |
         if [ -d ".socialgouv/__tests__" ]; then
           echo "Run kosko manifests tests"
-          echo "Copy tests"
-          cp -r .socialgouv/__tests__ $DEST/__tests__
           yarn --cwd /tmp/autodevops test
         fi
 
