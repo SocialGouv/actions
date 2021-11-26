@@ -34,7 +34,7 @@ runs:
       path: manifests-dev.yml
 
   - name: debug
-    shell: debug
+    shell: bash
     run: |
       pwd
       ls
