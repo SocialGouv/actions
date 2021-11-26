@@ -77,7 +77,6 @@ runs:
         step: start
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
-        env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
         envs: ${{ steps.array-url.outputs.url }}
 
     - name: Install Kapp

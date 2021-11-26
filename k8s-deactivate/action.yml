@@ -74,6 +74,25 @@ runs:
         mkdir ~/.kube
         echo "${{ inputs.kube-config }}" | base64 -d > ~/.kube/config
 
+    - name: Define environment URL
+      id: environment-url
+      shell: bash
+      run: |
+        HOST=$(cat manifests-dev.yml | yq eval-all '.spec.rules[] .host' -)
+        ONE_LINE_HOST=$(echo $HOST | xargs echo -n)
+        echo $ONE_LINE_HOST
+        echo "::set-output name=url::$ONE_LINE_HOST"
+
+    - name: Format the URL
+      uses: actions/github-script@v5
+      id: array-url
+      env:
+        url: ${{ steps.environment-url.outputs.url }}
+      with:
+        script: |
+          const urlArray = JSON.stringify(process.env.url.split(" --- ").map(v => v.replace(/ /g, "")).map(v => `https://${v}`));
+          process.stdout.write(`::set-output name=url::${urlArray}`);
+
     - name: Delete k8s environment
       shell: bash
       run: |
@@ -86,5 +105,5 @@ runs:
       with:
         step: deactivate-env
         token: ${{ inputs.github-token }}
-        env: ${{ steps.namespace.outputs.result }}
+        envs: ${{ steps.array-url.outputs.url }}
         desc: "Environment ${{ env.namespace }} has been deactivated"
