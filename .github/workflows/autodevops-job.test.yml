@@ -27,7 +27,7 @@ jobs:
           kube-config: blablabla
           rancherId: some-project-id
           socialgouvBaseDomain: test
-          kosko-args: jobs/restore
+          kosko-args: jobs/restore-db
           
       - run: |
           ls
