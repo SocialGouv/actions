@@ -1,5 +1,7 @@
 name: "Run job"
+
 description: "Generate manifests and deploy to kube"
+
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
