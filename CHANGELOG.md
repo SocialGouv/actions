@@ -1,3 +1,10 @@
+## [1.14.6](https://github.com/SocialGouv/actions/compare/v1.14.5...v1.14.6) (2021-11-29)
+
+
+### Bug Fixes
+
+* **input:** environment ([#69](https://github.com/SocialGouv/actions/issues/69)) ([4c2d260](https://github.com/SocialGouv/actions/commit/4c2d260e344240f778ae3d3239dee5a85f4d574e))
+
 ## [1.14.5](https://github.com/SocialGouv/actions/compare/v1.14.4...v1.14.5) (2021-11-29)
 
 
