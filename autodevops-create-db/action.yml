@@ -1,5 +1,5 @@
-name: "Restore database"
-description: "Restore review branch databse"
+name: "Create database"
+description: "Create database and user using random secure"
 inputs:
   kubeconfig:
     description: "The Kubernetes authentication configuration"
