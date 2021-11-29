@@ -1,3 +1,10 @@
+## [1.14.9](https://github.com/SocialGouv/actions/compare/v1.14.8...v1.14.9) (2021-11-29)
+
+
+### Bug Fixes
+
+* **k8s-wait-job:** embed it ([#72](https://github.com/SocialGouv/actions/issues/72)) ([6ec11a7](https://github.com/SocialGouv/actions/commit/6ec11a7416b738013a7c50d0525b1c1d4a47e4d0))
+
 ## [1.14.8](https://github.com/SocialGouv/actions/compare/v1.14.7...v1.14.8) (2021-11-29)
 
 
