@@ -34,11 +34,6 @@ runs:
       name: manifests-${{ inputs.environment }}.yml
       path: manifests-${{ inputs.environment }}.yml
 
-  - name: debug
-    shell: bash
-    run: |
-      cat manifests-${{ inputs.environment }}.yml
-
   - name: Get namespace name
     uses: mikefarah/yq@v4.13.4
     id: namespace
