@@ -28,11 +28,6 @@ runs:
         npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
         yarn --cwd /tmp/autodevops
 
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v2
-      with:
-        directory: /tmp/autodevops
-
     - name: Copy application k8s config to autodevops
       shell: bash
       run: |
