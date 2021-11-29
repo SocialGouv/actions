@@ -99,11 +99,32 @@ runs:
       run: |
         kubectl delete --namespace=${{ steps.namespace.outputs.result }} job/create-db-user || true
         kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
-    
+
     - name: Wait for job to complete
-      uses: SocialGouv/actions/autodevops-wait-job@devthejo/create-db
-      with:
-        namespace: ${{ steps.namespace.outputs.result }}
-        jobName: create-db
+      shell: sh
+      run: |
+        JOB="job/create-db"
+        retval_complete=1
+        retval_failed=1
+        while [[ $retval_complete -ne 0 ]] && [[ $retval_failed -ne 0 ]]; do
+          sleep 2
+          output=$(timeout 2s kubectl -n ${{ steps.namespace.outputs.result }} wait --for=condition=complete $JOB --timeout=0 2>&1)
+          retval_complete=$?
+          output=$(timeout 2s kubectl -n ${{ steps.namespace.outputs.result }} wait --for=condition=failed $JOB --timeout=0 2>&1)
+          retval_failed=$?
+          wait
+        done
+        if [ $retval_failed -eq 0 ]; then
+          echo "$JOB failed"
+          exit 1
+        else
+          echo "$JOB complete"
+        fi
+
+    # - name: Wait for job to complete
+    #   uses: SocialGouv/actions/autodevops-wait-job@devthejo/create-db
+    #   with:
+    #     namespace: ${{ steps.namespace.outputs.result }}
+    #     jobName: create-db
 
 
