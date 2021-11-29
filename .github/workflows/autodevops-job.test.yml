@@ -19,8 +19,8 @@ jobs:
       
       - run: |
          ls
-         mkdir -p .socialgouv
-         echo '{"name": "example", "type": "app", "restoreDb": true}' > .socialgouv/config.json
+         mkdir -p ${{ github.workspace }}/.socialgouv
+         echo '{"name": "example", "type": "app", "restoreDb": true}' > ${{ github.workspace }}/.socialgouv/config.json
 
       - id: autodevops-job
         uses: ./autodevops-job
