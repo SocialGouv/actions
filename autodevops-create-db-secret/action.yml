@@ -73,6 +73,11 @@ runs:
         touch ~/.kube/config
         echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
 
+    - name: Create namespace if doesn't exists
+      shell: bash
+      run: kubectl apply -f namespace-${{ inputs.environment }}.yml
+
+
     - name: Create database secret if doesn't exists
       shell: bash
       run: kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db-secret.yml
