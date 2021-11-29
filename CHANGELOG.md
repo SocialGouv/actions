@@ -1,3 +1,10 @@
+## [1.14.7](https://github.com/SocialGouv/actions/compare/v1.14.6...v1.14.7) (2021-11-29)
+
+
+### Bug Fixes
+
+* **input:** environment relay ([#70](https://github.com/SocialGouv/actions/issues/70)) ([45e5ac2](https://github.com/SocialGouv/actions/commit/45e5ac259301551686c939693c6ffb96383e70f8))
+
 ## [1.14.6](https://github.com/SocialGouv/actions/compare/v1.14.5...v1.14.6) (2021-11-29)
 
 
