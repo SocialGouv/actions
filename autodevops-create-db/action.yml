@@ -13,13 +13,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # - name: Create DB secret
-    #   uses: socialgouv/actions/autodevops-create-db-secret@v1
-    #   with:
-    #     kubeconfig: ${{ inputs.kubeconfig }}
-    #     rancherId: ${{ inputs.rancherId }}
-    #     socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
-    #     environment: ${{ inputs.environment }}
 
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -43,7 +36,6 @@ runs:
       with:
         directory: /tmp/autodevops
 
-
     - name: Generate k8s namespace
       shell: bash
       run: |
@@ -59,7 +51,71 @@ runs:
       id: namespace
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
+    
+    - name: Extract BRANCH_NAME and ENV_SLUG
+      shell: bash
+      run: |
+        echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
+        echo "::set-env name=ENV_SLUG::$(echo npx @socialgouv/env-slug $BRANCH_NAME)"    
+    
+    - name: SET DB_SECRET_NAME
+      shell: bash
+      run: |
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          echo "::set-env name=DB_SECRET_NAME::azure-pg-user"
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          echo "::set-env name=DB_SECRET_NAME::azure-pg-user-preprod"
+        else
+          echo "::set-env name=DB_SECRET_NAME::azure-pg-user-$ENV_SLUG"
+        fi
 
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir -p ~/.kube
+        touch ~/.kube/config
+        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+
+    - name: Create secret if not exists
+      shell: bash
+      run: |
+        ADMIN_PG_SECRET=azure-pg-admin-user
+
+        K8S_NS=${{ steps.namespace.outputs.result }}
+        if [ -n "$(kubectl -n $K8S_NS get secret $DB_SECRET_NAME 2>/dev/null)" ]; then
+          echo "PGPASSWORD secret named '$DB_SECRET_NAME' already exists in namespace '$K8S_NS'"
+          exit 0
+        fi
+        
+        PGPASSWORD=$(openssl rand -base64 32 | sed "s/[^[:alnum:]-]//g")
+
+        PGHOST=$(kubectl -n $K8S_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGHOST}" | base64 --decode)
+
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          PGDATABASE=$SOCIALGOUV_PRODUCTION_NAMESPACE
+          PGUSER=$SOCIALGOUV_PRODUCTION_NAMESPACE
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          PGDATABASE="preprod"
+          PGUSER="preprod@${PGHOST}"
+        else
+          PGDATABASE="autodevops_${ENV_SLUG}"
+          PGUSER="user_${ENV_SLUG}@${PGHOST}"
+        fi
+        
+        PGSSLMODE=require
+        DATABASE_URL=postgresql://${PGUSER/@/%40}:${PGPASSWORD/@/%40}@${PGHOST}/${PGDATABASE}?sslmode=${PGSSLMODE}
+
+        kubectl -n $K8S_NS create secret generic $DB_SECRET_NAME \
+          --from-literal=PGPASSWORD=$PGPASSWORD \
+          --from-literal=PGSSLMODE=$PGSSLMODE \
+          --from-literal=HASURA_GRAPHQL_DATABASE_URL=$DATABASE_URL \
+          --from-literal=DATABASE_URL=$DATABASE_URL \
+          --from-literal=PGDATABASE=$PGDATABASE \
+          --from-literal=PGHOST=$PGHOST \
+          --from-literal=PGUSER=$PGUSER
+
+        echo "PGPASSWORD secret named '$DB_SECRET_NAME' created in namespace '$K8S_NS'"
+    
     - name: Generate create-db manifests
       shell: bash
       run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
@@ -73,26 +129,6 @@ runs:
       with:
         name: create-db.yml
         path: create-db.yml
-
-    - name: Create kubernetes config
-      shell: bash
-      run: |
-        mkdir -p ~/.kube
-        touch ~/.kube/config
-        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
-
-    - name: Create secret if not exists
-      shell: bash
-      run: |
-        K8S_NS=${{ steps.namespace.outputs.result }}
-        PGPASSWORD_SECRET_NAME=pgpassword
-        if [ -n "$(kubectl -n $K8S_NS get secret $PGPASSWORD_SECRET_NAME 2>/dev/null)" ]; then
-          echo "PGPASSWORD secret named '$PGPASSWORD_SECRET_NAME' already exists in namespace '$K8S_NS'"
-          exit 0
-        fi
-        PGPASSWORD=$(openssl rand -base64 32 | sed "s/[^[:alnum:]-]//g")
-        kubectl -n $K8S_NS create secret generic $PGPASSWORD_SECRET_NAME --from-literal=PGPASSWORD=$PGPASSWORD
-        echo "PGPASSWORD secret named '$PGPASSWORD_SECRET_NAME' created in namespace '$K8S_NS'"
 
     - name: Create database and user
       shell: bash
@@ -120,11 +156,4 @@ runs:
         else
           echo "$JOB complete"
         fi
-
-    # - name: Wait for job to complete
-    #   uses: SocialGouv/actions/autodevops-wait-job@devthejo/create-db
-    #   with:
-    #     namespace: ${{ steps.namespace.outputs.result }}
-    #     jobName: create-db
-
 
