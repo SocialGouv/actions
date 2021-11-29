@@ -11,6 +11,14 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Create DB secret
+      uses: socialgouv/actions/create-db-secret@v1
+      with:
+        kubeconfig: ${{ inputs.kubeconfig }}
+        rancherId: ${{ inputs.rancherId }}
+        socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
+
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
