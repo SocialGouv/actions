@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/SocialGouv/actions/compare/v1.13.0...v1.14.0) (2021-11-29)
+
+
+### Features
+
+* **require-secret:** in create db ([#63](https://github.com/SocialGouv/actions/issues/63)) ([8cf5c38](https://github.com/SocialGouv/actions/commit/8cf5c3882c8735a31ab92f92a131012d60a1e28c))
+
 # [1.13.0](https://github.com/SocialGouv/actions/compare/v1.12.0...v1.13.0) (2021-11-29)
 
 
