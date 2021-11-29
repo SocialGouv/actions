@@ -66,6 +66,8 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
     dockercontext: "/path/to/content" # optional
     dockerbuildargs: | # optional
       NODE_ENV=production
+    environment: "preprod" # optional
+
 ```
 
 ## `socialgouv/actions/k8s-manifests`
