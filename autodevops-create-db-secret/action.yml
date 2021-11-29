@@ -74,4 +74,11 @@ runs:
 
     - name: Create database secret if doesn't exists
       shell: bash
-      run: kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db-secret.yml
+      run: |
+        kubectl delete --namespace=${{ steps.namespace.outputs.result }} job/create-db-secret || true
+        kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db-secret.yml
+
+    - name: Wait for job to complete
+      runs-on: ghcr.io/socialgouv/docker/kubectl
+      shell: bash
+      run: k8s-wait-job ${{ steps.namespace.outputs.result }} create-db-secret

@@ -83,4 +83,11 @@ runs:
 
     - name: Create database and user
       shell: bash
-      run: kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
+      run: |
+        kubectl delete --namespace=${{ steps.namespace.outputs.result }} job/create-db-user || true
+        kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
+    
+    - name: Wait for job to complete
+      runs-on: ghcr.io/socialgouv/docker/kubectl
+      shell: bash
+      run: k8s-wait-job ${{ steps.namespace.outputs.result }} create-db-user
