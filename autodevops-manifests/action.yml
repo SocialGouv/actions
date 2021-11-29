@@ -35,11 +35,7 @@ runs:
       shell: bash
       run: |
         DEST="/tmp/autodevops"
-        
-        ls
-        
-        ls .socialgouv
-        
+
         if [ -d ".socialgouv/environments" ]; then
           echo "$ cp -r .socialgouv/environments $DEST/environments"
           cp -r .socialgouv/environments $DEST/environments
