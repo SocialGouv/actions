@@ -24,27 +24,53 @@ runs:
           cat ".github/${{ inputs.environment }}.env" >> $GITHUB_ENV
         fi
 
-    - name: Install kosko-charts autodevops
+    - name: Degit autodevops template
       shell: bash
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
         rm -rf /tmp/autodevops/environments
-        yarn --cwd /tmp/autodevops
-
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v2
-      with:
-        directory: /tmp/autodevops
 
     - name: Copy application k8s config to autodevops
       shell: bash
       run: |
+        DEST="/tmp/autodevops"
+        
         if [ -d ".socialgouv/environments" ]; then
-          echo "$ cp -r .socialgouv/environments /tmp/autodevops/environments"
-          cp -r .socialgouv/environments /tmp/autodevops/environments
+          echo "$ cp -r .socialgouv/environments $DEST/environments"
+          cp -r .socialgouv/environments $DEST/environments
         fi
-        echo "$ cp .socialgouv/config.json /tmp/autodevops/"
-        cp .socialgouv/config.json /tmp/autodevops/
+
+        if [ -f ".socialgouv/config.json" ]; then	
+          # use autodevops kosko-charts template
+          echo "$ cp .socialgouv/config.json $DEST/"	
+          cp .socialgouv/config.json $DEST/	
+        elif [ -d ".socialgouv/components" ]; then
+          # use userland `.socialgouv` folder instead of autodevops template when `components` folder is found
+          echo "rm -rf $DEST/components"
+          rm -rf $DEST/components
+          echo "$ cp -r .socialgouv/* $DEST/"
+          cp -r .socialgouv/* $DEST/
+        else
+          echo "no socialgouv config.json or components found :/"
+          exit 1
+        fi
+        if [ -d ".socialgouv/__tests__" ]; then
+          echo "Copy tests"
+          cp -r .socialgouv/__tests__ $DEST/__tests__
+        fi
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        yarn --cwd /tmp/autodevops
+
+    - name: Run kosko manifests tests
+      shell: bash
+      run: |
+        if [ -d ".socialgouv/__tests__" ]; then
+          echo "Run kosko manifests tests"
+          yarn --cwd /tmp/autodevops test
+        fi
 
     - name: Generate k8s namespace
       shell: bash
