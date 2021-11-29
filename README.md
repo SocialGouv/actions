@@ -91,6 +91,7 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
     productionNamespace: "alternative-namespace" # optional
     rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
     socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+    kosko-args: jobs/restore-db # optional, to generate only some components
 ```
 
 ## `socialgouv/actions/autodevops-deploy`
