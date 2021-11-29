@@ -75,7 +75,7 @@ runs:
     - name: Create kubernetes config
       shell: bash
       run: |
-        mkdir ~/.kube
+        mkdir -p ~/.kube
         touch ~/.kube/config
         echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
 
