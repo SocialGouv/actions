@@ -20,7 +20,6 @@ runs:
         if test -f ".github/dev.env"; then
           cat ".github/dev.env" >> $GITHUB_ENV
         fi
-        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
 
     - name: Install kosko-charts autodevops
       shell: bash
@@ -33,13 +32,6 @@ runs:
       with:
         directory: /tmp/autodevops
 
-    - name: Copy application k8s config to autodevops
-      shell: bash
-      run: |
-        if [ -f ".socialgouv/environments" ]; then
-          cp -r .socialgouv/environments /tmp/autodevops/
-        fi
-        cp .socialgouv/config.json /tmp/autodevops/
 
     - name: Generate k8s namespace
       shell: bash
