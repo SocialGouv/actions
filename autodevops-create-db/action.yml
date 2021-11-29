@@ -12,7 +12,7 @@ runs:
   using: "composite"
   steps:
     - name: Create DB secret
-      uses: socialgouv/actions/create-db-secret@v1
+      uses: socialgouv/actions/autodevops-create-db-secret@v1
       with:
         kubeconfig: ${{ inputs.kubeconfig }}
         rancherId: ${{ inputs.rancherId }}
