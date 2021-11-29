@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/SocialGouv/actions/compare/v1.12.0...v1.13.0) (2021-11-29)
+
+
+### Features
+
+* **create-db:** autodevops ([#62](https://github.com/SocialGouv/actions/issues/62)) ([c383d66](https://github.com/SocialGouv/actions/commit/c383d66a02381654378a1ed060aca4290db5245e)), closes [#discussion_r758436431](https://github.com/SocialGouv/actions/issues/discussion_r758436431)
+
 # [1.12.0](https://github.com/SocialGouv/actions/compare/v1.11.0...v1.12.0) (2021-11-29)
 
 
