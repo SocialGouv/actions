@@ -52,21 +52,20 @@ runs:
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
     
-    - name: Extract BRANCH_NAME and ENV_SLUG
+    - name: Set env
       shell: bash
       run: |
-        echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
-        echo "::set-env name=ENV_SLUG::$(echo npx @socialgouv/env-slug $BRANCH_NAME)"    
-    
-    - name: SET DB_SECRET_NAME
-      shell: bash
-      run: |
+        RAW_BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
+        BRANCH=$(echo npx @socialgouv/env-slug $RAW_BRANCH)
+        echo "RAW_BRANCH=$RAW_BRANCH" >> $GITHUB_ENV
+        echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          echo "::set-env name=DB_SECRET_NAME::azure-pg-user"
+          echo "DB_SECRET_NAME=azure-pg-user" >> $GITHUB_ENV
         elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
-          echo "::set-env name=DB_SECRET_NAME::azure-pg-user-preprod"
+          echo "DB_SECRET_NAME=azure-pg-user-preprod" >> $GITHUB_ENV
         else
-          echo "::set-env name=DB_SECRET_NAME::azure-pg-user-$ENV_SLUG"
+          echo "DB_SECRET_NAME=azure-pg-user-$BRANCH" >> $GITHUB_ENV
         fi
 
     - name: Create kubernetes config
@@ -98,8 +97,8 @@ runs:
           PGDATABASE="preprod"
           PGUSER="preprod@${PGHOST}"
         else
-          PGDATABASE="autodevops_${ENV_SLUG}"
-          PGUSER="user_${ENV_SLUG}@${PGHOST}"
+          PGDATABASE="autodevops_${BRANCH}"
+          PGUSER="user_${BRANCH}@${PGHOST}"
         fi
         
         PGSSLMODE=require
@@ -115,6 +114,7 @@ runs:
           --from-literal=PGUSER=$PGUSER
 
         echo "PGPASSWORD secret named '$DB_SECRET_NAME' created in namespace '$K8S_NS'"
+    
     
     - name: Generate create-db manifests
       shell: bash
