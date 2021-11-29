@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/SocialGouv/actions/compare/v1.14.1...v1.14.2) (2021-11-29)
+
+
+### Bug Fixes
+
+* **action-uses:** autodevops-create-db-secret ([#65](https://github.com/SocialGouv/actions/issues/65)) ([0576c2e](https://github.com/SocialGouv/actions/commit/0576c2ee19b6f7472d74657d473aa8592af115ca))
+
 ## [1.14.1](https://github.com/SocialGouv/actions/compare/v1.14.0...v1.14.1) (2021-11-29)
 
 
