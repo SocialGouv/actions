@@ -88,7 +88,7 @@ runs:
         kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
     
     - name: Wait for job to complete
-      shell: bash
+      shell: sh
       run: |
         # k8s-wait-job ${{ steps.namespace.outputs.result }} create-db-user
         K8S_NAMESPACE=${{ steps.namespace.outputs.result }}
