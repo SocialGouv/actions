@@ -1,3 +1,10 @@
+## [1.14.10](https://github.com/SocialGouv/actions/compare/v1.14.9...v1.14.10) (2021-11-29)
+
+
+### Bug Fixes
+
+* **k8s-wait-job:** use sh shell ([#73](https://github.com/SocialGouv/actions/issues/73)) ([a30237f](https://github.com/SocialGouv/actions/commit/a30237f4da018862113908474086e5f6aae77f91))
+
 ## [1.14.9](https://github.com/SocialGouv/actions/compare/v1.14.8...v1.14.9) (2021-11-29)
 
 
