@@ -19,7 +19,7 @@ runs:
         kubeconfig: ${{ inputs.kubeconfig }}
         rancherId: ${{ inputs.rancherId }}
         socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
-
+        environment: ${{ inputs.environment }}
 
     - name: Checkout repository
       uses: actions/checkout@v2
