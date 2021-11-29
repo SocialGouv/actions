@@ -1,0 +1,83 @@
+name: "Restore database"
+description: "Restore review branch databse"
+inputs:
+  kubeconfig:
+    description: "The Kubernetes authentication configuration"
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Get project and namespace names
+      shell: bash
+      run: |
+        if test -f ".github/dev.env"; then
+          cat ".github/dev.env" >> $GITHUB_ENV
+        fi
+        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+    - name: Install kosko-charts autodevops
+      shell: bash
+      run: |
+        npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+        yarn --cwd /tmp/autodevops
+
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v2
+      with:
+        directory: /tmp/autodevops
+
+    - name: Copy application k8s config to autodevops
+      shell: bash
+      run: |
+        if [ -f ".socialgouv/environments" ]; then
+          cp -r .socialgouv/environments /tmp/autodevops/
+        fi
+        cp .socialgouv/config.json /tmp/autodevops/
+
+    - name: Generate k8s namespace
+      shell: bash
+      run: |
+        yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-${ENVIRONMENT}.yml
+      env:
+        ENVIRONMENT: ${{ inputs.environment }}
+        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Get namespace name
+      uses: mikefarah/yq@v4.13.4
+      id: namespace
+      with:
+        cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
+
+    - name: Generate create-db manifests
+      shell: bash
+      run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
+      env:
+        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
+        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Archive create-db manifests
+      uses: actions/upload-artifact@v2
+      with:
+        name: create-db.yml
+        path: create-db.yml
+
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir ~/.kube
+        touch ~/.kube/config
+        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+
+    - name: Create database and user
+      shell: bash
+      run: kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
