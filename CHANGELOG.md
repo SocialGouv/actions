@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/SocialGouv/actions/compare/v1.10.1...v1.11.0) (2021-11-29)
+
+
+### Features
+
+* add autodevops-env ([#59](https://github.com/SocialGouv/actions/issues/59)) ([e0c08e7](https://github.com/SocialGouv/actions/commit/e0c08e76c562f666ed78716daf852c40ec1c0f7b))
+
 ## [1.10.1](https://github.com/SocialGouv/actions/compare/v1.10.0...v1.10.1) (2021-11-24)
 
 
