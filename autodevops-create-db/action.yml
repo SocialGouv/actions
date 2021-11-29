@@ -11,6 +11,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Create DB secret
+      uses: socialgouv/actions/create-db-secret@v1
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
