@@ -79,7 +79,7 @@ runs:
         kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db-secret.yml
 
     - name: Wait for job to complete
-      shell: bash
+      shell: sh
       run: |
         # k8s-wait-job ${{ steps.namespace.outputs.result }} create-db-secret
         K8S_NAMESPACE=${{ steps.namespace.outputs.result }}
