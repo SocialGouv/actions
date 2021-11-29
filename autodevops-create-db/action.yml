@@ -32,6 +32,7 @@ runs:
     - name: Install kosko-charts autodevops
       shell: bash
       run: |
+        rm -rf /tmp/autodevops
         npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
         yarn --cwd /tmp/autodevops
 
