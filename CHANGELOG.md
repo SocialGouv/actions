@@ -1,3 +1,10 @@
+## [1.14.4](https://github.com/SocialGouv/actions/compare/v1.14.3...v1.14.4) (2021-11-29)
+
+
+### Bug Fixes
+
+* **conflict:** mkdir -p .kube ([#67](https://github.com/SocialGouv/actions/issues/67)) ([0b5d53a](https://github.com/SocialGouv/actions/commit/0b5d53aaa34fde32450f954ce64a7e05c96f31fe))
+
 ## [1.14.3](https://github.com/SocialGouv/actions/compare/v1.14.2...v1.14.3) (2021-11-29)
 
 
