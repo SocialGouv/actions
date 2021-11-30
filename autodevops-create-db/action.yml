@@ -135,6 +135,7 @@ runs:
     - name: Wait for job to complete
       shell: bash
       run: |
+        set +e
         JOB="job/create-db"
         retval_complete=1
         retval_failed=1
