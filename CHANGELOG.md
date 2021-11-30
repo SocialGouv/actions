@@ -1,3 +1,10 @@
+## [1.14.11](https://github.com/SocialGouv/actions/compare/v1.14.10...v1.14.11) (2021-11-30)
+
+
+### Bug Fixes
+
+* **create-db:** create secret in action directly ([#74](https://github.com/SocialGouv/actions/issues/74)) ([b858546](https://github.com/SocialGouv/actions/commit/b858546cafe53d31582c88a0de61929e7af52b9c))
+
 ## [1.14.10](https://github.com/SocialGouv/actions/compare/v1.14.9...v1.14.10) (2021-11-29)
 
 
