@@ -136,7 +136,7 @@ runs:
       shell: bash
       run: |
         set +e
-        JOB="job/create-db"
+        JOB="job/create-db-user"
         retval_complete=1
         retval_failed=1
         while( [ $retval_complete -ne 0 ] && [ $retval_failed -ne 0 ] ); do
