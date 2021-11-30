@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/SocialGouv/actions/compare/v1.15.0...v1.15.1) (2021-11-30)
+
+
+### Bug Fixes
+
+* **creat-db:** create k8s ns if not exists fix var ([#76](https://github.com/SocialGouv/actions/issues/76)) ([c70757e](https://github.com/SocialGouv/actions/commit/c70757e3c8d0170e8065fb4c7ff2f9bd067df830))
+
 # [1.15.0](https://github.com/SocialGouv/actions/compare/v1.14.12...v1.15.0) (2021-11-30)
 
 
