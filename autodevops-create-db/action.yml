@@ -51,10 +51,18 @@ runs:
       id: namespace
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
-    
-    - name: Set env
+
+    - name: Create kubernetes config
       shell: bash
       run: |
+        mkdir -p ~/.kube
+        touch ~/.kube/config
+        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+
+    - name: Create secret if not exists
+      shell: bash
+      run: |
+        
         RAW_BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
         BRANCH=$(echo npx @socialgouv/env-slug $RAW_BRANCH)
         echo "RAW_BRANCH=$RAW_BRANCH" >> $GITHUB_ENV
@@ -67,17 +75,7 @@ runs:
         else
           echo "DB_SECRET_NAME=azure-pg-user-$BRANCH" >> $GITHUB_ENV
         fi
-
-    - name: Create kubernetes config
-      shell: bash
-      run: |
-        mkdir -p ~/.kube
-        touch ~/.kube/config
-        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
-
-    - name: Create secret if not exists
-      shell: bash
-      run: |
+        
         ADMIN_PG_SECRET=azure-pg-admin-user
 
         K8S_NS=${{ steps.namespace.outputs.result }}
