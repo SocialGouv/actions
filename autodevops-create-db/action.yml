@@ -63,7 +63,7 @@ runs:
       shell: bash
       run: |
         set -x
-        RAW_BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
+        RAW_BRANCH=$(echo ${GITHUB_REF#refs/heads/})
         BRANCH=$(npx @socialgouv/env-slug $RAW_BRANCH)
         
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
