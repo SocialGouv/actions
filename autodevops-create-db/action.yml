@@ -62,6 +62,7 @@ runs:
     - name: Create namespace if not exists
       shell: bash
       run: |
+        K8S_NS=${{ steps.namespace.outputs.result }}
         if [ ! -z "`kubectl get namespace $K8S_NS --no-headers --output=go-template={{.metadata.name}}`" ]; then
           exit 0
         fi
