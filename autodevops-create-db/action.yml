@@ -62,7 +62,7 @@ runs:
     - name: Create secret if not exists
       shell: bash
       run: |
-        
+        set -x
         RAW_BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
         BRANCH=$(npx @socialgouv/env-slug $RAW_BRANCH)
         
