@@ -133,12 +133,12 @@ runs:
         kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
 
     - name: Wait for job to complete
-      shell: sh
+      shell: bash
       run: |
         JOB="job/create-db"
         retval_complete=1
         retval_failed=1
-        while [ $retval_complete -ne 0 ] && [ $retval_failed -ne 0 ]; do
+        while( [ $retval_complete -ne 0 ] && [ $retval_failed -ne 0 ] ); do
           sleep 2
           output=$(timeout 2s kubectl -n ${{ steps.namespace.outputs.result }} wait --for=condition=complete $JOB --timeout=0 2>&1)
           retval_complete=$?
