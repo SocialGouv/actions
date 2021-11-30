@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/SocialGouv/actions/compare/v1.14.12...v1.15.0) (2021-11-30)
+
+
+### Features
+
+* **ns:** create k8s ns if not exists ([#75](https://github.com/SocialGouv/actions/issues/75)) ([87de8e0](https://github.com/SocialGouv/actions/commit/87de8e06fc995e715f73d7e3f71a95d7901294da))
+
 ## [1.14.12](https://github.com/SocialGouv/actions/compare/v1.14.11...v1.14.12) (2021-11-30)
 
 
