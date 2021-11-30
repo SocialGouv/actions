@@ -1,3 +1,10 @@
+## [1.15.2](https://github.com/SocialGouv/actions/compare/v1.15.1...v1.15.2) (2021-11-30)
+
+
+### Bug Fixes
+
+* **creat-db:** k8s ns with annotations ([#77](https://github.com/SocialGouv/actions/issues/77)) ([ebed2a9](https://github.com/SocialGouv/actions/commit/ebed2a9a65bc6932655c4f1f29f8eb36b2909785))
+
 ## [1.15.1](https://github.com/SocialGouv/actions/compare/v1.15.0...v1.15.1) (2021-11-30)
 
 
