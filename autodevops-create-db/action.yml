@@ -13,13 +13,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Create DB secret
-      uses: socialgouv/actions/autodevops-create-db-secret@v1
-      with:
-        kubeconfig: ${{ inputs.kubeconfig }}
-        rancherId: ${{ inputs.rancherId }}
-        socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
-        environment: ${{ inputs.environment }}
 
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -43,7 +36,6 @@ runs:
       with:
         directory: /tmp/autodevops
 
-
     - name: Generate k8s namespace
       shell: bash
       run: |
@@ -60,6 +52,66 @@ runs:
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
 
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir -p ~/.kube
+        touch ~/.kube/config
+        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+
+    - name: Create secret if not exists
+      shell: bash
+      run: |
+        RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+        BRANCH=$(npx @socialgouv/env-slug $RAW_BRANCH)
+        
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          DB_SECRET_NAME=azure-pg-user
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          DB_SECRET_NAME=azure-pg-user-preprod
+        else
+          DB_SECRET_NAME="azure-pg-user-${BRANCH}"
+        fi
+
+        ADMIN_PG_SECRET=azure-pg-admin-user
+
+        K8S_NS=${{ steps.namespace.outputs.result }}
+        if [ -n "$(kubectl -n $K8S_NS get secret $DB_SECRET_NAME 2>/dev/null)" ]; then
+          echo "secret named '$DB_SECRET_NAME' already exists in namespace '$K8S_NS'"
+          exit 0
+        fi
+        
+        PGPASSWORD=$(openssl rand -base64 32 | sed "s/[^[:alnum:]-]//g")
+
+        K8S_SECRET_NS="${{ github.event.repository.name }}-secret"
+        PGHOST=$(kubectl -n $K8S_SECRET_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGHOST}" | base64 --decode)
+
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          PGDATABASE=$SOCIALGOUV_PRODUCTION_NAMESPACE
+          PGUSER=$SOCIALGOUV_PRODUCTION_NAMESPACE
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          PGDATABASE="preprod"
+          PGUSER="preprod@${PGHOST}"
+        else
+          PGDATABASE="autodevops_${BRANCH}"
+          PGUSER="user_${BRANCH}@${PGHOST}"
+        fi
+        
+        PGSSLMODE=require
+        DATABASE_URL=postgresql://${PGUSER/@/%40}:${PGPASSWORD/@/%40}@${PGHOST}/${PGDATABASE}?sslmode=${PGSSLMODE}
+        
+        kubectl -n $K8S_NS create secret generic $DB_SECRET_NAME \
+          --from-literal="PGPASSWORD=$PGPASSWORD" \
+          --from-literal="PGSSLMODE=$PGSSLMODE" \
+          --from-literal="HASURA_GRAPHQL_DATABASE_URL=$DATABASE_URL" \
+          --from-literal="DATABASE_URL=$DATABASE_URL" \
+          --from-literal="PGDATABASE=$PGDATABASE" \
+          --from-literal="PGHOST=$PGHOST" \
+          --from-literal="PGUSER=$PGUSER"
+
+        echo "secret named '$DB_SECRET_NAME' created in namespace '$K8S_NS'"
+    
+    
     - name: Generate create-db manifests
       shell: bash
       run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
@@ -74,33 +126,24 @@ runs:
         name: create-db.yml
         path: create-db.yml
 
-    - name: Create kubernetes config
-      shell: bash
-      run: |
-        mkdir -p ~/.kube
-        touch ~/.kube/config
-        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
-
     - name: Create database and user
       shell: bash
       run: |
         kubectl delete --namespace=${{ steps.namespace.outputs.result }} job/create-db-user || true
         kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
-    
+
     - name: Wait for job to complete
-      shell: sh
+      shell: bash
       run: |
-        # k8s-wait-job ${{ steps.namespace.outputs.result }} create-db-user
-        K8S_NAMESPACE=${{ steps.namespace.outputs.result }}
-        JOB_NAME=create-db-user
-        JOB="job/$JOB_NAME"
+        set +e
+        JOB="job/create-db-user"
         retval_complete=1
         retval_failed=1
-        while [[ $retval_complete -ne 0 ]] && [[ $retval_failed -ne 0 ]]; do
+        while( [ $retval_complete -ne 0 ] && [ $retval_failed -ne 0 ] ); do
           sleep 2
-          output=$(timeout 2s kubectl -n $K8S_NAMESPACE wait --for=condition=complete $JOB --timeout=0 2>&1)
+          output=$(timeout 2s kubectl -n ${{ steps.namespace.outputs.result }} wait --for=condition=complete $JOB --timeout=0 2>&1)
           retval_complete=$?
-          output=$(timeout 2s kubectl -n $K8S_NAMESPACE wait --for=condition=failed $JOB --timeout=0 2>&1)
+          output=$(timeout 2s kubectl -n ${{ steps.namespace.outputs.result }} wait --for=condition=failed $JOB --timeout=0 2>&1)
           retval_failed=$?
           wait
         done
