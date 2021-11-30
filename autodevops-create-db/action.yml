@@ -100,14 +100,17 @@ runs:
         PGSSLMODE=require
         DATABASE_URL=postgresql://${PGUSER/@/%40}:${PGPASSWORD/@/%40}@${PGHOST}/${PGDATABASE}?sslmode=${PGSSLMODE}
 
-        kubectl -n $K8S_NS create secret generic $DB_SECRET_NAME \
-          --from-literal="PGPASSWORD=$PGPASSWORD" \
-          --from-literal="PGSSLMODE=$PGSSLMODE" \
-          --from-literal="HASURA_GRAPHQL_DATABASE_URL=$DATABASE_URL" \
-          --from-literal="DATABASE_URL=$DATABASE_URL" \
-          --from-literal="PGDATABASE=$PGDATABASE" \
-          --from-literal="PGHOST=$PGHOST" \
-          --from-literal="PGUSER=$PGUSER"
+        rm -rf /tmp/pg-secret.env
+        touch /tmp/pg-secret.env
+        echo "PGPASSWORD=$PGPASSWORD" >> /tmp/pg-secret.env
+        echo "PGSSLMODE=$PGSSLMODE" >> /tmp/pg-secret.env
+        echo "HASURA_GRAPHQL_DATABASE_URL=$HASURA_GRAPHQL_DATABASE_URL" >> /tmp/pg-secret.env
+        echo "DATABASE_URL=$DATABASE_URL" >> /tmp/pg-secret.env
+        echo "PGDATABASE=$PGDATABASE" >> /tmp/pg-secret.env
+        echo "PGHOST=$PGHOST" >> /tmp/pg-secret.env
+        echo "PGUSER=$PGUSER" >> /tmp/pg-secret.env
+        kubectl -n $K8S_NS create secret generic $DB_SECRET_NAME --from-file /tmp/pg-secret.env
+        rm -rf /tmp/pg-secret.env
 
         echo "secret named '$DB_SECRET_NAME' created in namespace '$K8S_NS'"
     
