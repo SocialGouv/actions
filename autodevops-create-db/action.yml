@@ -65,22 +65,20 @@ runs:
         
         RAW_BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
         BRANCH=$(echo npx @socialgouv/env-slug $RAW_BRANCH)
-        echo "RAW_BRANCH=$RAW_BRANCH" >> $GITHUB_ENV
-        echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-
-        if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          echo "DB_SECRET_NAME=azure-pg-user" >> $GITHUB_ENV
-        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
-          echo "DB_SECRET_NAME=azure-pg-user-preprod" >> $GITHUB_ENV
-        else
-          echo "DB_SECRET_NAME=azure-pg-user-$BRANCH" >> $GITHUB_ENV
-        fi
         
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          DB_SECRET_NAME=azure-pg-user
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          DB_SECRET_NAME=azure-pg-user-preprod
+        else
+          DB_SECRET_NAME="azure-pg-user-${BRANCH}"
+        fi
+
         ADMIN_PG_SECRET=azure-pg-admin-user
 
         K8S_NS=${{ steps.namespace.outputs.result }}
         if [ -n "$(kubectl -n $K8S_NS get secret $DB_SECRET_NAME 2>/dev/null)" ]; then
-          echo "PGPASSWORD secret named '$DB_SECRET_NAME' already exists in namespace '$K8S_NS'"
+          echo "secret named '$DB_SECRET_NAME' already exists in namespace '$K8S_NS'"
           exit 0
         fi
         
@@ -135,7 +133,7 @@ runs:
         kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
 
     - name: Wait for job to complete
-      shell: sh
+      shell: bash
       run: |
         JOB="job/create-db"
         retval_complete=1
