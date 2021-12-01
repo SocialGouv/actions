@@ -59,12 +59,12 @@ runs:
           echo "Copy tests"
           cp -r .socialgouv/__tests__ $DEST/__tests__
         fi
+
     - name: Install dependencies
       shell: bash
       run: |
         yarn --cwd /tmp/autodevops
 
-    # For example
     - name: Run kosko manifests tests
       shell: bash
       run: |

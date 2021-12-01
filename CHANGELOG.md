@@ -1,3 +1,151 @@
+## [1.15.2](https://github.com/SocialGouv/actions/compare/v1.15.1...v1.15.2) (2021-11-30)
+
+
+### Bug Fixes
+
+* **creat-db:** k8s ns with annotations ([#77](https://github.com/SocialGouv/actions/issues/77)) ([ebed2a9](https://github.com/SocialGouv/actions/commit/ebed2a9a65bc6932655c4f1f29f8eb36b2909785))
+
+## [1.15.1](https://github.com/SocialGouv/actions/compare/v1.15.0...v1.15.1) (2021-11-30)
+
+
+### Bug Fixes
+
+* **creat-db:** create k8s ns if not exists fix var ([#76](https://github.com/SocialGouv/actions/issues/76)) ([c70757e](https://github.com/SocialGouv/actions/commit/c70757e3c8d0170e8065fb4c7ff2f9bd067df830))
+
+# [1.15.0](https://github.com/SocialGouv/actions/compare/v1.14.12...v1.15.0) (2021-11-30)
+
+
+### Features
+
+* **ns:** create k8s ns if not exists ([#75](https://github.com/SocialGouv/actions/issues/75)) ([87de8e0](https://github.com/SocialGouv/actions/commit/87de8e06fc995e715f73d7e3f71a95d7901294da))
+
+## [1.14.12](https://github.com/SocialGouv/actions/compare/v1.14.11...v1.14.12) (2021-11-30)
+
+
+### Bug Fixes
+
+* **clean:** clean ([7c00ec7](https://github.com/SocialGouv/actions/commit/7c00ec7aaaef67ebb0b34fc493e1c803f448d16e))
+
+## [1.14.11](https://github.com/SocialGouv/actions/compare/v1.14.10...v1.14.11) (2021-11-30)
+
+
+### Bug Fixes
+
+* **create-db:** create secret in action directly ([#74](https://github.com/SocialGouv/actions/issues/74)) ([b858546](https://github.com/SocialGouv/actions/commit/b858546cafe53d31582c88a0de61929e7af52b9c))
+
+## [1.14.10](https://github.com/SocialGouv/actions/compare/v1.14.9...v1.14.10) (2021-11-29)
+
+
+### Bug Fixes
+
+* **k8s-wait-job:** use sh shell ([#73](https://github.com/SocialGouv/actions/issues/73)) ([a30237f](https://github.com/SocialGouv/actions/commit/a30237f4da018862113908474086e5f6aae77f91))
+
+## [1.14.9](https://github.com/SocialGouv/actions/compare/v1.14.8...v1.14.9) (2021-11-29)
+
+
+### Bug Fixes
+
+* **k8s-wait-job:** embed it ([#72](https://github.com/SocialGouv/actions/issues/72)) ([6ec11a7](https://github.com/SocialGouv/actions/commit/6ec11a7416b738013a7c50d0525b1c1d4a47e4d0))
+
+## [1.14.8](https://github.com/SocialGouv/actions/compare/v1.14.7...v1.14.8) (2021-11-29)
+
+
+### Bug Fixes
+
+* **create-db:** wait for job ([#71](https://github.com/SocialGouv/actions/issues/71)) ([4f13431](https://github.com/SocialGouv/actions/commit/4f1343101014c7698145ac49d33eae2551d941a6))
+
+## [1.14.7](https://github.com/SocialGouv/actions/compare/v1.14.6...v1.14.7) (2021-11-29)
+
+
+### Bug Fixes
+
+* **input:** environment relay ([#70](https://github.com/SocialGouv/actions/issues/70)) ([45e5ac2](https://github.com/SocialGouv/actions/commit/45e5ac259301551686c939693c6ffb96383e70f8))
+
+## [1.14.6](https://github.com/SocialGouv/actions/compare/v1.14.5...v1.14.6) (2021-11-29)
+
+
+### Bug Fixes
+
+* **input:** environment ([#69](https://github.com/SocialGouv/actions/issues/69)) ([4c2d260](https://github.com/SocialGouv/actions/commit/4c2d260e344240f778ae3d3239dee5a85f4d574e))
+
+## [1.14.5](https://github.com/SocialGouv/actions/compare/v1.14.4...v1.14.5) (2021-11-29)
+
+
+### Bug Fixes
+
+* **input:** environment ([#68](https://github.com/SocialGouv/actions/issues/68)) ([bcbef9f](https://github.com/SocialGouv/actions/commit/bcbef9f3c9fb8274ba7740308a06859d6c183a54))
+
+## [1.14.4](https://github.com/SocialGouv/actions/compare/v1.14.3...v1.14.4) (2021-11-29)
+
+
+### Bug Fixes
+
+* **conflict:** mkdir -p .kube ([#67](https://github.com/SocialGouv/actions/issues/67)) ([0b5d53a](https://github.com/SocialGouv/actions/commit/0b5d53aaa34fde32450f954ce64a7e05c96f31fe))
+
+## [1.14.3](https://github.com/SocialGouv/actions/compare/v1.14.2...v1.14.3) (2021-11-29)
+
+
+### Bug Fixes
+
+* **clean:** tmp autodevops ([#66](https://github.com/SocialGouv/actions/issues/66)) ([51a3772](https://github.com/SocialGouv/actions/commit/51a3772207b5c9839f91fed03efb4b7f47d6e284))
+
+## [1.14.2](https://github.com/SocialGouv/actions/compare/v1.14.1...v1.14.2) (2021-11-29)
+
+
+### Bug Fixes
+
+* **action-uses:** autodevops-create-db-secret ([#65](https://github.com/SocialGouv/actions/issues/65)) ([0576c2e](https://github.com/SocialGouv/actions/commit/0576c2ee19b6f7472d74657d473aa8592af115ca))
+
+## [1.14.1](https://github.com/SocialGouv/actions/compare/v1.14.0...v1.14.1) (2021-11-29)
+
+
+### Bug Fixes
+
+* **action-name:** create database ([#64](https://github.com/SocialGouv/actions/issues/64)) ([0a43276](https://github.com/SocialGouv/actions/commit/0a43276b0d9e89c17dc7be83254f6ba81484add6))
+
+# [1.14.0](https://github.com/SocialGouv/actions/compare/v1.13.0...v1.14.0) (2021-11-29)
+
+
+### Features
+
+* **require-secret:** in create db ([#63](https://github.com/SocialGouv/actions/issues/63)) ([8cf5c38](https://github.com/SocialGouv/actions/commit/8cf5c3882c8735a31ab92f92a131012d60a1e28c))
+
+# [1.13.0](https://github.com/SocialGouv/actions/compare/v1.12.0...v1.13.0) (2021-11-29)
+
+
+### Features
+
+* **create-db:** autodevops ([#62](https://github.com/SocialGouv/actions/issues/62)) ([c383d66](https://github.com/SocialGouv/actions/commit/c383d66a02381654378a1ed060aca4290db5245e)), closes [#discussion_r758436431](https://github.com/SocialGouv/actions/issues/discussion_r758436431)
+
+# [1.12.0](https://github.com/SocialGouv/actions/compare/v1.11.0...v1.12.0) (2021-11-29)
+
+
+### Features
+
+* autodevops-manifests ([#40](https://github.com/SocialGouv/actions/issues/40)) ([f93615c](https://github.com/SocialGouv/actions/commit/f93615c76e3eb681d02d116df37f7df8b5be4a98))
+
+# [1.11.0](https://github.com/SocialGouv/actions/compare/v1.10.1...v1.11.0) (2021-11-29)
+
+
+### Features
+
+* add autodevops-env ([#59](https://github.com/SocialGouv/actions/issues/59)) ([e0c08e7](https://github.com/SocialGouv/actions/commit/e0c08e76c562f666ed78716daf852c40ec1c0f7b))
+
+## [1.10.1](https://github.com/SocialGouv/actions/compare/v1.10.0...v1.10.1) (2021-11-24)
+
+
+### Bug Fixes
+
+* **autodevops:** Add dockerbuildargs to autodevops simple action ([e09f0e3](https://github.com/SocialGouv/actions/commit/e09f0e3e3253b609050eac345b7eea2e6cd344f9))
+
+# [1.10.0](https://github.com/SocialGouv/actions/compare/v1.9.2...v1.10.0) (2021-11-23)
+
+
+### Features
+
+* **actions:** add create-db and create-db-secret ([#57](https://github.com/SocialGouv/actions/issues/57)) ([d395399](https://github.com/SocialGouv/actions/commit/d395399627192476506348b5b9397c4cbc3daac9))
+* **env-slug:** implement decoupled npx lib ([#58](https://github.com/SocialGouv/actions/issues/58)) ([3352f54](https://github.com/SocialGouv/actions/commit/3352f54a997892bf4edce6e30966968fc2ec05ad))
+
 ## [1.9.2](https://github.com/SocialGouv/actions/compare/v1.9.1...v1.9.2) (2021-11-15)
 
 

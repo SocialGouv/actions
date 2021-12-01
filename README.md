@@ -11,6 +11,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` o
 | [autodevops-manifests](#socialgouvactionsautodevops-manifests)           | Generate kubernetes manifests                                |         `*`          |
 | [autodevops-deploy](#socialgouvactionsautodevops-deploy)                 | Deploy kubernetes manifests                                  |         `*`          |
 | [autodevops-deactivate](#socialgouvactionsautodevops-deactivate)         | Cleanup environments and databases                           |         `*`          |
+| [autodevops-env](#socialgouvactionsautodevops-env)                       | Return kubernetes-friendly env variables                     |         `*`          |
 | [harbor-build-register](#socialgouvactionsharbor-build-register)         | Build and register docker images on internal harbor registry |         `*`          |
 | [autodevops](#socialgouvactionsautodevops)                               | Register and Deploy application                              | `.socialgouv` folder |
 | [autodevops-build-register](#socialgouvactionsautodevops-build-register) | Build and register docker images on ghcr.io                  | `.socialgouv` folder |
@@ -65,6 +66,8 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
     dockercontext: "/path/to/content" # optional
     dockerbuildargs: | # optional
       NODE_ENV=production
+    environment: "preprod" # optional
+
 ```
 
 ## `socialgouv/actions/k8s-manifests`
@@ -177,4 +180,21 @@ jobs:
         with:
           kube-config: ${{ secrets.KUBECONFIG }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+## `socialgouv/actions/autodevops-env`
+
+- Return kubernetes-friendly environment variables
+
+#### Outputs
+
+ - namespace
+ - project
+ - branch
+
+```yaml
+- uses: SocialGouv/actions/autodevops-env@v1
+  id: env
+- shell: bash
+  run: echo ${{ steps.env.outputs.namespace }}
 ```
