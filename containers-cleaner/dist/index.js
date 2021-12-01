@@ -126,7 +126,7 @@ const protectedTags = [
     /^latest$/,
     /^preprod$/,
     /^prod-(\w+)$/,
-    /^(\d+\.\d+)(\.\d+)?$/,
+    /^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$/,
 ];
 const isProtectedTag = (tag) => protectedTags.some((protectedTag) => protectedTag.test(tag));
 exports.isProtectedTag = isProtectedTag;

@@ -5,6 +5,7 @@
 ```yaml
 - uses: @socialgouv/actions/containers-cleaner@v1
   with:
+    organization: socialgouv
     token: ${{ github.token }}
     retention-weeks: '2'
     containers: |
@@ -15,6 +16,7 @@
 
 | variable        | description                                                         |
 |-----------------|---------------------------------------------------------------------|
+| organization    | Github organization                                                 |
 | token           | Github personal access token to perform requests over Github API    |
 | retention-weeks | Number of weeks of retention preventing packages from being deleted |
 | containers      | List of container packages to clean up *(multi lines input)*        |

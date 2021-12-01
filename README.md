@@ -9,7 +9,8 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` f
 | [autodevops-deploy](#socialgouvactionsautodevops-deploy)                 | Deploy kubernetes manifests                                  | 
 | [autodevops-create-db](#socialgouvactionsautodevops-create-db)           | Create a review branch database                              | 
 | [autodevops-release](#socialgouvactionsautodevops-release)               | Trigger semantic release run                                 |
-| [autodevops-deactivate](#socialgouvactionsautodevops-deactivate)         | Cleanup environments and databases                           | 
+| [autodevops-deactivate](#socialgouvactionsautodevops-deactivate)         | Cleanup environments and databases                           |
+| [containers-cleaner](#socialgouvactionscontainers-cleaner)               | Organization container packages versions cleaner             |
 
 | Internal Action                                                          | usage                                                        | 
 | ------------------------------------------------------------------------ | ------------------------------------------------------------ | 
@@ -177,3 +178,17 @@ jobs:
 ```
 
 see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-manifests-debug-test.yaml)
+
+## `socialgouv/actions/containers-cleaner`
+
+```yaml
+- uses: @socialgouv/actions/containers-cleaner@v1
+  with:
+    organization: socialgouv
+    token: ${{ github.token }}
+    retention-weeks: '2'
+    containers: |
+      fabrique/standup
+```
+
+Detailed information [here](https://github.com/SocialGouv/actions/tree/master/containers-cleaner).
