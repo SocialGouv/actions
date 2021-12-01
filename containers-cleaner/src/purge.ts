@@ -18,7 +18,7 @@ const protectedTags = [
   /^latest$/,
   /^preprod$/,
   /^prod-(\w+)$/,
-  /^(\d+\.\d+)(\.\d+)?$/,
+  /^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$/,
 ]
 
 export const isProtectedTag = (tag: string): boolean =>
