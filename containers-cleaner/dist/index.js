@@ -42,6 +42,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const purge_1 = __importDefault(__nccwpck_require__(6785));
 const PAGE_LIMIT = 100; // Number of packages per page (from 1 to 100)
 const START_PAGE_INDEX = 1; // Starting page index
+const ORGANIZATION = core.getInput("organization");
 const CONTAINERS = core.getMultilineInput("containers");
 const RETENTION_WEEKS = Number(core.getInput("retention-weeks"));
 core.debug("------ INPUTS ------");
@@ -55,7 +56,7 @@ function run() {
         try {
             for (const container of CONTAINERS) {
                 core.debug(`===> Container: ${container}`);
-                const count = yield (0, purge_1.default)(container, START_PAGE_INDEX, PAGE_LIMIT, RETENTION_WEEKS);
+                const count = yield (0, purge_1.default)(ORGANIZATION, container, START_PAGE_INDEX, PAGE_LIMIT, RETENTION_WEEKS);
                 core.debug(`===> Package versions deleted: ${count}`);
                 core.debug("--------------------");
                 total += count;
@@ -131,29 +132,29 @@ const isProtectedTag = (tag) => protectedTags.some((protectedTag) => protectedTa
 exports.isProtectedTag = isProtectedTag;
 const isOldVersion = (updateDate, retentionWeeks) => (0, isBefore_1.default)(new Date(updateDate), (0, sub_1.default)(new Date(), { weeks: retentionWeeks }));
 exports.isOldVersion = isOldVersion;
-const deletePackageVersion = (packageName, versionId) => __awaiter(void 0, void 0, void 0, function* () {
+const deletePackageVersion = (org, packageName, versionId) => __awaiter(void 0, void 0, void 0, function* () {
     yield octokit.request("DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}", {
-        org: "socialgouv",
+        org,
         package_type: "container",
         package_name: packageName,
         package_version_id: versionId,
     });
 });
 exports.deletePackageVersion = deletePackageVersion;
-const deletePackageVersions = (packageName, versions) => __awaiter(void 0, void 0, void 0, function* () {
+const deletePackageVersions = (org, packageName, versions) => __awaiter(void 0, void 0, void 0, function* () {
     const throttle = (0, p_throttle_1.default)({ limit: 1, interval: 800 });
-    const throttled = throttle((id) => __awaiter(void 0, void 0, void 0, function* () { return (0, exports.deletePackageVersion)(packageName, id); }));
+    const throttled = throttle((id) => __awaiter(void 0, void 0, void 0, function* () { return (0, exports.deletePackageVersion)(org, packageName, id); }));
     for (const version of versions) {
         core.debug(`Delete version: ${version.name} -- ${version.updated_at}`);
         yield throttled(version.id);
     }
 });
 exports.deletePackageVersions = deletePackageVersions;
-const getPackageVersions = (name, page, limit) => __awaiter(void 0, void 0, void 0, function* () {
+const getPackageVersions = (org, name, page, limit) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield octokit.request("GET /orgs/{org}/packages/{package_type}/{package_name}/versions", {
+        org,
         page,
         per_page: limit,
-        org: "socialgouv",
         package_name: name,
         package_type: "container",
     });
@@ -166,22 +167,22 @@ const getVersionsToDelete = (versions, retentionWeeks) => versions.filter((versi
         !((_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.some((tag) => (0, exports.isProtectedTag)(String(tag))));
 });
 exports.getVersionsToDelete = getVersionsToDelete;
-const purge = (packageName, page = 1, limit = 100, retentionWeeks = 2) => __awaiter(void 0, void 0, void 0, function* () {
+const purge = (org, packageName, page = 1, limit = 100, retentionWeeks = 2) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, delay_1.default)(100);
     let count = 0;
     core.debug(`==> Page ${page} (limit: ${limit})`);
-    const versions = yield (0, exports.getPackageVersions)(packageName, page, limit);
+    const versions = yield (0, exports.getPackageVersions)(org, packageName, page, limit);
     core.debug(`Versions found: ${versions.length}`);
     if (versions.length) {
         const versionsToDelete = (0, exports.getVersionsToDelete)(versions, retentionWeeks);
         core.debug(`Versions to delete: ${versionsToDelete.length}`);
         count += versionsToDelete.length;
         if (count) {
-            yield (0, exports.deletePackageVersions)(packageName, versionsToDelete);
-            count += yield purge(packageName, page, limit, retentionWeeks);
+            yield (0, exports.deletePackageVersions)(org, packageName, versionsToDelete);
+            count += yield purge(org, packageName, page, limit, retentionWeeks);
         }
         else if (versions.length === limit) {
-            count += yield purge(packageName, page + 1, limit, retentionWeeks);
+            count += yield purge(org, packageName, page + 1, limit, retentionWeeks);
         }
     }
     return count;

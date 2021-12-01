@@ -31,13 +31,14 @@ export const isOldVersion = (
   isBefore(new Date(updateDate), sub(new Date(), { weeks: retentionWeeks }))
 
 export const deletePackageVersion = async (
+  org: string,
   packageName: string,
   versionId: number
 ): Promise<void> => {
   await octokit.request(
     "DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}",
     {
-      org: "socialgouv",
+      org,
       package_type: "container",
       package_name: packageName,
       package_version_id: versionId,
@@ -46,13 +47,14 @@ export const deletePackageVersion = async (
 }
 
 export const deletePackageVersions = async (
+  org: string,
   packageName: string,
   versions: PackageVersionsResponse["data"]
 ): Promise<void> => {
   const throttle = pThrottle({ limit: 1, interval: 800 })
 
   const throttled = throttle(async (id: number) =>
-    deletePackageVersion(packageName, id)
+    deletePackageVersion(org, packageName, id)
   )
 
   for (const version of versions) {
@@ -62,6 +64,7 @@ export const deletePackageVersions = async (
 }
 
 export const getPackageVersions = async (
+  org: string,
   name: string,
   page: number,
   limit: number
@@ -69,9 +72,9 @@ export const getPackageVersions = async (
   const result = await octokit.request(
     "GET /orgs/{org}/packages/{package_type}/{package_name}/versions",
     {
+      org,
       page,
       per_page: limit,
-      org: "socialgouv",
       package_name: name,
       package_type: "container",
     }
@@ -92,6 +95,7 @@ export const getVersionsToDelete = (
   )
 
 const purge = async (
+  org: string,
   packageName: string,
   page = 1,
   limit = 100,
@@ -100,7 +104,7 @@ const purge = async (
   await delay(100)
   let count = 0
   core.debug(`==> Page ${page} (limit: ${limit})`)
-  const versions = await getPackageVersions(packageName, page, limit)
+  const versions = await getPackageVersions(org, packageName, page, limit)
   core.debug(`Versions found: ${versions.length}`)
 
   if (versions.length) {
@@ -109,10 +113,10 @@ const purge = async (
     count += versionsToDelete.length
 
     if (count) {
-      await deletePackageVersions(packageName, versionsToDelete)
-      count += await purge(packageName, page, limit, retentionWeeks)
+      await deletePackageVersions(org, packageName, versionsToDelete)
+      count += await purge(org, packageName, page, limit, retentionWeeks)
     } else if (versions.length === limit) {
-      count += await purge(packageName, page + 1, limit, retentionWeeks)
+      count += await purge(org, packageName, page + 1, limit, retentionWeeks)
     }
   }
 

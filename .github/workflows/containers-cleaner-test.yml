@@ -51,6 +51,7 @@ jobs:
 
     - uses: ./containers-cleaner/
       with:
+        organization: socialgouv
         token: ${{ github.token }}
         retention-weeks: '2'
         containers: |

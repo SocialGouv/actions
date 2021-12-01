@@ -5,6 +5,7 @@ import { test } from "@jest/globals"
 
 test("test runs", () => {
   process.env["INPUT_RETENTION-WEEKS"] = "4"
+  process.env["INPUT_ORGANIZATION"] = "socialgouv"
   process.env["INPUT_CONTAINERS"] = "fabrique/standup\nfabrique/carnets"
   const np = process.execPath
   const ip = path.join(__dirname, "..", "lib", "main.js")

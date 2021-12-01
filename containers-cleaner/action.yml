@@ -2,6 +2,10 @@ author: SocialGouv
 name: Organization packages cleaner
 description: Purge packages versions list
 inputs:
+  organization:
+    default: ''
+    required: true
+    description: Github organization
   token:
     required: true
     default: ${{ github.token }}

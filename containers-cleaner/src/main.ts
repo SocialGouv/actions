@@ -3,6 +3,7 @@ import purge from "./purge"
 
 const PAGE_LIMIT = 100 // Number of packages per page (from 1 to 100)
 const START_PAGE_INDEX = 1 // Starting page index
+const ORGANIZATION = core.getInput("organization")
 const CONTAINERS = core.getMultilineInput("containers")
 const RETENTION_WEEKS = Number(core.getInput("retention-weeks"))
 
@@ -19,6 +20,7 @@ async function run(): Promise<void> {
     for (const container of CONTAINERS) {
       core.debug(`===> Container: ${container}`)
       const count = await purge(
+        ORGANIZATION,
         container,
         START_PAGE_INDEX,
         PAGE_LIMIT,
