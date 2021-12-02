@@ -1,80 +1,7 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 3109:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-const purge_1 = __importDefault(__nccwpck_require__(6785));
-const PAGE_LIMIT = 100; // Number of packages per page (from 1 to 100)
-const START_PAGE_INDEX = 1; // Starting page index
-const ORGANIZATION = core.getInput("organization");
-const CONTAINERS = core.getMultilineInput("containers");
-const RETENTION_WEEKS = Number(core.getInput("retention-weeks"));
-core.debug("------ INPUTS ------");
-core.debug(`containers: ${CONTAINERS}`);
-core.debug(`token: ${!!core.getInput("token")}`);
-core.debug(`retention-weeks: ${RETENTION_WEEKS}`);
-core.debug("--------------------");
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let total = 0;
-        try {
-            for (const container of CONTAINERS) {
-                core.debug(`===> Container: ${container}`);
-                const count = yield (0, purge_1.default)(ORGANIZATION, container, START_PAGE_INDEX, PAGE_LIMIT, RETENTION_WEEKS);
-                core.debug(`===> Package versions deleted: ${count}`);
-                core.debug("--------------------");
-                total += count;
-            }
-            core.setOutput("total", total);
-        }
-        catch (error) {
-            if (error instanceof Error)
-                core.setFailed(error.message);
-        }
-    });
-}
-run();
-
-
-/***/ }),
-
-/***/ 6785:
+/***/ 3295:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -114,21 +41,15 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getVersionsToDelete = exports.getPackageVersions = exports.deletePackageVersions = exports.deletePackageVersion = exports.isOldVersion = exports.isProtectedTag = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const octokit_1 = __nccwpck_require__(7467);
-const delay_1 = __importDefault(__nccwpck_require__(86));
+// import delay from "delay"
 const isBefore_1 = __importDefault(__nccwpck_require__(9369));
 const p_throttle_1 = __importDefault(__nccwpck_require__(9296));
 const sub_1 = __importDefault(__nccwpck_require__(3875));
-const octokit = new octokit_1.Octokit({
-    auth: core.getInput("token"),
+const octokit = new octokit_1.Octokit({ auth: core.getInput("token") });
+const isProtectedTag = (tag, protectedTags) => protectedTags.some((protectedTag) => {
+    const regex = new RegExp(protectedTag);
+    return regex.test(tag);
 });
-const protectedTags = [
-    /^prod$/,
-    /^latest$/,
-    /^preprod$/,
-    /^prod-(\w+)$/,
-    /^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$/,
-];
-const isProtectedTag = (tag) => protectedTags.some((protectedTag) => protectedTag.test(tag));
 exports.isProtectedTag = isProtectedTag;
 const isOldVersion = (updateDate, retentionWeeks) => (0, isBefore_1.default)(new Date(updateDate), (0, sub_1.default)(new Date(), { weeks: retentionWeeks }));
 exports.isOldVersion = isOldVersion;
@@ -142,10 +63,11 @@ const deletePackageVersion = (org, packageName, versionId) => __awaiter(void 0, 
 });
 exports.deletePackageVersion = deletePackageVersion;
 const deletePackageVersions = (org, packageName, versions) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const throttle = (0, p_throttle_1.default)({ limit: 1, interval: 800 });
     const throttled = throttle((id) => __awaiter(void 0, void 0, void 0, function* () { return (0, exports.deletePackageVersion)(org, packageName, id); }));
     for (const version of versions) {
-        core.debug(`Delete version: ${version.name} -- ${version.updated_at}`);
+        core.debug(`Delete version: ${version.name} -- ${version.updated_at} -- [${(_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.join(", ")}]`);
         yield throttled(version.id);
     }
 });
@@ -161,32 +83,59 @@ const getPackageVersions = (org, name, page, limit) => __awaiter(void 0, void 0,
     return result.data;
 });
 exports.getPackageVersions = getPackageVersions;
-const getVersionsToDelete = (versions, retentionWeeks) => versions.filter((version) => {
+const getVersionsToDelete = (versions, retentionWeeks, tags) => versions.filter((version) => {
     var _a, _b;
     return (0, exports.isOldVersion)(version.updated_at, retentionWeeks) &&
-        !((_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.some((tag) => (0, exports.isProtectedTag)(String(tag))));
+        !((_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.some((tag) => (0, exports.isProtectedTag)(String(tag), tags)));
 });
 exports.getVersionsToDelete = getVersionsToDelete;
-const purge = (org, packageName, page = 1, limit = 100, retentionWeeks = 2) => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, delay_1.default)(100);
+const cleanUp = (params) => __awaiter(void 0, void 0, void 0, function* () {
+    // await delay(800)
     let count = 0;
+    const { org, packageName, page, limit, retentionWeeks, tags } = params;
     core.debug(`==> Page ${page} (limit: ${limit})`);
     const versions = yield (0, exports.getPackageVersions)(org, packageName, page, limit);
     core.debug(`Versions found: ${versions.length}`);
     if (versions.length) {
-        const versionsToDelete = (0, exports.getVersionsToDelete)(versions, retentionWeeks);
+        const versionsToDelete = (0, exports.getVersionsToDelete)(versions, retentionWeeks, tags);
         core.debug(`Versions to delete: ${versionsToDelete.length}`);
         count += versionsToDelete.length;
         if (count) {
             yield (0, exports.deletePackageVersions)(org, packageName, versionsToDelete);
-            count += yield purge(org, packageName, page, limit, retentionWeeks);
+            count += yield cleanUp(params);
         }
         else if (versions.length === limit) {
-            count += yield purge(org, packageName, page + 1, limit, retentionWeeks);
+            params.page++;
+            count += yield cleanUp(params);
         }
     }
     return count;
 });
+// const purge = async (
+//   org: string,
+//   packageName: string,
+//   page = 1,
+//   limit = 100,
+//   retentionWeeks = 2
+// ): Promise<number> => {
+//   await delay(100)
+//   let count = 0
+//   core.debug(`==> Page ${page} (limit: ${limit})`)
+//   const versions = await getPackageVersions(org, packageName, page, limit)
+//   core.debug(`Versions found: ${versions.length}`)
+//   if (versions.length) {
+//     const versionsToDelete = getVersionsToDelete(versions, retentionWeeks)
+//     core.debug(`Versions to delete: ${versionsToDelete.length}`)
+//     count += versionsToDelete.length
+//     if (count) {
+//       await deletePackageVersions(org, packageName, versionsToDelete)
+//       count += await purge(org, packageName, page, limit, retentionWeeks)
+//     } else if (versions.length === limit) {
+//       count += await purge(org, packageName, page + 1, limit, retentionWeeks)
+//     }
+//   }
+//   return count
+// }
 // export const getRepositoryPackages = async (): Promise<
 //   PackagesResponse["data"]
 // > => {
@@ -200,7 +149,88 @@ const purge = (org, packageName, page = 1, limit = 100, retentionWeeks = 2) => _
 //     throw error
 //   }
 // }
-exports.default = purge;
+exports.default = cleanUp;
+
+
+/***/ }),
+
+/***/ 3109:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const clean_up_1 = __importDefault(__nccwpck_require__(3295));
+const PAGE_LIMIT = 100; // Number of packages per page (from 1 to 100)
+const START_PAGE_INDEX = 1; // Starting page index
+const ORGANIZATION = core.getInput("organization");
+const CONTAINERS = core.getMultilineInput("containers");
+const PROTECTED_TAGS = core.getMultilineInput("protected-tags");
+const RETENTION_WEEKS = Number(core.getInput("retention-weeks"));
+core.debug("------ INPUTS ------");
+core.debug(`containers: ${CONTAINERS}`);
+core.debug(`token: ${!!core.getInput("token")}`);
+core.debug(`retention-weeks: ${RETENTION_WEEKS}`);
+core.debug("--------------------");
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let total = 0;
+        try {
+            for (const container of CONTAINERS) {
+                core.debug(`===> Container: ${container}`);
+                const count = yield (0, clean_up_1.default)({
+                    tags: PROTECTED_TAGS,
+                    org: ORGANIZATION,
+                    limit: PAGE_LIMIT,
+                    packageName: container,
+                    page: START_PAGE_INDEX,
+                    retentionWeeks: RETENTION_WEEKS,
+                });
+                core.debug(`===> Package versions deleted: ${count}`);
+                core.debug("--------------------");
+                total += count;
+            }
+            core.setOutput("total", total);
+        }
+        catch (error) {
+            if (error instanceof Error)
+                core.setFailed(error.message);
+        }
+    });
+}
+run();
 
 
 /***/ }),
@@ -10068,86 +10098,6 @@ function toDate(argument) {
 }
 
 module.exports = exports.default;
-
-/***/ }),
-
-/***/ 86:
-/***/ ((module) => {
-
-"use strict";
-
-
-// From https://github.com/sindresorhus/random-int/blob/c37741b56f76b9160b0b63dae4e9c64875128146/index.js#L13-L15
-const randomInteger = (minimum, maximum) => Math.floor((Math.random() * (maximum - minimum + 1)) + minimum);
-
-const createAbortError = () => {
-	const error = new Error('Delay aborted');
-	error.name = 'AbortError';
-	return error;
-};
-
-const createDelay = ({clearTimeout: defaultClear, setTimeout: set, willResolve}) => (ms, {value, signal} = {}) => {
-	if (signal && signal.aborted) {
-		return Promise.reject(createAbortError());
-	}
-
-	let timeoutId;
-	let settle;
-	let rejectFn;
-	const clear = defaultClear || clearTimeout;
-
-	const signalListener = () => {
-		clear(timeoutId);
-		rejectFn(createAbortError());
-	};
-
-	const cleanup = () => {
-		if (signal) {
-			signal.removeEventListener('abort', signalListener);
-		}
-	};
-
-	const delayPromise = new Promise((resolve, reject) => {
-		settle = () => {
-			cleanup();
-			if (willResolve) {
-				resolve(value);
-			} else {
-				reject(value);
-			}
-		};
-
-		rejectFn = reject;
-		timeoutId = (set || setTimeout)(settle, ms);
-	});
-
-	if (signal) {
-		signal.addEventListener('abort', signalListener, {once: true});
-	}
-
-	delayPromise.clear = () => {
-		clear(timeoutId);
-		timeoutId = null;
-		settle();
-	};
-
-	return delayPromise;
-};
-
-const createWithTimers = clearAndSet => {
-	const delay = createDelay({...clearAndSet, willResolve: true});
-	delay.reject = createDelay({...clearAndSet, willResolve: false});
-	delay.range = (minimum, maximum, options) => delay(randomInteger(minimum, maximum), options);
-	return delay;
-};
-
-const delay = createWithTimers();
-delay.createWithTimers = createWithTimers;
-
-module.exports = delay;
-// TODO: Remove this for the next major release
-module.exports.default = delay;
-
 
 /***/ }),
 

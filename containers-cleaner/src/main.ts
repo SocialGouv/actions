@@ -1,10 +1,11 @@
 import * as core from "@actions/core"
-import purge from "./purge"
+import cleanUp from "./clean-up"
 
 const PAGE_LIMIT = 100 // Number of packages per page (from 1 to 100)
 const START_PAGE_INDEX = 1 // Starting page index
 const ORGANIZATION = core.getInput("organization")
 const CONTAINERS = core.getMultilineInput("containers")
+const PROTECTED_TAGS = core.getMultilineInput("protected-tags")
 const RETENTION_WEEKS = Number(core.getInput("retention-weeks"))
 
 core.debug("------ INPUTS ------")
@@ -19,13 +20,14 @@ async function run(): Promise<void> {
   try {
     for (const container of CONTAINERS) {
       core.debug(`===> Container: ${container}`)
-      const count = await purge(
-        ORGANIZATION,
-        container,
-        START_PAGE_INDEX,
-        PAGE_LIMIT,
-        RETENTION_WEEKS
-      )
+      const count = await cleanUp({
+        tags: PROTECTED_TAGS,
+        org: ORGANIZATION,
+        limit: PAGE_LIMIT,
+        packageName: container,
+        page: START_PAGE_INDEX,
+        retentionWeeks: RETENTION_WEEKS,
+      })
       core.debug(`===> Package versions deleted: ${count}`)
       core.debug("--------------------")
       total += count

@@ -1,7 +1,7 @@
 import * as core from "@actions/core"
 import type { Endpoints } from "@octokit/types"
 import { Octokit } from "octokit"
-import delay from "delay"
+// import delay from "delay"
 import isBefore from "date-fns/isBefore"
 import pThrottle from "p-throttle"
 import sub from "date-fns/sub"
@@ -9,20 +9,13 @@ import sub from "date-fns/sub"
 type PackageVersionsResponse =
   Endpoints["GET /orgs/{org}/packages/{package_type}/{package_name}/versions"]["response"]
 
-const octokit = new Octokit({
-  auth: core.getInput("token"),
-})
+const octokit = new Octokit({ auth: core.getInput("token") })
 
-const protectedTags = [
-  /^prod$/,
-  /^latest$/,
-  /^preprod$/,
-  /^prod-(\w+)$/,
-  /^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$/,
-]
-
-export const isProtectedTag = (tag: string): boolean =>
-  protectedTags.some((protectedTag) => protectedTag.test(tag))
+export const isProtectedTag = (tag: string, protectedTags: string[]): boolean =>
+  protectedTags.some((protectedTag) => {
+    const regex = new RegExp(protectedTag)
+    return regex.test(tag)
+  })
 
 export const isOldVersion = (
   updateDate: string,
@@ -58,7 +51,11 @@ export const deletePackageVersions = async (
   )
 
   for (const version of versions) {
-    core.debug(`Delete version: ${version.name} -- ${version.updated_at}`)
+    core.debug(
+      `Delete version: ${version.name} -- ${
+        version.updated_at
+      } -- [${version.metadata?.container?.tags.join(", ")}]`
+    )
     await throttled(version.id)
   }
 }
@@ -84,44 +81,81 @@ export const getPackageVersions = async (
 
 export const getVersionsToDelete = (
   versions: PackageVersionsResponse["data"],
-  retentionWeeks: number
+  retentionWeeks: number,
+  tags: string[]
 ): PackageVersionsResponse["data"] =>
   versions.filter(
     (version) =>
       isOldVersion(version.updated_at, retentionWeeks) &&
       !version.metadata?.container?.tags.some((tag) =>
-        isProtectedTag(String(tag))
+        isProtectedTag(String(tag), tags)
       )
   )
 
-const purge = async (
-  org: string,
-  packageName: string,
-  page = 1,
-  limit = 100,
-  retentionWeeks = 2
-): Promise<number> => {
-  await delay(100)
+interface Params {
+  org: string
+  page: number
+  limit: number
+  tags: string[]
+  packageName: string
+  retentionWeeks: number
+}
+
+const cleanUp = async (params: Params): Promise<number> => {
+  // await delay(800)
   let count = 0
+  const { org, packageName, page, limit, retentionWeeks, tags } = params
+
   core.debug(`==> Page ${page} (limit: ${limit})`)
+
   const versions = await getPackageVersions(org, packageName, page, limit)
   core.debug(`Versions found: ${versions.length}`)
 
   if (versions.length) {
-    const versionsToDelete = getVersionsToDelete(versions, retentionWeeks)
+    const versionsToDelete = getVersionsToDelete(versions, retentionWeeks, tags)
     core.debug(`Versions to delete: ${versionsToDelete.length}`)
     count += versionsToDelete.length
 
     if (count) {
       await deletePackageVersions(org, packageName, versionsToDelete)
-      count += await purge(org, packageName, page, limit, retentionWeeks)
+      count += await cleanUp(params)
     } else if (versions.length === limit) {
-      count += await purge(org, packageName, page + 1, limit, retentionWeeks)
+      params.page++
+      count += await cleanUp(params)
     }
   }
 
   return count
 }
+
+// const purge = async (
+//   org: string,
+//   packageName: string,
+//   page = 1,
+//   limit = 100,
+//   retentionWeeks = 2
+// ): Promise<number> => {
+//   await delay(100)
+//   let count = 0
+//   core.debug(`==> Page ${page} (limit: ${limit})`)
+//   const versions = await getPackageVersions(org, packageName, page, limit)
+//   core.debug(`Versions found: ${versions.length}`)
+
+//   if (versions.length) {
+//     const versionsToDelete = getVersionsToDelete(versions, retentionWeeks)
+//     core.debug(`Versions to delete: ${versionsToDelete.length}`)
+//     count += versionsToDelete.length
+
+//     if (count) {
+//       await deletePackageVersions(org, packageName, versionsToDelete)
+//       count += await purge(org, packageName, page, limit, retentionWeeks)
+//     } else if (versions.length === limit) {
+//       count += await purge(org, packageName, page + 1, limit, retentionWeeks)
+//     }
+//   }
+
+//   return count
+// }
 
 // export const getRepositoryPackages = async (): Promise<
 //   PackagesResponse["data"]
@@ -137,4 +171,4 @@ const purge = async (
 //   }
 // }
 
-export default purge
+export default cleanUp
