@@ -20,13 +20,13 @@
 
 ### Inputs
 
-| variable        | description                                                         |
-|-----------------|---------------------------------------------------------------------|
-| organization    | Github organization                                                 |
-| token           | Github personal access token to perform requests over Github API    |
-| retention-weeks | Number of weeks of retention preventing packages from being deleted |
-| containers      | List of container packages to clean up *(multi lines input)*        |
-| protected-tags  | List of regex to match tags and prevent their deletion              |
+| variable        | description                                                                  |
+|-----------------|------------------------------------------------------------------------------|
+| organization    | Github organization                                                          |
+| token           | Github personal access token to perform requests over Github API             |
+| retention-weeks | Number of weeks of retention preventing packages from being deleted          |
+| containers      | List of container packages to clean up *(multi lines input)*                 |
+| protected-tags  | List of regex to match tags and prevent their deletion *(multi lines input)* |
 
 ### Development
 

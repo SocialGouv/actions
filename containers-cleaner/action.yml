@@ -12,12 +12,16 @@ inputs:
     description: Personal access token (PAT) used to perform Github API requests
   retention-weeks:
     default: '2'
-    required: true
+    required: false
     description: 'Number of weeks of retention preventing packages from being deleted'
   containers:
     default: ''
     required: true
     description: 'List of container packages to clean up'
+  protected-tags:
+    default: ''
+    required: true
+    description: 'List of regex and match tags to prevent their deletion'
 runs:
   using: 'node12'
   main: 'dist/index.js'
