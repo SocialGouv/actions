@@ -8,6 +8,12 @@
     organization: socialgouv
     token: ${{ github.token }}
     retention-weeks: '2'
+    protected-tags: |
+      ^prod$
+      ^latest$
+      ^preprod$
+      ^prod-(\w+)$
+      ^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$
     containers: |
       fabrique/standup
 ```
@@ -20,6 +26,7 @@
 | token           | Github personal access token to perform requests over Github API    |
 | retention-weeks | Number of weeks of retention preventing packages from being deleted |
 | containers      | List of container packages to clean up *(multi lines input)*        |
+| protected-tags  | List of regex to match tags and prevent their deletion              |
 
 ### Development
 

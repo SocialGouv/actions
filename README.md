@@ -187,6 +187,12 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
     organization: socialgouv
     token: ${{ github.token }}
     retention-weeks: '2'
+    protected-tags: |
+      ^prod$
+      ^latest$
+      ^preprod$
+      ^prod-(\w+)$
+      ^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$
     containers: |
       fabrique/standup
 ```
