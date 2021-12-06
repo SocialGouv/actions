@@ -58,14 +58,18 @@ runs:
         mkdir -p ~/.kube
         touch ~/.kube/config
         echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
+        cat ~/.kube/config
     
     - name: Ensure namespace exists
       shell: bash
-      run: kubectl apply -f namespace-${{ inputs.environment }}.yml || true
+      run: |
+        kubectl apply -f namespace-${{ inputs.environment }}.yml || true
+        cat namespace-${{ inputs.environment }}.yml
 
     - name: Create secret if not exists
       shell: bash
       run: |
+        set -x
         RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
         BRANCH=$(npx @socialgouv/env-slug $RAW_BRANCH)
         
