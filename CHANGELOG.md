@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/SocialGouv/actions/compare/v1.15.2...v1.16.0) (2021-12-06)
+
+
+### Features
+
+* **packages:** Add packages versions clean up action ([#78](https://github.com/SocialGouv/actions/issues/78)) ([763384e](https://github.com/SocialGouv/actions/commit/763384e19ffea85ad1b08c48fda4ef23ee4f260c))
+
 ## [1.15.2](https://github.com/SocialGouv/actions/compare/v1.15.1...v1.15.2) (2021-11-30)
 
 
