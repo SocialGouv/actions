@@ -58,13 +58,11 @@ runs:
         mkdir -p ~/.kube
         touch ~/.kube/config
         echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
-        cat ~/.kube/config
     
     - name: Ensure namespace exists
       shell: bash
       run: |
-        kubectl apply -f namespace-${{ inputs.environment }}.yml || true
-        cat namespace-${{ inputs.environment }}.yml
+        kubectl create -f ns.yml 2>/dev/null || true
 
     - name: Create secret if not exists
       shell: bash
