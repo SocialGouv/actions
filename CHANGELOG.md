@@ -1,3 +1,10 @@
+## [1.16.2](https://github.com/SocialGouv/actions/compare/v1.16.1...v1.16.2) (2021-12-07)
+
+
+### Bug Fixes
+
+* **yarn-cache:** order rollback ([#83](https://github.com/SocialGouv/actions/issues/83)) ([e54b6be](https://github.com/SocialGouv/actions/commit/e54b6be9a437a523022a6d4768ed7b315c2a06d2))
+
 ## [1.16.1](https://github.com/SocialGouv/actions/compare/v1.16.0...v1.16.1) (2021-12-07)
 
 
