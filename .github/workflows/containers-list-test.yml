@@ -50,5 +50,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - uses: ./containers-list/
+      id: list
       with:
         organization: socialgouv
+
+    - name: Debug containers-list
+      run: |
+        echo DEBUG:
+        echo "${{ steps.list.outputs.containers }}"

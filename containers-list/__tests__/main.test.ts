@@ -8,7 +8,6 @@ import listContainers from "../src/list-containers"
 
 test("Get versions to delete", async () => {
   const containers = await listContainers("socialgouv")
-  console.log("containers", containers)
   expect(containers.length).toBeGreaterThan(0)
 })
 
