@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/SocialGouv/actions/compare/v1.16.0...v1.16.1) (2021-12-07)
+
+
+### Bug Fixes
+
+* **create-db:** kubectl create + cache order ([#82](https://github.com/SocialGouv/actions/issues/82)) ([fbf552c](https://github.com/SocialGouv/actions/commit/fbf552c42be051e849e4dedada745ff13aa686d7))
+
 # [1.16.0](https://github.com/SocialGouv/actions/compare/v1.15.2...v1.16.0) (2021-12-06)
 
 
