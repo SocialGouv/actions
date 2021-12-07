@@ -1,0 +1,14 @@
+author: SocialGouv
+name: Organization packages cleaner
+description: Purge packages versions list
+inputs:
+  organization:
+    default: ''
+    required: true
+    description: Github organization
+outputs:
+  containers:
+    description: "List of containers"
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

@@ -1,0 +1,54 @@
+name: Containers list tests
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  check-dist-list:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: yarn --cwd ./containers-list --frozen-lockfile --prefer-offline
+
+    - name: Rebuild the dist directory
+      run: yarn --cwd ./containers-list build; yarn --cwd ./containers-list package
+
+    - name: Compare the expected and actual dist/ directories
+      run: |
+        if [ "$(git diff --ignore-space-at-eol containers-list/dist/ | wc -l)" -gt "0" ]; then
+          echo "Detected uncommitted changes after build.  See status below:"
+          git diff
+          exit 1
+        fi
+      id: diff
+
+    - uses: actions/upload-artifact@v2
+      if: ${{ failure() && steps.diff.conclusion == 'failure' }}
+      with:
+        name: containers-list-dist
+        path: containers-list/dist
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - run: yarn --cwd ./containers-list --frozen-lockfile --prefer-offline
+
+    - run: yarn --cwd ./containers-list all
+
+  test-list:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - uses: ./containers-list/
+      with:
+        organization: socialgouv
