@@ -88,7 +88,7 @@ runs:
         PGPASSWORD=$(openssl rand -base64 32 | sed "s/[^[:alnum:]-]//g")
 
         K8S_SECRET_NS="${{ github.event.repository.name }}-secret"
-        PGHOST=$(kubectl -n $K8S_SECRET_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGHOST}" | base64 --decode)
+        PGHOST=$(kubectl -n $K8S_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGHOST}" | base64 --decode)
 
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
           PGDATABASE=$SOCIALGOUV_PRODUCTION_NAMESPACE
