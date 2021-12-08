@@ -1,7 +1,6 @@
 import * as core from "@actions/core"
 import type { Endpoints } from "@octokit/types"
 import { Octokit } from "octokit"
-// import delay from "delay"
 import isBefore from "date-fns/isBefore"
 import pThrottle from "p-throttle"
 import sub from "date-fns/sub"
@@ -52,7 +51,7 @@ export const deletePackageVersions = async (
 
   for (const version of versions) {
     core.debug(
-      `Delete version: ${version.name} -- ${
+      `Delete version: ${packageName} -- ${version.name} -- ${
         version.updated_at
       } -- [${version.metadata?.container?.tags.join(", ")}]`
     )
@@ -102,7 +101,6 @@ interface Params {
 }
 
 const cleanUp = async (params: Params): Promise<number> => {
-  // await delay(800)
   let count = 0
   const { org, packageName, page, limit, retentionWeeks, tags } = params
 
