@@ -41,7 +41,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getVersionsToDelete = exports.getPackageVersions = exports.deletePackageVersions = exports.deletePackageVersion = exports.isOldVersion = exports.isProtectedTag = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const octokit_1 = __nccwpck_require__(7467);
-// import delay from "delay"
 const isBefore_1 = __importDefault(__nccwpck_require__(9369));
 const p_throttle_1 = __importDefault(__nccwpck_require__(9296));
 const sub_1 = __importDefault(__nccwpck_require__(3875));
@@ -67,7 +66,7 @@ const deletePackageVersions = (org, packageName, versions) => __awaiter(void 0, 
     const throttle = (0, p_throttle_1.default)({ limit: 1, interval: 800 });
     const throttled = throttle((id) => __awaiter(void 0, void 0, void 0, function* () { return (0, exports.deletePackageVersion)(org, packageName, id); }));
     for (const version of versions) {
-        core.debug(`Delete version: ${version.name} -- ${version.updated_at} -- [${(_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.join(", ")}]`);
+        core.debug(`Delete version: ${packageName} -- ${version.name} -- ${version.updated_at} -- [${(_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.join(", ")}]`);
         yield throttled(version.id);
     }
 });
@@ -90,7 +89,6 @@ const getVersionsToDelete = (versions, retentionWeeks, tags) => versions.filter(
 });
 exports.getVersionsToDelete = getVersionsToDelete;
 const cleanUp = (params) => __awaiter(void 0, void 0, void 0, function* () {
-    // await delay(800)
     let count = 0;
     const { org, packageName, page, limit, retentionWeeks, tags } = params;
     core.debug(`==> Page ${page} (limit: ${limit})`);
