@@ -1,9 +1,6 @@
 import { JSDOM } from "jsdom"
 
-const listContainers = async (
-  org: string,
-  page = 1
-): Promise<(string | undefined)[]> => {
+const listContainers = async (org: string, page = 1): Promise<string[]> => {
   const options = {}
   const url = `https://github.com/orgs/${org}/packages?ecosystem=container&page=${page}`
 
@@ -12,7 +9,9 @@ const listContainers = async (
   const containers = Array.from(
     dom.window.document.querySelectorAll("#org-packages .Link--primary")
   ).map((node) =>
-    `https://github.com/${node.getAttribute("href")}`.split("/").pop()
+    decodeURIComponent(
+      String(`https://github.com/${node.getAttribute("href")}`.split("/").pop())
+    )
   )
 
   const next = dom.window.document.querySelector(
