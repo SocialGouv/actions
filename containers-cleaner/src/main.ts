@@ -1,5 +1,5 @@
 import * as core from "@actions/core"
-import cleanUp from "./clean-up"
+import cleanUp, { protectedContainers } from "./clean-up"
 
 const PAGE_LIMIT = 100 // Number of packages per page (from 1 to 100)
 const START_PAGE_INDEX = 1 // Starting page index
@@ -32,7 +32,7 @@ async function run(): Promise<void> {
       core.debug("--------------------")
       total += count
     }
-    core.setOutput("total", total)
+    core.setOutput("total", total - protectedContainers.length)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

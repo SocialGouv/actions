@@ -5,6 +5,10 @@ import isBefore from "date-fns/isBefore"
 import pThrottle from "p-throttle"
 import sub from "date-fns/sub"
 
+import type { RequestError } from "@octokit/request-error"
+
+export const protectedContainers: number[] = []
+
 type PackageVersionsResponse =
   Endpoints["GET /orgs/{org}/packages/{package_type}/{package_name}/versions"]["response"]
 
@@ -27,15 +31,22 @@ export const deletePackageVersion = async (
   packageName: string,
   versionId: number
 ): Promise<void> => {
-  await octokit.request(
-    "DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}",
-    {
-      org,
-      package_type: "container",
-      package_name: packageName,
-      package_version_id: versionId,
-    }
-  )
+  try {
+    await octokit.request(
+      "DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}",
+      {
+        org,
+        package_type: "container",
+        package_name: packageName,
+        package_version_id: versionId,
+      }
+    )
+  } catch (error) {
+    const { response } = error as RequestError
+    const { message } = response?.data as Record<string, unknown>
+    core.debug(`Warning (${versionId}): ${message}`)
+    protectedContainers.push(versionId)
+  }
 }
 
 export const deletePackageVersions = async (
@@ -86,6 +97,7 @@ export const getVersionsToDelete = (
   versions.filter(
     (version) =>
       isOldVersion(version.updated_at, retentionWeeks) &&
+      !protectedContainers.includes(version.id) &&
       !version.metadata?.container?.tags.some((tag) =>
         isProtectedTag(String(tag), tags)
       )
