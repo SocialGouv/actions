@@ -63,6 +63,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` f
     environment: "dev"
     token: ${{ secrets.GITHUB_TOKEN }}
     kubeconfig: ${{ secrets.KUBECONFIG }}
+    rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 ```
 
 Export main URL as `steps.deploy.outputs.url`
