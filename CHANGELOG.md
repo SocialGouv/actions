@@ -1,3 +1,10 @@
+## [1.16.5](https://github.com/SocialGouv/actions/compare/v1.16.4...v1.16.5) (2021-12-13)
+
+
+### Bug Fixes
+
+* **kosko-charts:** add input koskoChartsVersion ([#87](https://github.com/SocialGouv/actions/issues/87)) ([be9e13a](https://github.com/SocialGouv/actions/commit/be9e13a5369812ee5fbe16dd94122b463a054898))
+
 ## [1.16.4](https://github.com/SocialGouv/actions/compare/v1.16.3...v1.16.4) (2021-12-13)
 
 
