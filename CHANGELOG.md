@@ -1,3 +1,10 @@
+## [1.16.7](https://github.com/SocialGouv/actions/compare/v1.16.6...v1.16.7) (2021-12-13)
+
+
+### Bug Fixes
+
+* **kosko-charts:** degit branch symbol ([#89](https://github.com/SocialGouv/actions/issues/89)) ([4d5f3c4](https://github.com/SocialGouv/actions/commit/4d5f3c4116455b2afefdc7c7fc5a8d7794201c53))
+
 ## [1.16.6](https://github.com/SocialGouv/actions/compare/v1.16.5...v1.16.6) (2021-12-13)
 
 
