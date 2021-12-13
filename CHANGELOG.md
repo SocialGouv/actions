@@ -1,3 +1,10 @@
+## [1.16.4](https://github.com/SocialGouv/actions/compare/v1.16.3...v1.16.4) (2021-12-13)
+
+
+### Bug Fixes
+
+* **deploy:** use k8s-manifests-debug@v1 ([#80](https://github.com/SocialGouv/actions/issues/80)) ([df3c5df](https://github.com/SocialGouv/actions/commit/df3c5df38a297c3d6c0b304433c0fc11f8c6bbc0))
+
 ## [1.16.3](https://github.com/SocialGouv/actions/compare/v1.16.2...v1.16.3) (2021-12-13)
 
 
