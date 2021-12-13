@@ -46,7 +46,7 @@ runs:
         SOCIALGOUV_BASE_DOMAIN: some-domain # mandatory to trigger GitHub environment in kosko-charts
       run: |
         PROJECT=${GITHUB_REPOSITORY#*/}
-        npx @socialgouv/azure-db drop --application ${PROJECT} --database autodevops_${{ steps.k8s.outputs.branch }} --user user_${{ steps.k8s.outputs.branch }}
+        npx @socialgouv/azure-db drop --application ${PROJECT} --database autodevops_${{ steps.k8s.outputs.branch }} --user user_${{ steps.k8s.outputs.branch }} || true
 
     - name: Mark environment as deactivated
       uses: bobheadxi/deployments@v0.4.3
