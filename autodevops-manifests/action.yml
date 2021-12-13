@@ -29,7 +29,7 @@ runs:
     - name: Degit autodevops template
       shell: bash
       run: |
-        npx degit SocialGouv/kosko-charts/templates/autodevops@${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
+        npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         rm -rf /tmp/autodevops/environments
 
     - name: Copy application k8s config to autodevops
