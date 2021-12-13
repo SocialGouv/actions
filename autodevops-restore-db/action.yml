@@ -27,7 +27,7 @@ runs:
     - name: Install kosko-charts autodevops
       shell: bash
       run: |
-        npx degit SocialGouv/kosko-charts/templates/autodevops@${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
+        npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         yarn --cwd /tmp/autodevops
 
     - name: Yarn cache setup
