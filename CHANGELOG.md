@@ -1,3 +1,10 @@
+## [1.16.6](https://github.com/SocialGouv/actions/compare/v1.16.5...v1.16.6) (2021-12-13)
+
+
+### Bug Fixes
+
+* **kosko-charts:** single quotes ([b8b80fd](https://github.com/SocialGouv/actions/commit/b8b80fd3fa6b2402565233fa9ade3daa1b96f087))
+
 ## [1.16.5](https://github.com/SocialGouv/actions/compare/v1.16.4...v1.16.5) (2021-12-13)
 
 
