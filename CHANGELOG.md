@@ -1,3 +1,10 @@
+## [1.16.3](https://github.com/SocialGouv/actions/compare/v1.16.2...v1.16.3) (2021-12-13)
+
+
+### Bug Fixes
+
+* **deactivate:** allow_failure ([#86](https://github.com/SocialGouv/actions/issues/86)) ([eece59a](https://github.com/SocialGouv/actions/commit/eece59abcd9110fbce86765daecebe895dfd8ccb))
+
 ## [1.16.2](https://github.com/SocialGouv/actions/compare/v1.16.1...v1.16.2) (2021-12-07)
 
 
