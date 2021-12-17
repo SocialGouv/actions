@@ -43,7 +43,7 @@ jobs:
 
     - run: INPUT_TOKEN=${{ github.token }} yarn --cwd ./containers-cleaner all
 
-  test:
+  testy:
     runs-on: ubuntu-latest
     steps:
 
@@ -61,5 +61,4 @@ jobs:
           ^prod-(\w+)$
           ^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$
         containers: |
-          fabrique/standup
-          docker/fluentd-modsecurity
+          mano/api

@@ -10,10 +10,11 @@ type PackageVersionsResponse =
   Endpoints["GET /orgs/{org}/packages/{package_type}/{package_name}/versions"]["response"]
 
 const containers = [
-  "fabrique/standup",
-  "fabrique/carnets",
-  "fabrique/hasura",
-  "docker/pg-cleaner",
+  "mano/api",
+  // "fabrique/standup",
+  // "fabrique/carnets",
+  // "fabrique/hasura",
+  // "docker/pg-cleaner",
   // "docker/fluentd-modsecurity",
 ]
 
@@ -116,10 +117,13 @@ test("Test lib/main.js", () => {
   process.env["INPUT_ORGANIZATION"] = "socialgouv"
   process.env["INPUT_CONTAINERS"] = containers.join("\n")
   process.env["INPUT_PROTECTED-TAGS"] = protectedTags.join("\n")
+  process.env["DEBUG"] = "*"
   const np = process.execPath
   const ip = path.join(__dirname, "..", "lib", "main.js")
+
   const options: cp.ExecFileSyncOptions = {
     env: process.env,
   }
-  console.log(cp.execFileSync(np, [ip], options).toString())
+  const result = cp.execFileSync(np, [ip], options).toString()
+  console.log(result)
 })
