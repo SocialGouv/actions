@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/SocialGouv/actions/compare/v1.17.0...v1.18.0) (2021-12-17)
+
+
+### Features
+
+* **manifests:** add inputs.kosko-args and actions/autodevops-job ([#60](https://github.com/SocialGouv/actions/issues/60)) ([e3647a6](https://github.com/SocialGouv/actions/commit/e3647a6df0681483f819b3635d6ffd33562a7851))
+
 # [1.17.0](https://github.com/SocialGouv/actions/compare/v1.16.7...v1.17.0) (2021-12-17)
 
 
