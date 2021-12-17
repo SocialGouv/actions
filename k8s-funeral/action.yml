@@ -11,6 +11,8 @@ inputs:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  koskoChartsVersion:
+    description: "Version of kosko-charts action to degit"
 
 outputs: {}
 
@@ -30,7 +32,7 @@ runs:
     - name: Install kosko-charts autodevops
       shell: bash
       run: |
-        npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+        npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         yarn --cwd /tmp/autodevops
 
     - name: Yarn cache setup

@@ -9,6 +9,10 @@ inputs:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+  koskoChartsVersion:
+    description: "Version of kosko-charts action to degit"
+
+
 
 runs:
   using: "composite"
@@ -28,9 +32,9 @@ runs:
       shell: bash
       run: |
         rm -rf /tmp/autodevops
-        npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+        npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         yarn --cwd /tmp/autodevops
-
+    
     - name: Yarn cache setup
       uses: c-hive/gha-yarn-cache@v2
       with:
@@ -61,7 +65,7 @@ runs:
     
     - name: Ensure namespace exists
       shell: bash
-      run: kubectl apply -f namespace-${{ inputs.environment }}.yml || true
+      run: kubectl create -f namespace-${{ inputs.environment }}.yml || true
 
     - name: Create secret if not exists
       shell: bash

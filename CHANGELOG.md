@@ -1,3 +1,59 @@
+## [1.16.7](https://github.com/SocialGouv/actions/compare/v1.16.6...v1.16.7) (2021-12-13)
+
+
+### Bug Fixes
+
+* **kosko-charts:** degit branch symbol ([#89](https://github.com/SocialGouv/actions/issues/89)) ([4d5f3c4](https://github.com/SocialGouv/actions/commit/4d5f3c4116455b2afefdc7c7fc5a8d7794201c53))
+
+## [1.16.6](https://github.com/SocialGouv/actions/compare/v1.16.5...v1.16.6) (2021-12-13)
+
+
+### Bug Fixes
+
+* **kosko-charts:** single quotes ([b8b80fd](https://github.com/SocialGouv/actions/commit/b8b80fd3fa6b2402565233fa9ade3daa1b96f087))
+
+## [1.16.5](https://github.com/SocialGouv/actions/compare/v1.16.4...v1.16.5) (2021-12-13)
+
+
+### Bug Fixes
+
+* **kosko-charts:** add input koskoChartsVersion ([#87](https://github.com/SocialGouv/actions/issues/87)) ([be9e13a](https://github.com/SocialGouv/actions/commit/be9e13a5369812ee5fbe16dd94122b463a054898))
+
+## [1.16.4](https://github.com/SocialGouv/actions/compare/v1.16.3...v1.16.4) (2021-12-13)
+
+
+### Bug Fixes
+
+* **deploy:** use k8s-manifests-debug@v1 ([#80](https://github.com/SocialGouv/actions/issues/80)) ([df3c5df](https://github.com/SocialGouv/actions/commit/df3c5df38a297c3d6c0b304433c0fc11f8c6bbc0))
+
+## [1.16.3](https://github.com/SocialGouv/actions/compare/v1.16.2...v1.16.3) (2021-12-13)
+
+
+### Bug Fixes
+
+* **deactivate:** allow_failure ([#86](https://github.com/SocialGouv/actions/issues/86)) ([eece59a](https://github.com/SocialGouv/actions/commit/eece59abcd9110fbce86765daecebe895dfd8ccb))
+
+## [1.16.2](https://github.com/SocialGouv/actions/compare/v1.16.1...v1.16.2) (2021-12-07)
+
+
+### Bug Fixes
+
+* **yarn-cache:** order rollback ([#83](https://github.com/SocialGouv/actions/issues/83)) ([e54b6be](https://github.com/SocialGouv/actions/commit/e54b6be9a437a523022a6d4768ed7b315c2a06d2))
+
+## [1.16.1](https://github.com/SocialGouv/actions/compare/v1.16.0...v1.16.1) (2021-12-07)
+
+
+### Bug Fixes
+
+* **create-db:** kubectl create + cache order ([#82](https://github.com/SocialGouv/actions/issues/82)) ([fbf552c](https://github.com/SocialGouv/actions/commit/fbf552c42be051e849e4dedada745ff13aa686d7))
+
+# [1.16.0](https://github.com/SocialGouv/actions/compare/v1.15.2...v1.16.0) (2021-12-06)
+
+
+### Features
+
+* **packages:** Add packages versions clean up action ([#78](https://github.com/SocialGouv/actions/issues/78)) ([763384e](https://github.com/SocialGouv/actions/commit/763384e19ffea85ad1b08c48fda4ef23ee4f260c))
+
 ## [1.15.2](https://github.com/SocialGouv/actions/compare/v1.15.1...v1.15.2) (2021-11-30)
 
 
