@@ -1,6 +1,6 @@
 author: SocialGouv
-name: Organization packages cleaner
-description: Purge packages versions list
+name: Organization packages list
+description: List packages versions
 inputs:
   organization:
     default: ''

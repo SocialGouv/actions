@@ -11,6 +11,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` f
 | [autodevops-release](#socialgouvactionsautodevops-release)               | Trigger semantic release run                                 |
 | [autodevops-deactivate](#socialgouvactionsautodevops-deactivate)         | Cleanup environments and databases                           |
 | [containers-cleaner](#socialgouvactionscontainers-cleaner)               | Organization container packages versions cleaner             |
+| [containers-list](#socialgouvactionscontainers-list)                     | List organization container packages versions                |
 
 | Internal Action                                                          | usage                                                        | 
 | ------------------------------------------------------------------------ | ------------------------------------------------------------ | 
@@ -199,3 +200,11 @@ see [.github/workflows/k8s-manifests-debug-test.yaml](.github/workflows/k8s-mani
 ```
 
 Detailed information [here](https://github.com/SocialGouv/actions/tree/master/containers-cleaner).
+
+## `socialgouv/actions/containers-list`
+
+```yaml
+- uses: @socialgouv/actions/containers-list@v1
+  with:
+    organization: socialgouv
+```

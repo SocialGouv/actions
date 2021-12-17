@@ -3,19 +3,12 @@
 ### Usage
 
 ```yaml
-- uses: @socialgouv/actions/containers-cleaner@v1
+- uses: @socialgouv/actions/containers-list@v1
+  id: containers-list
   with:
     organization: socialgouv
-    token: ${{ github.token }}
-    retention-weeks: '2'
-    protected-tags: |
-      ^prod$
-      ^latest$
-      ^preprod$
-      ^prod-(\w+)$
-      ^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$
-    containers: |
-      fabrique/standup
+
+- run: echo ${{ steps.containers-list.output.containers }}
 ```
 
 ### Inputs
@@ -23,10 +16,6 @@
 | variable        | description                                                                  |
 |-----------------|------------------------------------------------------------------------------|
 | organization    | Github organization                                                          |
-| token           | Github personal access token to perform requests over Github API             |
-| retention-weeks | Number of weeks of retention preventing packages from being deleted          |
-| containers      | List of container packages to clean up *(multi lines input)*                 |
-| protected-tags  | List of regex to match tags and prevent their deletion *(multi lines input)* |
 
 ### Development
 
@@ -42,10 +31,10 @@ yarn build; yarn package
 
 Run the tests
 ```bash
-INPUT_TOKEN=<github_personal_access_token> yarn test
+yarn test
 ```
 
 Run the actions
 ```bash
-act -s GITHUB_TOKEN=<github_personal_access_token>
+act
 ```
