@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/SocialGouv/actions/compare/v1.16.7...v1.17.0) (2021-12-17)
+
+
+### Features
+
+* **packages:** List all organization packages/containers ([#81](https://github.com/SocialGouv/actions/issues/81)) ([2170da9](https://github.com/SocialGouv/actions/commit/2170da95996cec5c91234b3b0f683bb36159c9bf))
+
 ## [1.16.7](https://github.com/SocialGouv/actions/compare/v1.16.6...v1.16.7) (2021-12-13)
 
 
