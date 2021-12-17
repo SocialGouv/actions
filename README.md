@@ -51,6 +51,7 @@ The SocialGouv GitHub Actions. Actions designed for repos with a `.socialgouv` f
     productionNamespace: "alternative-namespace" # optional
     rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
     socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+    kosko-args: jobs/restore-db # optional, to generate only some components
 ```
 
 ## `socialgouv/actions/autodevops-deploy`

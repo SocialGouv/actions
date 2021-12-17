@@ -10,6 +10,8 @@ inputs:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  kosko-args:
+    description: "Specify which kosko components to generate"
   koskoChartsVersion:
     description: "Version of kosko-charts action to degit"
 
@@ -36,7 +38,7 @@ runs:
       shell: bash
       run: |
         DEST="/tmp/autodevops"
-        
+
         if [ -d ".socialgouv/environments" ]; then
           echo "$ cp -r .socialgouv/environments $DEST/environments"
           cp -r .socialgouv/environments $DEST/environments
@@ -91,7 +93,7 @@ runs:
       shell: bash
       run: |
         echo SOCIALGOUV_BASE_DOMAIN: $SOCIALGOUV_BASE_DOMAIN
-        yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
+        yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} ${{ inputs.kosko-args }} > manifests-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
         RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
