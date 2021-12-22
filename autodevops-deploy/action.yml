@@ -77,7 +77,7 @@ runs:
         step: start
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
-        envs: ${{ steps.array-url.outputs.url }}
+        env: ${{ steps.array-url.outputs.url }}
 
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
@@ -113,7 +113,7 @@ runs:
         step: finish
         status: ${{ job.status }}
         token: ${{ inputs.token }}
-        deployments: ${{ steps.deployment.outputs.deployments }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         
     - name: Debug manifests
       uses: socialgouv/actions/k8s-manifests-debug@master
