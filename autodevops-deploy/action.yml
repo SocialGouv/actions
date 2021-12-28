@@ -78,7 +78,6 @@ runs:
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
         env: ${{ steps.array-url.outputs.url }}
-        is_multi: true
         log_args: true
 
     - name: Install Kapp
@@ -116,7 +115,6 @@ runs:
         status: ${{ job.status }}
         token: ${{ inputs.token }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-        is_multi: true
         log_args: true
         
     - name: Debug manifests
