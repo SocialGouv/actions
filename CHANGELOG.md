@@ -1,3 +1,10 @@
+## [1.18.2](https://github.com/SocialGouv/actions/compare/v1.18.1...v1.18.2) (2022-01-10)
+
+
+### Bug Fixes
+
+* **create-db:** fix yarn cache ([#92](https://github.com/SocialGouv/actions/issues/92)) ([c8b5f82](https://github.com/SocialGouv/actions/commit/c8b5f8228a1a5c647c10e61561ead48f04488dab))
+
 ## [1.18.1](https://github.com/SocialGouv/actions/compare/v1.18.0...v1.18.1) (2022-01-10)
 
 
