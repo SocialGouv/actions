@@ -11,6 +11,8 @@ inputs:
     description: "The deployment environment (dev | preprod | prod)"
   koskoChartsVersion:
     description: "Version of kosko-charts action to degit"
+  adminPgSecret:
+    description: "PG Secret admin secretRefName"
 
 
 
@@ -85,7 +87,7 @@ runs:
           DB_SECRET_NAME="azure-pg-user-${BRANCH}"
         fi
 
-        ADMIN_PG_SECRET=azure-pg-admin-user
+        ADMIN_PG_SECRET=${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}
 
         K8S_NS=${{ steps.namespace.outputs.result }}
         if [ -n "$(kubectl -n $K8S_NS get secret $DB_SECRET_NAME 2>/dev/null)" ]; then
@@ -131,6 +133,7 @@ runs:
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+        ADMIN_PG_SECRET: ${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}
 
     - name: Archive create-db manifests
       uses: actions/upload-artifact@v2
