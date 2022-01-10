@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/SocialGouv/actions/compare/v1.18.0...v1.18.1) (2022-01-10)
+
+
+### Bug Fixes
+
+* **create-db:** enable yarncache template has now yarn.lock ([#91](https://github.com/SocialGouv/actions/issues/91)) ([7494042](https://github.com/SocialGouv/actions/commit/7494042830b381c17ce97674af644e85212f0d2d))
+
 # [1.18.0](https://github.com/SocialGouv/actions/compare/v1.17.0...v1.18.0) (2021-12-17)
 
 
