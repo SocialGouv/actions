@@ -114,6 +114,8 @@ runs:
         PGSSLMODE=require
         DATABASE_URL=postgresql://${PGUSER/@/%40}:${PGPASSWORD/@/%40}@${PGHOST}/${PGDATABASE}?sslmode=${PGSSLMODE}
         
+        kubectl -n $K8S_SECRET_NS get secret $ADMIN_PG_SECRET --export -o yaml | kubectl apply -n $K8S_NS -f -
+
         kubectl -n $K8S_NS create secret generic $DB_SECRET_NAME \
           --from-literal="PGPASSWORD=$PGPASSWORD" \
           --from-literal="PGSSLMODE=$PGSSLMODE" \
