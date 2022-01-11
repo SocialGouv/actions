@@ -1,3 +1,10 @@
+## [1.18.5](https://github.com/SocialGouv/actions/compare/v1.18.4...v1.18.5) (2022-01-11)
+
+
+### Bug Fixes
+
+* **create-db:** admin pg copy ([#95](https://github.com/SocialGouv/actions/issues/95)) ([d341e64](https://github.com/SocialGouv/actions/commit/d341e64b975f23e5daefea202ae431dbdda9fe7d))
+
 ## [1.18.4](https://github.com/SocialGouv/actions/compare/v1.18.3...v1.18.4) (2022-01-10)
 
 
