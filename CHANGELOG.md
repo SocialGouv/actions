@@ -1,3 +1,11 @@
+## [1.18.6](https://github.com/SocialGouv/actions/compare/v1.18.5...v1.18.6) (2022-01-11)
+
+
+### Bug Fixes
+
+* **create-db:** copy secret ([3cd1b41](https://github.com/SocialGouv/actions/commit/3cd1b41d4fdce2f681cd6c89ba82fadb01177656))
+* **create-db:** copy secret ([7628179](https://github.com/SocialGouv/actions/commit/7628179d41fd553b545e069be65b851e11bc5b57))
+
 ## [1.18.5](https://github.com/SocialGouv/actions/compare/v1.18.4...v1.18.5) (2022-01-11)
 
 
