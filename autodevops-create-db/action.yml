@@ -13,7 +13,8 @@ inputs:
     description: "Version of kosko-charts action to degit"
   adminPgSecret:
     description: "PG Secret admin secretRefName"
-
+  pgUserAddHostSuffix:
+    description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
 
 
 runs:
@@ -100,15 +101,23 @@ runs:
         K8S_SECRET_NS="${{ github.event.repository.name }}-secret"
         PGHOST=$(kubectl -n $K8S_SECRET_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGHOST}" | base64 --decode)
 
+        PG_USER_ADD_HOST_SUFFIX=${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX || '' }}
+        if [ "$PG_USER_ADD_HOST_SUFFIX" ]; then
+          PGUSER_SUFFIX="@${PGHOST}"
+        else
+          PGUSER_SUFFIX=""
+        fi
+        
+
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
           PGDATABASE=$SOCIALGOUV_PRODUCTION_NAMESPACE
           PGUSER=$SOCIALGOUV_PRODUCTION_NAMESPACE
         elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
           PGDATABASE="preprod"
-          PGUSER="preprod@${PGHOST}"
+          PGUSER="preprod${PGUSER_SUFFIX}"
         else
           PGDATABASE="autodevops_${BRANCH}"
-          PGUSER="user_${BRANCH}@${PGHOST}"
+          PGUSER="user_${BRANCH}${PGUSER_SUFFIX}"
         fi
         
         PGSSLMODE=require
