@@ -35,13 +35,18 @@ runs:
         name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
         # path: manifests-${{ inputs.environment }}.yml
 
-    - name: Rename manifests file
-      shell: bash
-      if: ${{ inputs.manifestsName }}
-      run: |
-        cp ${{ inputs.manifestsName }}-${{ inputs.environment }}.yml manifests-${{ inputs.environment }}.yml
+    # - name: DEbug 1
+    #   shell: bash
+    #   run: |
+    #     ls -lah
 
-    - name: DEbug
+    # - name: Rename manifests file
+    #   shell: bash
+    #   if: ${{ inputs.manifestsName }}
+    #   run: |
+    #     cp ${{ inputs.manifestsName }}-${{ inputs.environment }}.yml manifests-${{ inputs.environment }}.yml
+
+    - name: DEbug 2
       shell: bash
       run: |
         ls -lah
