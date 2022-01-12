@@ -1,5 +1,6 @@
 name: "Deploy"
 description: "Deploy over Kubernetes"
+
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
@@ -11,10 +12,12 @@ inputs:
     description: "The Rancher project ID"
   manifestsName:
     description: "The name of the manifests file to use"
+
 outputs:
   url:
     description: "Main URL extracted from kube manifests"
     value: ${{ steps.environment-url.outputs.url }}
+
 runs:
   using: "composite"
   steps:
@@ -30,13 +33,18 @@ runs:
       uses: actions/download-artifact@v2
       with:
         name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
-        path: manifests-${{ inputs.environment }}.yml
+        # path: manifests-${{ inputs.environment }}.yml
+
+    - name: Rename manifests file
+      shell: bash
+      if: ${{ inputs.manifestsName }}
+      run: |
+        cp ${{ inputs.manifestsName }}-${{ inputs.environment }}.yml manifests-${{ inputs.environment }}.yml
 
     - name: DEbug
       shell: bash
       run: |
         ls -lah
-        ls -lah ./manifests-${{ inputs.environment }}.yml
 
     - name: Get namespace name
       uses: mikefarah/yq@v4.13.4
