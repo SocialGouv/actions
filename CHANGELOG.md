@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/SocialGouv/actions/compare/v1.19.0...v1.19.1) (2022-01-12)
+
+
+### Bug Fixes
+
+* **create-db:** clean export var ([c3ca709](https://github.com/SocialGouv/actions/commit/c3ca7099fe92823544b33ef25e2275cf191fdaf1))
+
 # [1.19.0](https://github.com/SocialGouv/actions/compare/v1.18.8...v1.19.0) (2022-01-12)
 
 
