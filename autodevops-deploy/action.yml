@@ -32,6 +32,12 @@ runs:
         name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
         path: manifests-${{ inputs.environment }}.yml
 
+    - name: DEbug
+      shell: bash
+      run: |
+        ls -lah
+        ls -lah ./manifests-${{ inputs.environment }}.yml
+
     - name: Get namespace name
       uses: mikefarah/yq@v4.13.4
       id: namespace
