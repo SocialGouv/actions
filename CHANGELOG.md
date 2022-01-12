@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/SocialGouv/actions/compare/v1.18.8...v1.19.0) (2022-01-12)
+
+
+### Features
+
+* **pg:** scaleway ([#98](https://github.com/SocialGouv/actions/issues/98)) ([f7a27d5](https://github.com/SocialGouv/actions/commit/f7a27d525151e2d63dc58dddde88cc6760c17f60))
+
 ## [1.18.8](https://github.com/SocialGouv/actions/compare/v1.18.7...v1.18.8) (2022-01-12)
 
 
