@@ -145,10 +145,9 @@ runs:
     
     - name: Generate create-db manifests
       shell: bash
-      run: |
-        export JOB_NAMESPACE="${{ inputs.jobNamespace || env.JOB_NAMESPACE }}"
-        yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
+      run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
       env:
+        JOB_NAMESPACE: ${{ inputs.jobNamespace || env.JOB_NAMESPACE }}
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
