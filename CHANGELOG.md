@@ -1,3 +1,10 @@
+## [1.18.8](https://github.com/SocialGouv/actions/compare/v1.18.7...v1.18.8) (2022-01-12)
+
+
+### Bug Fixes
+
+* **create-db:** azure-pg conflict remove copy secret ([ecac14f](https://github.com/SocialGouv/actions/commit/ecac14f00167bc44bd1c52ad7918ee2ed3e210a9))
+
 ## [1.18.7](https://github.com/SocialGouv/actions/compare/v1.18.6...v1.18.7) (2022-01-11)
 
 
