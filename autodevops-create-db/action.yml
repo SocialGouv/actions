@@ -13,8 +13,10 @@ inputs:
     description: "Version of kosko-charts action to degit"
   adminPgSecret:
     description: "PG Secret admin secretRefName"
-
-
+  pgUserAddHostSuffix:
+    description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
+  jobNamespace:
+    description: "Namespace for job to mount secrets, in future, this will be ${project}-ci, for now it's ${project}-${branch-slug}"
 
 runs:
   using: "composite"
@@ -99,16 +101,31 @@ runs:
 
         K8S_SECRET_NS="${{ github.event.repository.name }}-secret"
         PGHOST=$(kubectl -n $K8S_SECRET_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGHOST}" | base64 --decode)
+        PGPORT=$(kubectl -n $K8S_SECRET_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGPORT}" | base64 --decode)
+
+        PG_USER_ADD_HOST_SUFFIX=${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX || '' }}
+        
+        # autodetect azure add suffix
+        if [ "$PG_USER_ADD_HOST_SUFFIX" != "false" ] && [[ $PGHOST == *"azure.com"* ]]; then
+          PG_USER_ADD_HOST_SUFFIX="true"
+        fi
+
+        if [ "$PG_USER_ADD_HOST_SUFFIX" ] && [ "$PG_USER_ADD_HOST_SUFFIX" != "false" ]; then
+          PGUSER_SUFFIX="@${PGHOST}"
+        else
+          PGUSER_SUFFIX=""
+        fi
+        
 
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
           PGDATABASE=$SOCIALGOUV_PRODUCTION_NAMESPACE
           PGUSER=$SOCIALGOUV_PRODUCTION_NAMESPACE
         elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
           PGDATABASE="preprod"
-          PGUSER="preprod@${PGHOST}"
+          PGUSER="preprod${PGUSER_SUFFIX}"
         else
           PGDATABASE="autodevops_${BRANCH}"
-          PGUSER="user_${BRANCH}@${PGHOST}"
+          PGUSER="user_${BRANCH}${PGUSER_SUFFIX}"
         fi
         
         PGSSLMODE=require
@@ -128,7 +145,9 @@ runs:
     
     - name: Generate create-db manifests
       shell: bash
-      run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
+      run: |
+        export JOB_NAMESPACE="${{ inputs.jobNamespace || env.JOB_NAMESPACE }}"
+        yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
       env:
         SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
         RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
