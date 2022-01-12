@@ -71,7 +71,7 @@ runs:
           process.stdout.write(`::set-output name=url::${urlArray}`);
 
     - name: Notify deployment start
-      uses: maxgfr/deployments@master
+      uses: maxgfr/deployments@multi-deployment
       id: deployment
       with:
         step: start
@@ -109,7 +109,7 @@ runs:
         kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
     
     - name: Notify deployment
-      uses: maxgfr/deployments@master
+      uses: maxgfr/deployments@multi-deployment
       with:
         step: finish
         status: ${{ job.status }}
