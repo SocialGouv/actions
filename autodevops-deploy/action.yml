@@ -9,6 +9,8 @@ inputs:
     description: "The Github authentication token"
   rancherId:
     description: "The Rancher project ID"
+  manifestsName:
+    description: "The name of the manifests file to use"
 outputs:
   url:
     description: "Main URL extracted from kube manifests"
@@ -27,7 +29,8 @@ runs:
     - name: Download k8s manifests
       uses: actions/download-artifact@v2
       with:
-        name: manifests-${{ inputs.environment }}.yml
+        name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
+        path: manifests-${{ inputs.environment }}.yml
 
     - name: Get namespace name
       uses: mikefarah/yq@v4.13.4
