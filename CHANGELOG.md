@@ -1,3 +1,10 @@
+## [1.19.2](https://github.com/SocialGouv/actions/compare/v1.19.1...v1.19.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* **create-db:** jobNamespace binding ([#99](https://github.com/SocialGouv/actions/issues/99)) ([3a78813](https://github.com/SocialGouv/actions/commit/3a78813a222b42713f0a989458d94bb205b73221))
+
 ## [1.19.1](https://github.com/SocialGouv/actions/compare/v1.19.0...v1.19.1) (2022-01-12)
 
 
