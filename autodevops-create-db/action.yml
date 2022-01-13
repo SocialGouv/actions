@@ -161,12 +161,16 @@ runs:
 
     - name: Create database and user
       shell: bash
+      env:
+        JOB_NAMESPACE: ${{ inputs.jobNamespace || env.JOB_NAMESPACE || steps.namespace.outputs.result }}
       run: |
-        kubectl delete --namespace=${{ steps.namespace.outputs.result }} job/create-db-user || true
-        kubectl apply --namespace=${{ steps.namespace.outputs.result }} -f create-db.yml
+        kubectl delete --namespace=$JOB_NAMESPACE job/create-db-user || true
+        kubectl apply --namespace=$JOB_NAMESPACE -f create-db.yml
 
     - name: Wait for job to complete
       shell: bash
+      env:
+        JOB_NAMESPACE: ${{ inputs.jobNamespace || env.JOB_NAMESPACE || steps.namespace.outputs.result }}
       run: |
         set +e
         JOB="job/create-db-user"
@@ -174,9 +178,9 @@ runs:
         retval_failed=1
         while( [ $retval_complete -ne 0 ] && [ $retval_failed -ne 0 ] ); do
           sleep 2
-          output=$(timeout 2s kubectl -n ${{ steps.namespace.outputs.result }} wait --for=condition=complete $JOB --timeout=0 2>&1)
+          output=$(timeout 2s kubectl -n $JOB_NAMESPACE wait --for=condition=complete $JOB --timeout=0 2>&1)
           retval_complete=$?
-          output=$(timeout 2s kubectl -n ${{ steps.namespace.outputs.result }} wait --for=condition=failed $JOB --timeout=0 2>&1)
+          output=$(timeout 2s kubectl -n $JOB_NAMESPACE wait --for=condition=failed $JOB --timeout=0 2>&1)
           retval_failed=$?
           wait
         done
