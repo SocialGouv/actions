@@ -77,21 +77,21 @@ runs:
 
     - name: Create secret if not exists
       shell: bash
+      env:
+        ADMIN_PG_SECRET: ${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}
+        K8S_NS: ${{ steps.namespace.outputs.result }}
       run: |
         RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
         BRANCH=$(npx @socialgouv/env-slug $RAW_BRANCH)
         
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          DB_SECRET_NAME=azure-pg-user
+          DB_SECRET_NAME=pg-user
         elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
-          DB_SECRET_NAME=azure-pg-user-preprod
+          DB_SECRET_NAME=pg-user-preprod
         else
-          DB_SECRET_NAME="azure-pg-user-${BRANCH}"
+          DB_SECRET_NAME="pg-user-${BRANCH}"
         fi
 
-        ADMIN_PG_SECRET=${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}
-
-        K8S_NS=${{ steps.namespace.outputs.result }}
         if [ -n "$(kubectl -n $K8S_NS get secret $DB_SECRET_NAME 2>/dev/null)" ]; then
           echo "secret named '$DB_SECRET_NAME' already exists in namespace '$K8S_NS'"
           exit 0
@@ -116,7 +116,6 @@ runs:
           PGUSER_SUFFIX=""
         fi
         
-
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
           PGDATABASE=$SOCIALGOUV_PRODUCTION_NAMESPACE
           PGUSER=$SOCIALGOUV_PRODUCTION_NAMESPACE
@@ -152,12 +151,36 @@ runs:
         RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
         ADMIN_PG_SECRET: ${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}
-
+    
     - name: Archive create-db manifests
       uses: actions/upload-artifact@v2
       with:
         name: create-db.yml
         path: create-db.yml
+    
+    - name: Copy branch secret to job namespace
+      shell: bash
+      env:
+        JOB_NAMESPACE: ${{ inputs.jobNamespace || env.JOB_NAMESPACE || steps.namespace.outputs.result }}
+        BRANCH_NAMESPACE: ${{ steps.namespace.outputs.result }}
+      run: |
+        if [ "$JOB_NAMESPACE" = "$BRANCH_NAMESPACE" ]; then
+          echo "Same namespace for branch and job, skipping..."
+          exit 0
+        fi
+        RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+        BRANCH=$(npx @socialgouv/env-slug $RAW_BRANCH)
+
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          DB_SECRET_NAME=pg-user
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          DB_SECRET_NAME=pg-user-preprod
+        else
+          DB_SECRET_NAME="pg-user-${BRANCH}"
+        fi
+        kubectl get secret $DB_SECRET_NAME --namespace=$BRANCH_NAMESPACE -o yaml \
+          | sed 's/namespace: .*//' \
+          | kubectl -n $JOB_NAMESPACE apply -f -
 
     - name: Create database and user
       shell: bash
