@@ -81,7 +81,7 @@ runs:
       shell: bash
       run: |
         sleep 3
-        kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
+        kapp --logs-all=true --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
 
     - name: Define environment URL
       id: environment-url
