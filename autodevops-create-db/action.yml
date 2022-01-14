@@ -32,7 +32,7 @@ runs:
         echo ${{ github.action_path }}
         ls ${{ github.action_path }}
         sh ${{ github.action_path }}/test.sh
-        
+
     - name: Get project and namespace names
       shell: bash
       run: |
