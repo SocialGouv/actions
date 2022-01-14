@@ -11,7 +11,7 @@ inputs:
   rancherId:
     description: "The Rancher project ID"
   manifestsName:
-    description: "The name of the manifests file to use"
+    description: "The name of the manifests artifact"
 
 outputs:
   url:
@@ -33,23 +33,6 @@ runs:
       uses: actions/download-artifact@v2
       with:
         name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
-        # path: manifests-${{ inputs.environment }}.yml
-
-    # - name: DEbug 1
-    #   shell: bash
-    #   run: |
-    #     ls -lah
-
-    # - name: Rename manifests file
-    #   shell: bash
-    #   if: ${{ inputs.manifestsName }}
-    #   run: |
-    #     cp ${{ inputs.manifestsName }}-${{ inputs.environment }}.yml manifests-${{ inputs.environment }}.yml
-
-    - name: DEbug 2
-      shell: bash
-      run: |
-        ls -lah
 
     - name: Get namespace name
       uses: mikefarah/yq@v4.13.4
