@@ -5,18 +5,14 @@ inputs:
     description: "The Kubernetes authentication configuration"
   rancherId:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
-  socialgouvBaseDomain:
-    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
   environment:
     description: "The deployment environment (dev | preprod | prod)"
-  koskoChartsVersion:
-    description: "Version of kosko-charts action to degit"
   adminPgSecret:
     description: "PG Secret admin secretRefName"
+  pgUserPrefix:
+    description: "oldly azure-pg-user, in future, will be pg-user everywhere"
   pgUserAddHostSuffix:
     description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
-  jobNamespace:
-    description: "Namespace for job to mount secrets, in future, this will be ${project}-ci, for now it's ${project}-${branch-slug}"
 
 runs:
   using: "composite"
@@ -31,38 +27,42 @@ runs:
         if test -f ".github/dev.env"; then
           cat ".github/dev.env" >> $GITHUB_ENV
         fi
-    
-    - name: Degit kosko-charts autodevops
-      shell: bash
-      run: |
-        rm -rf /tmp/autodevops
-        npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
-    
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v2
-      with:
-        directory: /tmp/autodevops
 
-    - name: Install kosko-charts autodevops
-      shell: bash
-      run: |
-        yarn --cwd /tmp/autodevops
+        PROJECT_NAME=${GITHUB_REPOSITORY##*/}
+        BRANCH_NAME=${GITHUB_REF#refs/heads/}
+        BRANCH_NAME=${BRANCH_NAME#refs/tags/}
+        BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
+        ENVIRONMENT=${{ inputs.environment }}
+        RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        JOB_NAMESPACE=${PROJECT_NAME}-ci
+        SECRETS_NAMESPACE="${PROJECT_NAME}-secret"
+        ADMIN_PG_SECRET="${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}"
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          NAMESPACE=$PROJECT_NAME
+          DB_SECRET_NAME=pg-user
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          NAMESPACE=${PROJECT_NAME}-preprod
+          DB_SECRET_NAME=pg-user-preprod
+        else
+          NAMESPACE=${PROJECT_NAME}-${BRANCH_SLUG}
+          DB_SECRET_NAME="pg-user-${BRANCH_SLUG}"
+        fi
+        ACTION_PATH="${{ github.action_path }}"
 
-    - name: Generate k8s namespace
-      shell: bash
-      run: |
-        yarn --cwd /tmp/autodevops --silent generate --env dev _namespace > namespace-${ENVIRONMENT}.yml
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
-        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
-        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+        # general purpose env vars
+        echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
+        echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+        echo "BRANCH_SLUG=$BRANCH_SLUG" >> $GITHUB_ENV
+        echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
+        echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
+        echo "RANCHER_PROJECT_ID=$RANCHER_PROJECT_ID" >> $GITHUB_ENV
 
-    - name: Get namespace name
-      uses: mikefarah/yq@v4.13.4
-      id: namespace
-      with:
-        cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
+        # action specific env vars
+        echo "JOB_NAMESPACE=$JOB_NAMESPACE" >> $GITHUB_ENV
+        echo "SECRETS_NAMESPACE=$SECRETS_NAMESPACE" >> $GITHUB_ENV
+        echo "DB_SECRET_NAME=$DB_SECRET_NAME" >> $GITHUB_ENV
+        echo "ADMIN_PG_SECRET=$ADMIN_PG_SECRET" >> $GITHUB_ENV
+        echo "ACTION_PATH=$ACTION_PATH" >> $GITHUB_ENV
 
     - name: Create kubernetes config
       shell: bash
@@ -70,124 +70,69 @@ runs:
         mkdir -p ~/.kube
         touch ~/.kube/config
         echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
-    
-    - name: Ensure namespace exists
-      shell: bash
-      run: kubectl create -f namespace-${{ inputs.environment }}.yml || true
 
-    - name: Create secret if not exists
+    - uses: c-hive/gha-yarn-cache@v2
+
+    - name: Install global JS dependencies
+      shell: bash
+      run: yarn global add ts-node typescript
+
+    - name: Install action JS dependencies
+      shell: bash
+      run: yarn --cwd ${{ github.action_path }} install --prefer-offline
+
+    - name: Setup PATH
       shell: bash
       run: |
-        RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-        BRANCH=$(npx @socialgouv/env-slug $RAW_BRANCH)
-        
-        if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          DB_SECRET_NAME=azure-pg-user
-        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
-          DB_SECRET_NAME=azure-pg-user-preprod
-        else
-          DB_SECRET_NAME="azure-pg-user-${BRANCH}"
-        fi
+        echo "${{ github.action_path }}/bin" >> $GITHUB_PATH
+        echo "${{ github.action_path }}/node_modules/.bin" >> $GITHUB_PATH
 
-        ADMIN_PG_SECRET=${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}
-
-        K8S_NS=${{ steps.namespace.outputs.result }}
-        if [ -n "$(kubectl -n $K8S_NS get secret $DB_SECRET_NAME 2>/dev/null)" ]; then
-          echo "secret named '$DB_SECRET_NAME' already exists in namespace '$K8S_NS'"
-          exit 0
-        fi
-        
-        PGPASSWORD=$(openssl rand -base64 32 | sed "s/[^[:alnum:]-]//g")
-
-        K8S_SECRET_NS="${{ github.event.repository.name }}-secret"
-        PGHOST=$(kubectl -n $K8S_SECRET_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGHOST}" | base64 --decode)
-        PGPORT=$(kubectl -n $K8S_SECRET_NS get secrets $ADMIN_PG_SECRET -o jsonpath="{.data.PGPORT}" | base64 --decode)
-
-        PG_USER_ADD_HOST_SUFFIX=${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX || '' }}
-        
-        # autodetect azure add suffix
-        if [ "$PG_USER_ADD_HOST_SUFFIX" != "false" ] && [[ $PGHOST == *"azure.com"* ]]; then
-          PG_USER_ADD_HOST_SUFFIX="true"
-        fi
-
-        if [ "$PG_USER_ADD_HOST_SUFFIX" ] && [ "$PG_USER_ADD_HOST_SUFFIX" != "false" ]; then
-          PGUSER_SUFFIX="@${PGHOST}"
-        else
-          PGUSER_SUFFIX=""
-        fi
-        
-
-        if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          PGDATABASE=$SOCIALGOUV_PRODUCTION_NAMESPACE
-          PGUSER=$SOCIALGOUV_PRODUCTION_NAMESPACE
-        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
-          PGDATABASE="preprod"
-          PGUSER="preprod${PGUSER_SUFFIX}"
-        else
-          PGDATABASE="autodevops_${BRANCH}"
-          PGUSER="user_${BRANCH}${PGUSER_SUFFIX}"
-        fi
-        
-        PGSSLMODE=require
-        DATABASE_URL=postgresql://${PGUSER/@/%40}:${PGPASSWORD/@/%40}@${PGHOST}/${PGDATABASE}?sslmode=${PGSSLMODE}
-        
-        kubectl -n $K8S_NS create secret generic $DB_SECRET_NAME \
-          --from-literal="PGPASSWORD=$PGPASSWORD" \
-          --from-literal="PGSSLMODE=$PGSSLMODE" \
-          --from-literal="HASURA_GRAPHQL_DATABASE_URL=$DATABASE_URL" \
-          --from-literal="DATABASE_URL=$DATABASE_URL" \
-          --from-literal="PGDATABASE=$PGDATABASE" \
-          --from-literal="PGHOST=$PGHOST" \
-          --from-literal="PGUSER=$PGUSER"
-
-        echo "secret named '$DB_SECRET_NAME' created in namespace '$K8S_NS'"
-    
-    
-    - name: Generate create-db manifests
+    - name: Generate values file
       shell: bash
-      run: yarn --cwd /tmp/autodevops --silent generate --env dev jobs/create-db > create-db.yml
-      env:
-        JOB_NAMESPACE: ${{ inputs.jobNamespace || env.JOB_NAMESPACE }}
-        SOCIALGOUV_CONFIG_PATH: /tmp/autodevops/config.json
-        RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
-        SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
-        ADMIN_PG_SECRET: ${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}
+      run: yarn --cwd ${{ github.action_path }} run -s values > values.json
+
+    - name: Archive values.json
+      uses: actions/upload-artifact@v2
+      with:
+        name: values.json
+        path: values.json
+
+    - name: Generate k8s manifests
+      shell: bash
+      run: |
+        cat $ACTION_PATH/templates/namespace.gtpl | gomplate -d values.json > namespace.yml
+        cat $ACTION_PATH/templates/job.create-db.gtpl | gomplate -d values.json > job.create-db.yml
 
     - name: Archive create-db manifests
       uses: actions/upload-artifact@v2
       with:
-        name: create-db.yml
-        path: create-db.yml
+        name: job.create-db.yml
+        path: job.create-db.yml
 
-    - name: Create database and user
+    - name: Archive namespace manifests
+      uses: actions/upload-artifact@v2
+      with:
+        name: namespace.yml
+        path: namespace.yml
+
+    - name: Ensure namespace exists
+      shell: bash
+      run: kubectl create -f namespace.yml || true
+
+    - name: Create secret
       shell: bash
       env:
-        JOB_NAMESPACE: ${{ inputs.jobNamespace || env.JOB_NAMESPACE || steps.namespace.outputs.result }}
+        PG_USER_ADD_HOST_SUFFIX: ${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX || '' }}
       run: |
-        kubectl delete --namespace=$JOB_NAMESPACE job/create-db-user || true
-        kubectl apply --namespace=$JOB_NAMESPACE -f create-db.yml
+        create-secret
+        copy-secret $DB_SECRET_NAME $NAMESPACE $JOB_NAMESPACE
 
-    - name: Wait for job to complete
+    - name: Run create-db job
       shell: bash
-      env:
-        JOB_NAMESPACE: ${{ inputs.jobNamespace || env.JOB_NAMESPACE || steps.namespace.outputs.result }}
       run: |
-        set +e
-        JOB="job/create-db-user"
-        retval_complete=1
-        retval_failed=1
-        while( [ $retval_complete -ne 0 ] && [ $retval_failed -ne 0 ] ); do
-          sleep 2
-          output=$(timeout 2s kubectl -n $JOB_NAMESPACE wait --for=condition=complete $JOB --timeout=0 2>&1)
-          retval_complete=$?
-          output=$(timeout 2s kubectl -n $JOB_NAMESPACE wait --for=condition=failed $JOB --timeout=0 2>&1)
-          retval_failed=$?
-          wait
-        done
-        if [ $retval_failed -eq 0 ]; then
-          echo "$JOB failed"
-          exit 1
-        else
-          echo "$JOB complete"
-        fi
+        kubectl delete --namespace=$JOB_NAMESPACE "job/create-db-user-${BRANCH_SLUG}" || true
+        kubectl apply -f job.create-db.yml
 
+    - name: Wait for create-db job completion
+      shell: bash
+      run: wait-job "job/create-db-user-${BRANCH_SLUG}"
