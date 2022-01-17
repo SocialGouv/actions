@@ -106,6 +106,7 @@ runs:
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+        PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
 
     - name: Archive k8s namespace
       uses: actions/upload-artifact@v2
