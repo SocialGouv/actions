@@ -33,8 +33,6 @@ runs:
 
     - name: Degit autodevops template
       shell: bash
-      env:
-        PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         rm -rf /tmp/autodevops/environments
@@ -93,6 +91,7 @@ runs:
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+        PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
 
     - name: Generate k8s manifests
       shell: bash
