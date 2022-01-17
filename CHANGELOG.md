@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/SocialGouv/actions/compare/v1.20.0...v1.21.0) (2022-01-17)
+
+
+### Features
+
+* **create-db:** upgrade action ([#102](https://github.com/SocialGouv/actions/issues/102)) ([10f15e5](https://github.com/SocialGouv/actions/commit/10f15e53ce918be4250f9540cad6c0588eace39a))
+
 # [1.20.0](https://github.com/SocialGouv/actions/compare/v1.19.2...v1.20.0) (2022-01-17)
 
 
