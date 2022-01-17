@@ -14,6 +14,9 @@ inputs:
     description: "Specify which kosko components to generate"
   koskoChartsVersion:
     description: "Version of kosko-charts action to degit"
+  pgUserSecretPrefix:
+    description: "Prefix for pg-user secret name, oldly azure-pg-user, in future pg-user"
+    default: azure-pg-user
 
 runs:
   using: "composite"
@@ -30,6 +33,8 @@ runs:
 
     - name: Degit autodevops template
       shell: bash
+      env:
+        PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         rm -rf /tmp/autodevops/environments

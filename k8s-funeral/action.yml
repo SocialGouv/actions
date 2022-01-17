@@ -13,6 +13,9 @@ inputs:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
   koskoChartsVersion:
     description: "Version of kosko-charts action to degit"
+  pgUserSecretPrefix:
+    description: "Prefix for pg-user secret name, oldly azure-pg-user, in future pg-user"
+    default: azure-pg-user
 
 outputs: {}
 
@@ -31,6 +34,8 @@ runs:
 
     - name: Install kosko-charts autodevops
       shell: bash
+      env:
+        PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
       run: |
         npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         yarn --cwd /tmp/autodevops
