@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/SocialGouv/actions/compare/v1.19.2...v1.20.0) (2022-01-17)
+
+
+### Features
+
+* **input:** pgUserSecretPrefix keep retrocompat ([#101](https://github.com/SocialGouv/actions/issues/101)) ([791db6e](https://github.com/SocialGouv/actions/commit/791db6e58c75a253a994f4702dafd2bd70fc5c8f))
+
 ## [1.19.2](https://github.com/SocialGouv/actions/compare/v1.19.1...v1.19.2) (2022-01-13)
 
 
