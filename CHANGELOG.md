@@ -1,3 +1,10 @@
+## [1.21.1](https://github.com/SocialGouv/actions/compare/v1.21.0...v1.21.1) (2022-01-17)
+
+
+### Bug Fixes
+
+* **input:** pgUserSecretPrefix autodevops manifest ([f720c58](https://github.com/SocialGouv/actions/commit/f720c587cdd1fb7e0b244beec1b9323559f57d45))
+
 # [1.21.0](https://github.com/SocialGouv/actions/compare/v1.20.0...v1.21.0) (2022-01-17)
 
 
