@@ -38,13 +38,17 @@ runs:
         SECRETS_NAMESPACE="${PROJECT_NAME}-secret"
         ADMIN_PG_SECRET="${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}"
         if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          NAMESPACE=$PROJECT_NAME
+          if [ -n "$SOCIALGOUV_PRODUCTION_NAMESPACE" ]; then
+            NAMESPACE=$SOCIALGOUV_PRODUCTION_NAMESPACE
+          else
+            NAMESPACE=$PROJECT_NAME
+          fi
           DB_SECRET_NAME=pg-user
         elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
           NAMESPACE=${PROJECT_NAME}-preprod
           DB_SECRET_NAME=pg-user-preprod
         else
-          NAMESPACE=${PROJECT_NAME}-${BRANCH_SLUG}
+          NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT_NAME}-${BRANCH_NAME}")
           DB_SECRET_NAME="pg-user-${BRANCH_SLUG}"
         fi
         ACTION_PATH="${{ github.action_path }}"
