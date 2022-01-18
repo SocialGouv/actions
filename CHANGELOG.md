@@ -1,3 +1,10 @@
+## [1.21.4](https://github.com/SocialGouv/actions/compare/v1.21.3...v1.21.4) (2022-01-18)
+
+
+### Bug Fixes
+
+* **autodevops-create-db:** use PG image, add postgis extension ([#103](https://github.com/SocialGouv/actions/issues/103)) ([0555c03](https://github.com/SocialGouv/actions/commit/0555c0383e1c3e1c0a464ad1aec013ba9ad99db9))
+
 ## [1.21.3](https://github.com/SocialGouv/actions/compare/v1.21.2...v1.21.3) (2022-01-18)
 
 
