@@ -53,11 +53,11 @@ spec:
                   key: PGHOST
                   name: {{ .Env.DB_SECRET_NAME }}
             - name: NEW_DB_EXTENSIONS
-              value: hstore pgcrypto citext uuid-ossp
+              value: hstore pgcrypto citext uuid-ossp postgis
           envFrom:
             - secretRef:
                 name: pg-scaleway
-          image: ghcr.io/socialgouv/docker/azure-db:6.68.0
+          image: postgres:13
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
