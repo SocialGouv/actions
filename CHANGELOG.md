@@ -1,3 +1,10 @@
+## [1.21.3](https://github.com/SocialGouv/actions/compare/v1.21.2...v1.21.3) (2022-01-18)
+
+
+### Bug Fixes
+
+* **create-db:** namespace slug all ([37af39b](https://github.com/SocialGouv/actions/commit/37af39bb207c4c90ac4de0fce6b6c11d37d26f8d))
+
 ## [1.21.2](https://github.com/SocialGouv/actions/compare/v1.21.1...v1.21.2) (2022-01-17)
 
 
