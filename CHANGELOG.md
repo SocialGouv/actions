@@ -1,3 +1,10 @@
+## [1.21.6](https://github.com/SocialGouv/actions/compare/v1.21.5...v1.21.6) (2022-01-19)
+
+
+### Bug Fixes
+
+* **create-db:** use psql docker image ([#106](https://github.com/SocialGouv/actions/issues/106)) ([69d13d1](https://github.com/SocialGouv/actions/commit/69d13d112ae969a928ea8e16ed88908f339f4c0f))
+
 ## [1.21.5](https://github.com/SocialGouv/actions/compare/v1.21.4...v1.21.5) (2022-01-19)
 
 
