@@ -5,8 +5,6 @@ inputs:
     description: "The Kubernetes authentication configuration"
   rancherId:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
-  environment:
-    description: "The deployment environment (dev | preprod | prod)"
   adminPgSecret:
     description: "PG Secret admin secretRefName"
   pgUserPrefix:
@@ -24,15 +22,10 @@ runs:
     - name: Get project and namespace names
       shell: bash
       run: |
-        if test -f ".github/dev.env"; then
-          cat ".github/dev.env" >> $GITHUB_ENV
-        fi
-
         PROJECT_NAME=${GITHUB_REPOSITORY##*/}
         BRANCH_NAME=${GITHUB_REF#refs/heads/}
         BRANCH_NAME=${BRANCH_NAME#refs/tags/}
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
-        ENVIRONMENT=${{ inputs.environment }}
         RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         JOB_NAMESPACE=${PROJECT_NAME}-ci
         SECRETS_NAMESPACE="${PROJECT_NAME}-secret"
@@ -58,7 +51,6 @@ runs:
         echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
         echo "BRANCH_SLUG=$BRANCH_SLUG" >> $GITHUB_ENV
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
-        echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
         echo "RANCHER_PROJECT_ID=$RANCHER_PROJECT_ID" >> $GITHUB_ENV
 
         # action specific env vars
@@ -110,13 +102,13 @@ runs:
     - name: Archive create-db manifests
       uses: actions/upload-artifact@v2
       with:
-        name: job.create-db.yml
+        name: create-db.job.yml
         path: job.create-db.yml
 
     - name: Archive namespace manifests
       uses: actions/upload-artifact@v2
       with:
-        name: namespace.yml
+        name: create-db.namespace.yml
         path: namespace.yml
 
     - name: Ensure namespace exists
