@@ -1,3 +1,10 @@
+## [1.21.5](https://github.com/SocialGouv/actions/compare/v1.21.4...v1.21.5) (2022-01-19)
+
+
+### Bug Fixes
+
+* **create-db:** clean ([#105](https://github.com/SocialGouv/actions/issues/105)) ([6d04a1d](https://github.com/SocialGouv/actions/commit/6d04a1d3a7f91ad054ed8de2abc861ebf088d854))
+
 ## [1.21.4](https://github.com/SocialGouv/actions/compare/v1.21.3...v1.21.4) (2022-01-18)
 
 
