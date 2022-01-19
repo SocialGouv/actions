@@ -57,7 +57,7 @@ spec:
           envFrom:
             - secretRef:
                 name: pg-scaleway
-          image: postgres:13
+          image: ghcr.io/socialgouv/docker/psql:6.70.0
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
