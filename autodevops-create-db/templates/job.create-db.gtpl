@@ -56,7 +56,7 @@ spec:
               value: hstore pgcrypto citext uuid-ossp postgis
           envFrom:
             - secretRef:
-                name: pg-scaleway
+                name: {{ .Env.ADMIN_PG_SECRET }}
           image: ghcr.io/socialgouv/docker/psql:6.70.0
           imagePullPolicy: IfNotPresent
           name: create-db-user
