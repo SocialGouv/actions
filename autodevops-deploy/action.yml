@@ -11,7 +11,7 @@ inputs:
   rancherId:
     description: "The Rancher project ID"
   manifestsName:
-    description: "The name of the manifests artifact"
+    description: "The name prefix of the manifests artifact"
 
 outputs:
   url:

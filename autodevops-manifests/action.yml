@@ -18,7 +18,7 @@ inputs:
     description: "Prefix for pg-user secret name, oldly azure-pg-user, in future pg-user"
     default: azure-pg-user
   manifestsName:
-    description: "The name of the generated manifests artifact"
+    description: "The name prefix of the generated manifests artifact"
 
 runs:
   using: "composite"
