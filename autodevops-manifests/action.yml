@@ -17,6 +17,8 @@ inputs:
   pgUserSecretPrefix:
     description: "Prefix for pg-user secret name, oldly azure-pg-user, in future pg-user"
     default: azure-pg-user
+  manifestsName:
+    description: "The name prefix of the generated manifests artifact"
 
 runs:
   using: "composite"
@@ -117,5 +119,5 @@ runs:
     - name: Archive k8s manifests
       uses: actions/upload-artifact@v2
       with:
-        name: manifests-${{ inputs.environment }}.yml
+        name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
         path: manifests-${{ inputs.environment }}.yml
