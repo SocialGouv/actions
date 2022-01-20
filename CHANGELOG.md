@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/SocialGouv/actions/compare/v1.21.6...v1.22.0) (2022-01-20)
+
+
+### Features
+
+* Use custom manifests name ([#97](https://github.com/SocialGouv/actions/issues/97)) ([d0c6bed](https://github.com/SocialGouv/actions/commit/d0c6bed00c0807d2751fefcab7baa798b0d057df))
+
 ## [1.21.6](https://github.com/SocialGouv/actions/compare/v1.21.5...v1.21.6) (2022-01-19)
 
 
