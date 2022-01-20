@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/SocialGouv/actions/compare/v1.22.0...v1.22.1) (2022-01-20)
+
+
+### Bug Fixes
+
+* **create-db:** use adminPgSecret ([07b27e4](https://github.com/SocialGouv/actions/commit/07b27e4b41d2ecf0d7142f9e9ef9c3dd9fa1dc15))
+
 # [1.22.0](https://github.com/SocialGouv/actions/compare/v1.21.6...v1.22.0) (2022-01-20)
 
 
