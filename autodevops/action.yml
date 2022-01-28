@@ -50,7 +50,7 @@ runs:
 
   - name: Use autodevops deployment
     id: deploy
-    uses: SocialGouv/actions/autodevops-deploy@prod-namespaces
+    uses: SocialGouv/actions/autodevops-deploy@master
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}
