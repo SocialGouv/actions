@@ -1,3 +1,10 @@
+## [1.22.2](https://github.com/SocialGouv/actions/compare/v1.22.1...v1.22.2) (2022-01-28)
+
+
+### Bug Fixes
+
+* **autodevops:** Create prod namespaces ([#107](https://github.com/SocialGouv/actions/issues/107)) ([eddb50c](https://github.com/SocialGouv/actions/commit/eddb50c219dd31d372a8ba7197df6ee87220360e))
+
 ## [1.22.1](https://github.com/SocialGouv/actions/compare/v1.22.0...v1.22.1) (2022-01-20)
 
 
