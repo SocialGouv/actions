@@ -121,12 +121,15 @@ runs:
         PG_USER_ADD_HOST_SUFFIX: ${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX || '' }}
       run: |
         create-secret
+        echo "copy secret '$DB_SECRET_NAME' to '$JOB_NAMESPACE'"
         copy-secret $DB_SECRET_NAME $NAMESPACE $JOB_NAMESPACE
 
     - name: Run create-db job
       shell: bash
       run: |
         kubectl delete --namespace=$JOB_NAMESPACE "job/create-db-user-${BRANCH_SLUG}" || true
+        echo "create create-db job in '$JOB_NAMESPACE'"
+        echo "logs: https://grafana.fabrique.social.gouv.fr/explore?orgId=1&left=%5B%22now-1h%22,%22now%22,%22Loki%22,%7B%22exemplar%22:true,%22expr%22:%22%7Bnamespace%3D%5C%22${JOB_NAMESPACE}%5C%22%7D%22%7D%5D"
         kubectl apply -f job.create-db.yml
 
     - name: Wait for create-db job completion
