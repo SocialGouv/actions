@@ -1,0 +1,54 @@
+name: "Run job"
+
+description: "Generate manifests and deploy to kube"
+
+inputs:
+  environment:
+    description: "The deployment environment (dev | preprod | prod)"
+    required: true
+  kube-config:
+    description: "The Kubernetes authentication configuration"
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  kosko-args:
+    description: "Specify which kosko components to use"
+
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Generate manifests
+    uses: socialgouv/actions/autodevops-manifests@v1
+    with:
+      environment: ${{ inputs.environment }}
+      kosko-args: ${{ inputs.kosko-args }}
+      rancherId: ${{ inputs.rancherId }}
+      socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
+      
+  - name: Archive manifests
+    uses: actions/upload-artifact@v2
+    with:
+      name: manifests-${{ inputs.environment }}.yml
+      path: manifests-${{ inputs.environment }}.yml
+
+  - name: Get namespace name
+    uses: mikefarah/yq@v4.13.4
+    id: namespace
+    with:
+      cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
+
+  - name: Create kubernetes config
+    shell: bash
+    run: |
+      mkdir ~/.kube
+      touch ~/.kube/config
+      echo ${{ inputs.kube-config }} | base64 -d > ~/.kube/config
+
+  - name: Run Job
+    shell: bash
+    run: |
+      kubectl delete -f manifests-${{ inputs.environment }}.yml --namespace ${{ steps.namespace.outputs.result }} || true
+      kubectl apply -f manifests-${{ inputs.environment }}.yml --namespace ${{ steps.namespace.outputs.result }}

@@ -1,5 +1,6 @@
 name: "Deploy"
 description: "Deploy over Kubernetes"
+
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
@@ -17,6 +18,7 @@ outputs:
   url:
     description: "Main URL extracted from kube manifests"
     value: ${{ steps.environment-url.outputs.url }}
+
 runs:
   using: "composite"
   steps:
@@ -31,7 +33,7 @@ runs:
     - name: Download k8s manifests
       uses: actions/download-artifact@v2
       with:
-        name: manifests-${{ inputs.environment }}.yml
+        name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
 
     - name: Get namespace name
       uses: mikefarah/yq@v4.13.4
@@ -96,9 +98,7 @@ runs:
     - name: Create k8s namespace
       shell: bash
       run: |
-        if [ $ENVIRONMENT != "prod" ]; then
-          kubectl create -f namespace-${ENVIRONMENT}.yml || true
-        fi
+        kubectl create -f namespace-${ENVIRONMENT}.yml || true
       env:
         ENVIRONMENT: ${{ inputs.environment }}
 
@@ -118,7 +118,7 @@ runs:
         log_args: true
         
     - name: Debug manifests
-      uses: socialgouv/actions/k8s-manifests-debug@master
+      uses: socialgouv/actions/k8s-manifests-debug@v1
       with:
         token: ${{ inputs.token }}
         path: manifests-${{ inputs.environment }}.yml

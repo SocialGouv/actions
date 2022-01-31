@@ -10,6 +10,15 @@ inputs:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  kosko-args:
+    description: "Specify which kosko components to generate"
+  koskoChartsVersion:
+    description: "Version of kosko-charts action to degit"
+  pgUserSecretPrefix:
+    description: "Prefix for pg-user secret name, oldly azure-pg-user, in future pg-user"
+    default: azure-pg-user
+  manifestsName:
+    description: "The name prefix of the generated manifests artifact"
 
 runs:
   using: "composite"
@@ -24,27 +33,53 @@ runs:
           cat ".github/${{ inputs.environment }}.env" >> $GITHUB_ENV
         fi
 
-    - name: Install kosko-charts autodevops
+    - name: Degit autodevops template
       shell: bash
       run: |
-        npx degit SocialGouv/kosko-charts/templates/autodevops /tmp/autodevops
+        npx degit SocialGouv/kosko-charts/templates/autodevops#${{ inputs.koskoChartsVersion || env.KOSKO_CHARTS_VERSION || 'master' }} /tmp/autodevops
         rm -rf /tmp/autodevops/environments
-        yarn --cwd /tmp/autodevops
-
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v2
-      with:
-        directory: /tmp/autodevops
 
     - name: Copy application k8s config to autodevops
       shell: bash
       run: |
+        DEST="/tmp/autodevops"
+
         if [ -d ".socialgouv/environments" ]; then
-          echo "$ cp -r .socialgouv/environments /tmp/autodevops/environments"
-          cp -r .socialgouv/environments /tmp/autodevops/environments
+          echo "$ cp -r .socialgouv/environments $DEST/environments"
+          cp -r .socialgouv/environments $DEST/environments
         fi
-        echo "$ cp .socialgouv/config.json /tmp/autodevops/"
-        cp .socialgouv/config.json /tmp/autodevops/
+
+        if [ -f ".socialgouv/config.json" ]; then	
+          # use autodevops kosko-charts template
+          echo "$ cp .socialgouv/config.json $DEST/"	
+          cp .socialgouv/config.json $DEST/	
+        elif [ -d ".socialgouv/components" ]; then
+          # use userland `.socialgouv` folder instead of autodevops template when `components` folder is found
+          echo "rm -rf $DEST/components"
+          rm -rf $DEST/components
+          echo "$ cp -r .socialgouv/* $DEST/"
+          cp -r .socialgouv/* $DEST/
+        else
+          echo "no socialgouv config.json or components found :/"
+          exit 1
+        fi
+        if [ -d ".socialgouv/__tests__" ]; then
+          echo "Copy tests"
+          cp -r .socialgouv/__tests__ $DEST/__tests__
+        fi
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        yarn --cwd /tmp/autodevops
+
+    - name: Run kosko manifests tests
+      shell: bash
+      run: |
+        if [ -d ".socialgouv/__tests__" ]; then
+          echo "Run kosko manifests tests"
+          yarn --cwd /tmp/autodevops test
+        fi
 
     - name: Generate k8s namespace
       shell: bash
@@ -58,12 +93,13 @@ runs:
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+        PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
 
     - name: Generate k8s manifests
       shell: bash
       run: |
         echo SOCIALGOUV_BASE_DOMAIN: $SOCIALGOUV_BASE_DOMAIN
-        yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} > manifests-${ENVIRONMENT}.yml
+        yarn --cwd /tmp/autodevops --silent generate --env ${ENVIRONMENT} ${{ inputs.kosko-args }} > manifests-${ENVIRONMENT}.yml
       env:
         ENVIRONMENT: ${{ inputs.environment }}
         RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
@@ -72,6 +108,7 @@ runs:
         SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
         SOCIALGOUV_PRODUCTION: ${{ inputs.environment == 'prod' && true || '' }}
         SOCIALGOUV_PREPRODUCTION: ${{ inputs.environment == 'preprod' && true || '' }}
+        PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
 
     - name: Archive k8s namespace
       uses: actions/upload-artifact@v2
@@ -82,5 +119,5 @@ runs:
     - name: Archive k8s manifests
       uses: actions/upload-artifact@v2
       with:
-        name: manifests-${{ inputs.environment }}.yml
+        name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
         path: manifests-${{ inputs.environment }}.yml

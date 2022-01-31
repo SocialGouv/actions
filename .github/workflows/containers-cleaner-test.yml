@@ -1,0 +1,64 @@
+name: Containers cleaner tests
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  check-dist:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: yarn --cwd ./containers-cleaner --frozen-lockfile --prefer-offline
+
+    - name: Rebuild the dist directory
+      run: yarn --cwd ./containers-cleaner build; yarn --cwd ./containers-cleaner package
+
+    - name: Compare the expected and actual dist/ directories
+      run: |
+        if [ "$(git diff --ignore-space-at-eol containers-cleaner/dist/ | wc -l)" -gt "0" ]; then
+          echo "Detected uncommitted changes after build.  See status below:"
+          git diff
+          exit 1
+        fi
+      id: diff
+
+    - uses: actions/upload-artifact@v2
+      if: ${{ failure() && steps.diff.conclusion == 'failure' }}
+      with:
+        name: containers-cleaner-dist
+        path: containers-cleaner/dist
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - run: yarn --cwd ./containers-cleaner --frozen-lockfile --prefer-offline
+
+    - run: INPUT_TOKEN=${{ github.token }} yarn --cwd ./containers-cleaner all
+
+  testy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - uses: ./containers-cleaner/
+      with:
+        organization: socialgouv
+        token: ${{ github.token }}
+        retention-weeks: '2'
+        protected-tags: |
+          ^prod$
+          ^latest$
+          ^preprod$
+          ^prod-(\w+)$
+          ^(\d+\.\d+)(\.\d+)?(-(alpha|beta).\d+)?$
+        containers: |
+          mano/api

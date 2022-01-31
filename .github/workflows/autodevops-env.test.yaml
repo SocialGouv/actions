@@ -1,0 +1,22 @@
+on:
+  push:
+    paths:
+      - 'autodevops-env/**'
+  pull_request:
+    paths:
+      - 'autodevops-env/**'
+jobs:
+  autodevops-env:
+    runs-on: ubuntu-latest
+    name: autodevops-env tests
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: env
+        uses: ./autodevops-env
+
+      - name: "test output"
+        run: |
+          echo "branch: ${{ steps.env.outputs.branch }}"
+          echo "project: ${{ steps.env.outputs.project }}"
+          echo "namespace: ${{ steps.env.outputs.namespace }}"

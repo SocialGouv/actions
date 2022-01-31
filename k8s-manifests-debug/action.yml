@@ -49,6 +49,7 @@ runs:
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         number: ${{ steps.finder.outputs.pr }}
+        recreate: true
         message: |
           🎉 Deployment for commit ${{ github.sha }} :
           ${{ steps.debug-manifests.outputs.markdown }}
