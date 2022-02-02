@@ -58,6 +58,8 @@ runs:
       
     - name: Setup node
       uses: socialgouv/actions/util-setup-node@action-drop-db
+      with:
+        actionPath: ${{ github.action_path }}
     
     - name: Run drop-db job
       uses: socialgouv/actions/util-run-job@action-drop-db

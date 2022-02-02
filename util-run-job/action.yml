@@ -13,7 +13,7 @@ inputs:
   gomplateArgs:
     description: "Arguments to pass to gomplate"
   actionPath:
-    description: "calling actionPath for use in template"
+    description: "calling action's path for use in template"
 
 runs:
   using: "composite"
