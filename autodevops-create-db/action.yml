@@ -49,13 +49,13 @@ runs:
 
     - name: Generate values file
       shell: bash
-      run: yarn --cwd ${{ github.action_path }} run -s values > values.json
+      run: yarn --cwd ${{ github.action_path }} run -s values > ${{ github.action_path }}/values.json
 
     - name: Archive values.json
       uses: actions/upload-artifact@v2
       with:
         name: values.json
-        path: values.json
+        path: ${{ github.action_path }}/values.json
 
     - name: Ensure namespace exists
       uses: socialgouv/actions/util-ensure-namespace@action-drop-db
@@ -78,7 +78,7 @@ runs:
         jobNamespace: $JOB_NAMESPACE
         jobName: create-db-user-${BRANCH_SLUG}
         jobTemplatePath: ${{ github.action_path }}/templates/job.create-db.gtpl
-        gomplateArgs: -d values.json
+        gomplateArgs: -d file://${{ github.action_path }}/values.json
         actionPath: ${{ github.action_path }}
 
     - name: Wait for create-db job completion
