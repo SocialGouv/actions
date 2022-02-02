@@ -21,6 +21,10 @@ runs:
       uses: socialgouv/actions/util-env@action-drop-db
       with:
         rancherId: ${{ inputs.rancherId }}
+    
+    - name: Setup action bin PATH
+      shell: bash
+      run: echo "${{ github.action_path }}/bin" >> $GITHUB_PATH
 
     - name: Setup action's env vars
       shell: bash

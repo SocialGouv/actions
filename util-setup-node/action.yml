@@ -20,5 +20,4 @@ runs:
     - name: Setup PATH
       shell: bash
       run: |
-        echo "${{ inputs.actionPath }}/bin" >> $GITHUB_PATH
         echo "${{ inputs.actionPath }}/node_modules/.bin" >> $GITHUB_PATH

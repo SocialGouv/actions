@@ -13,4 +13,4 @@ runs:
   steps:
     - name: Wait for drop-db job completion
       shell: bash
-      run: wait-job "job/${{ inputs.jobName }}" "${{ inputs.jobNamespace }}"
+      run: ${{ github.action_path }}/bin/wait-job "job/${{ inputs.jobName }}" "${{ inputs.jobNamespace }}"

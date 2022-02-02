@@ -21,6 +21,10 @@ runs:
       uses: socialgouv/actions/util-env@action-drop-db
       with:
         rancherId: ${{ inputs.rancherId }}
+    
+    - name: Setup action bin PATH
+      shell: bash
+      run: echo "${{ github.action_path }}/bin" >> $GITHUB_PATH
 
     - name: Setup action's env vars
       shell: bash
@@ -36,7 +40,7 @@ runs:
 
         echo "DB_SECRET_NAME=$DB_SECRET_NAME" >> $GITHUB_ENV
         echo "ADMIN_PG_SECRET=$ADMIN_PG_SECRET" >> $GITHUB_ENV
-
+    
     - name: Write kubeconfig
       uses: socialgouv/actions/util-write-kubeconfig@action-drop-db
       with:
