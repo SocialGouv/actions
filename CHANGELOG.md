@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/SocialGouv/actions/compare/v1.22.2...v1.23.0) (2022-02-02)
+
+
+### Features
+
+* **drop-db:** + refacto create db ([#110](https://github.com/SocialGouv/actions/issues/110)) ([8238b3c](https://github.com/SocialGouv/actions/commit/8238b3c473be8042c058c06379f70cd1ce2f0554))
+
 ## [1.22.2](https://github.com/SocialGouv/actions/compare/v1.22.1...v1.22.2) (2022-01-28)
 
 
