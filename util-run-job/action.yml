@@ -37,4 +37,4 @@ runs:
       kubectl delete --namespace=${{ inputs.jobNamespace }} "job/${{ inputs.jobName }}" || true
       echo "create ${{ inputs.jobName }} job in '${{ inputs.jobNamespace }}'"
       echo "logs: https://grafana.fabrique.social.gouv.fr/explore?orgId=1&left=%5B%22now-1h%22,%22now%22,%22Loki%22,%7B%22exemplar%22:true,%22expr%22:%22%7Bnamespace%3D%5C%22${{ inputs.jobNamespace }}%5C%22%7D%22%7D%5D"
-      kubectl apply -f job.${{ inputs.jobName }}.yml
+      kubectl -n ${{ inputs.jobNamespace }} apply -f job.${{ inputs.jobName }}.yml
