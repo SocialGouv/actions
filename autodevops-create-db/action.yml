@@ -75,8 +75,8 @@ runs:
     - name: Run create-db job
       uses: socialgouv/actions/util-run-job@action-drop-db
       with:
-        jobNamespace: $JOB_NAMESPACE
-        jobName: create-db-user-${BRANCH_SLUG}
+        jobNamespace: ${{ env.JOB_NAMESPACE }}
+        jobName: create-db-user-${{ env.BRANCH_SLUG }}
         jobTemplatePath: ${{ github.action_path }}/templates/job.create-db.gtpl
         gomplateArgs: -d values.json
         actionPath: ${{ github.action_path }}
@@ -84,6 +84,6 @@ runs:
     - name: Wait for create-db job completion
       uses: socialgouv/actions/util-wait-job@action-drop-db
       with:
-        jobNamespace: $JOB_NAMESPACE
-        jobName: create-db-user-${BRANCH_SLUG}
+        jobNamespace: ${{ env.JOB_NAMESPACE }}
+        jobName: create-db-user-${{ env.BRANCH_SLUG }}
     
