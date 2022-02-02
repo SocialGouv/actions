@@ -27,11 +27,10 @@ runs:
         echo "::set-output name=project::$(echo ${PROJECT})"
         echo "::set-output name=branch::$(echo ${BRANCH})"
 
-    - name: Create kubernetes config
-      shell: bash
-      run: |
-        mkdir ~/.kube
-        echo "${{ inputs.kube-config }}" | base64 -d > ~/.kube/config
+    - name: Write kubeconfig
+      uses: socialgouv/actions/util-write-kubeconfig@action-drop-db
+      with:
+        kubeconfig: ${{ inputs.kube-config }}
 
     - name: Delete k8s environment
       shell: bash
@@ -47,6 +46,14 @@ runs:
       run: |
         PROJECT=${GITHUB_REPOSITORY#*/}
         npx @socialgouv/azure-db drop --application ${PROJECT} --database autodevops_${{ steps.k8s.outputs.branch }} --user user_${{ steps.k8s.outputs.branch }} || true
+
+    # new version
+    # - name: Drop database
+    #   uses: SocialGouv/actions/autodevops-drop-db@v1
+    #   with:
+    #     kubeconfig: ${{ inputs.kube-config }}
+    #     rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+    #     adminPgSecret: pg-scaleway
 
     - name: Mark environment as deactivated
       uses: bobheadxi/deployments@v0.4.3

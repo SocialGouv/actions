@@ -1,0 +1,23 @@
+name: "Setup node for an action"
+description: "Setup node package, cache and path for an action"
+inputs:
+  actionPath:
+    description: "calling action path's to setup"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: c-hive/gha-yarn-cache@v2
+
+    - name: Install global JS dependencies
+      shell: bash
+      run: yarn global add ts-node typescript
+
+    - name: Install action JS dependencies
+      shell: bash
+      run: yarn --cwd ${{ inputs.actionPath }} install --prefer-offline
+
+    - name: Setup PATH
+      shell: bash
+      run: |
+        echo "${{ inputs.actionPath }}/node_modules/.bin" >> $GITHUB_PATH

@@ -1,0 +1,44 @@
+#!/bin/bash
+set -e
+
+# check mandatory environment variables
+MANDATORY_VARS="PGPASSWORD DB_NAME DB_USER"
+for VAR in $MANDATORY_VARS; do
+  if [[ -z "${!VAR}" ]]; then
+    echo "${VAR} environment variable is empty"
+    exit 1
+  fi
+done
+
+# set defaults
+PGUSER=${PGUSER:-postgres}
+PGPORT=${PGPORT:-5432}
+PGHOST=${PGHOST:--127.0.0.1}
+
+ORIGINAL_PGUSER_URLENCODED=$(printf %s "$PGUSER" |jq -sRr @uri)
+PGPASSWORD_URLENCODED=$(printf %s "$PGPASSWORD" |jq -sRr @uri)
+PG_URL_ADMIN="postgresql://${ORIGINAL_PGUSER_URLENCODED}:${PGPASSWORD_URLENCODED}@${PGHOST}:${PGPORT}/postgres"
+
+PGSSLMODE=require
+
+# /o\ get base user name (without server) for SQL commands
+# strip after @ part to handle azure pg users
+DB_USER=${DB_USER%%@*}
+
+echo "deleting database ${DB_NAME} on ${PGHOST}"
+psql -abe "$PG_URL_ADMIN" <<EOF
+  SET SESSION CHARACTERISTICS AS TRANSACTION READ WRITE;
+  DROP DATABASE "$DB_NAME";
+EOF
+
+echo
+echo "deleting user ${DB_USER} on ${PGHOST}"
+psql -abe "$PG_URL_ADMIN" <<EOF
+  SET SESSION CHARACTERISTICS AS TRANSACTION READ WRITE;
+  REVOKE ALL PRIVILEGES ON SCHEMA public FROM "$DB_USER";
+  REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM "$DB_USER";
+  REVOKE ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public FROM "$DB_USER";
+  REVOKE ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public FROM "$DB_USER";
+  DROP OWNED BY "${DB_USER}" CASCADE;
+  DROP USER "${DB_USER}";
+EOF

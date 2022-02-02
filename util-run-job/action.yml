@@ -1,0 +1,41 @@
+name: "Run k8s job"
+description: "Run k8s job"
+inputs:
+  jobTemplatePath:
+    description: "The job template path"
+    required: true
+  jobName:
+    description: "The job name to run"
+    required: true
+  jobNamespace:
+    description: "The Kubernetes namespace to run the job"
+    required: true
+  gomplateArgs:
+    description: "Arguments to pass to gomplate"
+  actionPath:
+    description: "calling action's path for use in template"
+
+runs:
+  using: "composite"
+  steps:
+      
+  - name: Generate k8s manifests
+    shell: bash
+    run: |
+      export ACTION_PATH=${{ inputs.actionPath || env.ACTION_PATH }}
+      export JOB_NAME=${{ inputs.jobName || env.JOB_NAME }}
+      cat ${{ inputs.jobTemplatePath }} | gomplate ${{ inputs.gomplateArgs || '' }} > job.${{ inputs.jobName }}.yml
+
+  - name: Archive job manifests
+    uses: actions/upload-artifact@v2
+    with:
+      name: ${{ inputs.jobName }}.job.yml
+      path: job.${{ inputs.jobName }}.yml
+
+  - name: "Run job: ${{ inputs.jobName }}"
+    shell: bash
+    run: |
+      kubectl delete --namespace=${{ inputs.jobNamespace }} "job/${{ inputs.jobName }}" || true
+      echo "create ${{ inputs.jobName }} job in '${{ inputs.jobNamespace }}'"
+      echo "logs: https://grafana.fabrique.social.gouv.fr/explore?orgId=1&left=%5B%22now-1h%22,%22now%22,%22Loki%22,%7B%22exemplar%22:true,%22expr%22:%22%7Bnamespace%3D%5C%22${{ inputs.jobNamespace }}%5C%22%7D%22%7D%5D"
+      kubectl -n ${{ inputs.jobNamespace }} apply -f job.${{ inputs.jobName }}.yml

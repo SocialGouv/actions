@@ -1,5 +1,5 @@
-name: "Create database"
-description: "Create database and user using random secure"
+name: "Drop database"
+description: "Drop database and user"
 inputs:
   kubeconfig:
     description: "The Kubernetes authentication configuration"
@@ -30,64 +30,52 @@ runs:
       shell: bash
       run: |
         ADMIN_PG_SECRET="${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}"
-        if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          DB_SECRET_NAME=pg-user
-        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
-          DB_SECRET_NAME=pg-user-preprod
+
+        PG_USER_ADD_HOST_SUFFIX=${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX }}
+        if [ "$PG_USER_ADD_HOST_SUFFIX" != "false" ] && [[ $PGHOST == *"azure.com"* ]]; then
+          PG_USER_ADD_HOST_SUFFIX="true"
+        fi
+        if [ "$PG_USER_ADD_HOST_SUFFIX" ] && [ "$PG_USER_ADD_HOST_SUFFIX" != "false" ]; then
+          PGUSER_SUFFIX="@${PGHOST}"
         else
-          DB_SECRET_NAME="pg-user-${BRANCH_SLUG}"
+          PGUSER_SUFFIX=""
+        fi
+        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+          DB_NAME=$SOCIALGOUV_PRODUCTION_NAMESPACE
+          DB_USER=$SOCIALGOUV_PRODUCTION_NAMESPACE
+        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+          DB_NAME="preprod"
+          DB_USER="preprod${PGUSER_SUFFIX}"
+        else
+          DB_NAME="autodevops_${BRANCH_SLUG}"
+          DB_USER="user_${BRANCH_SLUG}${PGUSER_SUFFIX}"
         fi
 
-        echo "DB_SECRET_NAME=$DB_SECRET_NAME" >> $GITHUB_ENV
         echo "ADMIN_PG_SECRET=$ADMIN_PG_SECRET" >> $GITHUB_ENV
-    
+        echo "DB_NAME=$DB_NAME" >> $GITHUB_ENV
+        echo "DB_USER=$DB_USER" >> $GITHUB_ENV
+
     - name: Write kubeconfig
       uses: socialgouv/actions/util-write-kubeconfig@v1
       with:
         kubeconfig: ${{ inputs.kubeconfig }}
-
+      
     - name: Setup node
       uses: socialgouv/actions/util-setup-node@v1
       with:
         actionPath: ${{ github.action_path }}
-
-    - name: Generate values file
-      shell: bash
-      run: yarn --cwd ${{ github.action_path }} run -s values > values.json
-
-    - name: Archive values.json
-      uses: actions/upload-artifact@v2
-      with:
-        name: values.json
-        path: values.json
-
-    - name: Ensure namespace exists
-      uses: socialgouv/actions/util-ensure-namespace@v1
-      with:
-        namespace: ${{ env.NAMESPACE }}
-        rancherId: ${{ env.RANCHER_PROJECT_ID }}
-
-    - name: Create secret
-      shell: bash
-      env:
-        PG_USER_ADD_HOST_SUFFIX: ${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX || '' }}
-      run: |
-        create-secret
-        echo "copy secret '$DB_SECRET_NAME' to '$JOB_NAMESPACE'"
-        copy-secret $DB_SECRET_NAME $NAMESPACE $JOB_NAMESPACE
-
-    - name: Run create-db job
+    
+    - name: Run drop-db job
       uses: socialgouv/actions/util-run-job@v1
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
-        jobName: create-db-user-${{ env.BRANCH_SLUG }}
-        jobTemplatePath: ${{ github.action_path }}/templates/job.create-db.gtpl
-        gomplateArgs: -d values.json
+        jobName: drop-db-${{ env.BRANCH_SLUG }}
+        jobTemplatePath: ${{ github.action_path }}/templates/job.drop-db.gtpl
         actionPath: ${{ github.action_path }}
 
-    - name: Wait for create-db job completion
+    - name: Wait for drop-db job completion
       uses: socialgouv/actions/util-wait-job@v1
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
-        jobName: create-db-user-${{ env.BRANCH_SLUG }}
+        jobName: drop-db-${{ env.BRANCH_SLUG }}
     
