@@ -1,3 +1,11 @@
+## [1.23.1](https://github.com/SocialGouv/actions/compare/v1.23.0...v1.23.1) (2022-02-02)
+
+
+### Bug Fixes
+
+* Use util-write-kubeconfig@v1 ([#113](https://github.com/SocialGouv/actions/issues/113)) ([33972cf](https://github.com/SocialGouv/actions/commit/33972cf6b1aa0320e0fcea0a0327fbb08aa1a8e2))
+* **util-ensure-namespace:** Use util-setup-node@v1 ([#114](https://github.com/SocialGouv/actions/issues/114)) ([a7b9602](https://github.com/SocialGouv/actions/commit/a7b9602ce45516b077828f42f619ad3473abadfc))
+
 # [1.23.0](https://github.com/SocialGouv/actions/compare/v1.22.2...v1.23.0) (2022-02-02)
 
 
