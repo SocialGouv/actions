@@ -22,7 +22,7 @@ runs:
   - name: Generate k8s manifests
     shell: bash
     run: |
-      export ACTION_PATH=${{ input.actionPath || env.ACTION_PATH }}
+      export ACTION_PATH=${{ inputs.actionPath || env.ACTION_PATH }}
       cat ${{ inputs.jobTemplatePath }} | gomplate ${{ inputs.gomplateArgs || '' }} > job.${{ inputs.jobName }}.yml
 
   - name: Archive job manifests
