@@ -1,0 +1,32 @@
+name: "Ensure k8s namespace exists"
+description: "Ensure k8s namespace exists"
+inputs:
+  namespace:
+    description: "The k8s namespace"
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate values file
+      shell: bash
+      run: yarn --cwd ${{ github.action_path }} run -s values > ${{ github.action_path }}/values.json
+
+    - name: Generate k8s namespace
+      shell: bash
+      run: |
+        export NAMESPACE=${{ inputs.namespace || env.NAMESPACE }}
+        export RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        cat ${{ github.action_path }}/templates/namespace.gtpl | \
+          gomplate -d ${{ github.action_path }}/values.json > ${{ github.action_path }}/namespace.yml
+
+    - name: Archive namespace manifests
+      uses: actions/upload-artifact@v2
+      with:
+        name: namespace.${{ inputs.namespace }}.yml
+        path: ${{ github.action_path }}/namespace.yml
+
+    - name: Ensure namespace exists
+      shell: bash
+      run: kubectl create -f ${{ github.action_path }}/namespace.yml || true

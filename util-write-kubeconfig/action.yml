@@ -1,0 +1,15 @@
+name: "Write kubeconfig"
+description: "Write kubeconfig file from input so it can be used by kubectl"
+inputs:
+  kubeconfig:
+    description: "The Kubernetes authentication configuration"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Create kubernetes config
+      shell: bash
+      run: |
+        mkdir -p ~/.kube
+        touch ~/.kube/config
+        echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config

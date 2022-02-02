@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+# check mandatory environment variables
+MANDATORY_VARS="PGPASSWORD DB_NAME DB_USER"
+for VAR in $MANDATORY_VARS; do
+  if [[ -z "${!VAR}" ]]; then
+    echo "${VAR} environment variable is empty"
+    exit 1
+  fi
+done
+
+# set defaults
+PGUSER=${PGUSER:-postgres}
+PGPORT=${PGPORT:-5432}
+PGHOST=${PGHOST:--127.0.0.1}
+
+ORIGINAL_PGUSER_URLENCODED=$(printf %s "$PGUSER" |jq -sRr @uri)
+PGPASSWORD_URLENCODED=$(printf %s "$PGPASSWORD" |jq -sRr @uri)
+PG_URL_ADMIN="postgresql://${ORIGINAL_PGUSER_URLENCODED}:${PGPASSWORD_URLENCODED}@${PGHOST}:${PGPORT}/postgres"
+
+PGSSLMODE=require
+
+# /o\ get base user name (without server) for SQL commands
+# strip after @ part to handle azure pg users
+DB_USER=${DB_USER%%@*}
+
+psql -abe "$PG_URL_ADMIN" -c "
+  DROP DATABASE \"$DB_NAME\";
+  REVOKE ALL ON SCHEMA public FROM \"$DB_USER\";
+  DROP OWNED BY \"$DB_USER\"; 
+"

@@ -1,0 +1,16 @@
+name: "Wait for k8s job"
+description: "Wait for k8s job to complete of fail"
+inputs:
+  jobName:
+    description: "The job name to wait for"
+    required: true
+  jobNamespace:
+    description: "The Kubernetes namespace running the job"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Wait for drop-db job completion
+      shell: bash
+      run: wait-job "job/${{ inputs.jobName }}" "${{ inputs.jobNamespace }}"
