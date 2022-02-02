@@ -12,7 +12,7 @@ metadata:
     application: {{ .Env.PROJECT_NAME }}
     owner: {{ .Env.PROJECT_NAME }}
     team: {{ .Env.PROJECT_NAME }}
-  name: drop-db-user-{{ .Env.BRANCH_SLUG }}
+  name: {{ .Env.JOB_NAME }}
   namespace: {{ .Env.JOB_NAMESPACE }}
 spec:
   backoffLimit: 5

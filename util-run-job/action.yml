@@ -23,6 +23,7 @@ runs:
     shell: bash
     run: |
       export ACTION_PATH=${{ inputs.actionPath || env.ACTION_PATH }}
+      export JOB_NAME=${{ inputs.jobName || env.JOB_NAME }}
       cat ${{ inputs.jobTemplatePath }} | gomplate ${{ inputs.gomplateArgs || '' }} > job.${{ inputs.jobName }}.yml
 
   - name: Archive job manifests
