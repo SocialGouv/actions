@@ -25,15 +25,20 @@ PGSSLMODE=require
 # strip after @ part to handle azure pg users
 DB_USER=${DB_USER%%@*}
 
-psql -abe "$PG_URL_ADMIN" -c "
-SELECT 
-  pg_terminate_backend(pid)
-FROM 
-  pg_stat_activity 
-WHERE
-  pid <> pg_backend_pid()
-  AND datname = current_database();
-"
-psql -abe "$PG_URL_ADMIN" -c "DROP DATABASE \"$DB_NAME\";"
-psql -abe "$PG_URL_ADMIN" -c "REVOKE ALL ON SCHEMA public FROM \"$DB_USER\";"
-psql -abe "$PG_URL_ADMIN" -c "DROP OWNED BY \"$DB_USER\";"
+echo "deleting database ${DB_NAME} on ${PGHOST}"
+psql -abe "$PG_URL_ADMIN" <<EOF
+  SET SESSION CHARACTERISTICS AS TRANSACTION READ WRITE;
+  DROP DATABASE "$DB_NAME";
+EOF
+
+echo
+echo "deleting user ${DB_USER} on ${PGHOST}"
+psql -abe "$PG_URL_ADMIN" <<EOF
+  SET SESSION CHARACTERISTICS AS TRANSACTION READ WRITE;
+  REVOKE ALL PRIVILEGES ON SCHEMA public FROM "$DB_USER";
+  REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM "$DB_USER";
+  REVOKE ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public FROM "$DB_USER";
+  REVOKE ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public FROM "$DB_USER";
+  DROP OWNED BY "${DB_USER}" CASCADE;
+  DROP USER "${DB_USER}";
+EOF
