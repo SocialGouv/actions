@@ -24,7 +24,7 @@ runs:
         export NAMESPACE=${{ inputs.namespace || env.NAMESPACE }}
         export RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         cat ${{ github.action_path }}/templates/namespace.gtpl | \
-          gomplate -d ${{ github.action_path }}/values.json > ${{ github.action_path }}/namespace.yml
+          gomplate -d file://${{ github.action_path }}/values.json > ${{ github.action_path }}/namespace.yml
 
     - name: Archive namespace manifests
       uses: actions/upload-artifact@v2
