@@ -1,5 +1,8 @@
 name: "Setup env"
 description: "Setup env vars"
+inputs:
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
 
 runs:
   using: "composite"
