@@ -25,8 +25,6 @@ PGSSLMODE=require
 # strip after @ part to handle azure pg users
 DB_USER=${DB_USER%%@*}
 
-psql -abe "$PG_URL_ADMIN" -c "
-  DROP DATABASE \"$DB_NAME\";
-  REVOKE ALL ON SCHEMA public FROM \"$DB_USER\";
-  DROP OWNED BY \"$DB_USER\"; 
-"
+psql -abe "$PG_URL_ADMIN" -c "DROP DATABASE \"$DB_NAME\";"
+psql -abe "$PG_URL_ADMIN" -c "REVOKE ALL ON SCHEMA public FROM \"$DB_USER\";"
+psql -abe "$PG_URL_ADMIN" -c "DROP OWNED BY \"$DB_USER\";"
