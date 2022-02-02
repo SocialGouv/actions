@@ -60,8 +60,8 @@ runs:
     - name: Ensure namespace exists
       uses: socialgouv/actions/util-ensure-namespace@action-drop-db
       with:
-        namespace: $NAMESPACE
-        rancherId: $RANCHER_PROJECT_ID
+        namespace: ${{ env.NAMESPACE }}
+        rancherId: ${{ env.RANCHER_PROJECT_ID }}
 
     - name: Create secret
       shell: bash
