@@ -18,7 +18,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Setup global env vars
-      uses: socialgouv/actions/util-env@action-drop-db
+      uses: socialgouv/actions/util-env@v1
       with:
         rancherId: ${{ inputs.rancherId }}
     
@@ -56,17 +56,17 @@ runs:
         echo "DB_USER=$DB_USER" >> $GITHUB_ENV
 
     - name: Write kubeconfig
-      uses: socialgouv/actions/util-write-kubeconfig@action-drop-db
+      uses: socialgouv/actions/util-write-kubeconfig@v1
       with:
         kubeconfig: ${{ inputs.kubeconfig }}
       
     - name: Setup node
-      uses: socialgouv/actions/util-setup-node@action-drop-db
+      uses: socialgouv/actions/util-setup-node@v1
       with:
         actionPath: ${{ github.action_path }}
     
     - name: Run drop-db job
-      uses: socialgouv/actions/util-run-job@action-drop-db
+      uses: socialgouv/actions/util-run-job@v1
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
         jobName: drop-db-${{ env.BRANCH_SLUG }}
@@ -74,7 +74,7 @@ runs:
         actionPath: ${{ github.action_path }}
 
     - name: Wait for drop-db job completion
-      uses: socialgouv/actions/util-wait-job@action-drop-db
+      uses: socialgouv/actions/util-wait-job@v1
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
         jobName: drop-db-${{ env.BRANCH_SLUG }}
