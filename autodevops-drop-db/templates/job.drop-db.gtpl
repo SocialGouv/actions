@@ -29,16 +29,16 @@ spec:
               chmod +x /tmp/job-command
               exec /tmp/job-command
           env:
+            - name: DB_NAME
+              value: {{ .Env.DB_NAME }}
+            - name: DB_USER
+              value: {{ .Env.DB_USER }}
             - name: JOB_COMMAND
               value: |
 {{ file.Read (print .Env.ACTION_PATH "/bin/drop-db") | strings.Indent "                " }}
           envFrom:
             - secretRef:
                 name: {{ .Env.ADMIN_PG_SECRET }}
-            - name: DB_NAME
-              value: {{ .Env.DB_NAME }}
-            - name: DB_USER
-              value: {{ .Env.DB_USER }}
           image: ghcr.io/socialgouv/docker/psql:6.70.0
           imagePullPolicy: IfNotPresent
           name: drop-db-user
