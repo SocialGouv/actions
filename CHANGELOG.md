@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/SocialGouv/actions/compare/v1.23.1...v1.24.0) (2022-02-04)
+
+
+### Features
+
+* **gh-action:** add tooling ([#115](https://github.com/SocialGouv/actions/issues/115)) ([9e6ee48](https://github.com/SocialGouv/actions/commit/9e6ee48ec00a87c35a1d8411abf951db544f9414))
+
 ## [1.23.1](https://github.com/SocialGouv/actions/compare/v1.23.0...v1.23.1) (2022-02-02)
 
 
