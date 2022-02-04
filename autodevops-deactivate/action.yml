@@ -14,6 +14,11 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Enable Relative Github Actions
+      uses: socialgouv/actions/util-enable-relative-gh-actions
+      with:
+        actionPath: ${{ github.action_path }}
+
     # could be extracted in some external action
     - name: Get k8s infos
       id: k8s
@@ -28,7 +33,7 @@ runs:
         echo "::set-output name=branch::$(echo ${BRANCH})"
 
     - name: Write kubeconfig
-      uses: socialgouv/actions/util-write-kubeconfig@v1
+      uses: ./.socialgouv/actions/util-write-kubeconfig
       with:
         kubeconfig: ${{ inputs.kube-config }}
 
@@ -49,7 +54,7 @@ runs:
 
     # new version
     # - name: Drop database
-    #   uses: SocialGouv/actions/autodevops-drop-db@v1
+    #   uses: ./.socialgouv/actions/autodevops-drop-db
     #   with:
     #     kubeconfig: ${{ inputs.kube-config }}
     #     rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
