@@ -16,7 +16,7 @@ runs:
       uses: actions/checkout@v2
     
     - name: Enable Relative Github Actions
-      uses: socialgouv/actions/util-enable-relative-gh-actions@feat-relative-actions-reimplment
+      uses: socialgouv/actions/util-enable-relative-gh-actions@devthejo/debug-relatives-actions-branch-name-withSpecCharactersAndVeryLongName
       with:
         actionPath: ${{ github.action_path }}
 
