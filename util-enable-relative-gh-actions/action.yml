@@ -30,7 +30,7 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH%/*}
         echo "::set-output name=actionBranch::$(echo ${ACTION_BRANCH})"
 
-    - name: Ensure directory exists
+    - name: Ensure directory exists in github workspace
       shell: bash
       run: |
         ACTIONS_PATH=$GITHUB_WORKSPACE/../.actions
@@ -42,3 +42,7 @@ runs:
         repository: ${{ inputs.actionRepository }}
         ref: ${{ steps.get_action_branch.outputs.actionBranch }}
         path: .actions/${{ inputs.path }}
+
+    - name: Clean github workspace
+      shell: bash
+      run: rm -f $GITHUB_WORKSPACE/.actions
