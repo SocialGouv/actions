@@ -6,7 +6,7 @@ inputs:
     required: true
   path:
     description: "The target link"
-    default: .actions
+    default: .socialgouv/actions
     required: true
 
 runs:
