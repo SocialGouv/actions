@@ -23,7 +23,6 @@ runs:
       shell: bash
       id: get_action_branch
       run: |
-        set -x
         ACTIONS_PATH=$GITHUB_WORKSPACE/${{ inputs.path }}
         mkdir -p $ACTIONS_PATH
         
@@ -41,3 +40,10 @@ runs:
       with:
         repository: ${{ inputs.actionRepository }}
         ref: ${{ steps.get_action_branch.outputs.actionBranch }}
+
+    - name: Extract action branch
+      shell: bash
+      run: |
+        ACTIONS_PATH=$GITHUB_WORKSPACE/${{ inputs.path }}
+        echo ACTIONS_PATH=$ACTIONS_PATH
+        ls -al $ACTIONS_PATH
