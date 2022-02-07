@@ -6,7 +6,7 @@ inputs:
     required: true
   path:
     description: "The target link"
-    default: .socialgouv/actions
+    default: .actions
     required: true
 
 runs:
@@ -14,4 +14,6 @@ runs:
   steps:
     - name: Enable Relative Github Actions
       shell: bash
-      run: ln -s ${{ inputs.actionPath }}/.. $GITHUB_WORKSPACE/../${{ inputs.path }} || true
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/../${{ inputs.path }}
+        ln -s ${{ inputs.actionPath }}/.. $GITHUB_WORKSPACE/../${{ inputs.path }} || true

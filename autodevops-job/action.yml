@@ -29,7 +29,7 @@ runs:
       actionPath: ${{ github.action_path }}
 
   - name: Generate manifests
-    uses: ./../.socialgouv/actions/autodevops-manifests
+    uses: ./../.actions/autodevops-manifests
     with:
       environment: ${{ inputs.environment }}
       kosko-args: ${{ inputs.kosko-args }}
