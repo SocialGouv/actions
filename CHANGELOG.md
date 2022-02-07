@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/SocialGouv/actions/compare/v1.24.0...v1.25.0) (2022-02-07)
+
+
+### Features
+
+* **relative:** implement relative actions ([#116](https://github.com/SocialGouv/actions/issues/116)) ([6eb7402](https://github.com/SocialGouv/actions/commit/6eb740217f0daee1ccbc59325821fc946c9eac50))
+
 # [1.24.0](https://github.com/SocialGouv/actions/compare/v1.23.1...v1.24.0) (2022-02-04)
 
 
