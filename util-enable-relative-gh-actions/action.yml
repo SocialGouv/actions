@@ -31,7 +31,7 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
 
-        ACTIONS_PATH=$ACTION_PATH/..
+        ACTIONS_PATH=/tmp/$ACTION_PATH
 
         ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/../.action/${{ inputs.path }}
 
@@ -41,6 +41,7 @@ runs:
           git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
           # git reset --hard origin/$ACTION_BRANCH
         else
+          mkdir -p $ACTIONS_PATH
           git clone \
             --depth 1 \
             ${{ inputs.actionRepository }} \
