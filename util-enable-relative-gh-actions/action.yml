@@ -31,10 +31,7 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
 
-        ACTIONS_PATH=/tmp$ACTION_PATH
-
-        mkdir -p $GITHUB_WORKSPACE/../.actions/${{ inputs.path }}
-        ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/../.actions/${{ inputs.path }}
+        ACTIONS_PATH=/tmp/actions
 
         if [ -d "$ACTIONS_PATH/.git" ]; then
           cd $ACTIONS_PATH
