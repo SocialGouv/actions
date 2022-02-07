@@ -48,6 +48,12 @@ runs:
       environment:  ${{ inputs.environment }}
       dockerbuildargs: ${{ inputs.dockerbuildargs }}
 
+  - name: Enable Relative Github Actions
+    uses: socialgouv/actions/util-enable-relative-gh-actions@devthejo/debug-relatives-actions-branch-name-withSpecCharactersAndVeryLongName
+    with:
+      actionPath: ${{ github.action_path }}
+
+
   - name: Use autodevops manifests generation
     uses: ./.actions/autodevops-manifests
     with:
