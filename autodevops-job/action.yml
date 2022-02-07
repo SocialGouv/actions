@@ -20,8 +20,16 @@ runs:
   using: "composite"
   steps:
 
+  - name: Checkout repository
+    uses: actions/checkout@v2
+
+  - name: Enable Relative Github Actions
+    uses: socialgouv/actions/util-enable-relative-gh-actions@v1
+    with:
+      actionPath: ${{ github.action_path }}
+
   - name: Generate manifests
-    uses: socialgouv/actions/autodevops-manifests@v1
+    uses: ./.socialgouv/actions/autodevops-manifests
     with:
       environment: ${{ inputs.environment }}
       kosko-args: ${{ inputs.kosko-args }}

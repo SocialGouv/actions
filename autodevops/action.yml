@@ -30,8 +30,16 @@ runs:
   using: "composite"
   steps:
 
+  - name: Checkout repository
+    uses: actions/checkout@v2
+
+  - name: Enable Relative Github Actions
+    uses: socialgouv/actions/util-enable-relative-gh-actions@v1
+    with:
+      actionPath: ${{ github.action_path }}
+
   - name: Use autodevops build and register
-    uses: SocialGouv/actions/autodevops-build-register@master
+    uses: ./.socialgouv/actions/autodevops-build-register
     with:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
@@ -41,7 +49,7 @@ runs:
       dockerbuildargs: ${{ inputs.dockerbuildargs }}
 
   - name: Use autodevops manifests generation
-    uses: SocialGouv/actions/autodevops-manifests@master
+    uses: ./.socialgouv/actions/autodevops-manifests
     with:
       rancherId: ${{ inputs.rancherId }}
       environment: ${{ inputs.environment }}
@@ -50,7 +58,7 @@ runs:
 
   - name: Use autodevops deployment
     id: deploy
-    uses: SocialGouv/actions/autodevops-deploy@master
+    uses: ./.socialgouv/actions/autodevops-deploy
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}

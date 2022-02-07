@@ -19,6 +19,11 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Enable Relative Github Actions
+      uses: socialgouv/actions/util-enable-relative-gh-actions@v1
+      with:
+        actionPath: ${{ github.action_path }}
+
     - name: Get project and namespace names
       shell: bash
       run: |

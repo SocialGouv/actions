@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup node
-      uses: socialgouv/actions/util-setup-node@v1
+      uses: ./.socialgouv/actions/util-setup-node
       with:
         actionPath: ${{ github.action_path }}
 
@@ -25,13 +25,13 @@ runs:
         export RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         cd ${{ github.action_path }}
         cat templates/namespace.gtpl | \
-          gomplate -d values.json > namespace.yml
+          gomplate -d values.json > ${GITHUB_WORKSPACE}/namespace.${{ inputs.namespace || env.NAMESPACE }}.yml
 
     - name: Archive namespace manifests
       uses: actions/upload-artifact@v2
       with:
-        name: namespace.${{ inputs.namespace }}.yml
-        path: ${{ github.action_path }}/namespace.yml
+        name: namespace.${{ inputs.namespace || env.NAMESPACE }}.yml
+        path: namespace.${{ inputs.namespace || env.NAMESPACE }}.yml
 
     - name: Ensure namespace exists
       shell: bash

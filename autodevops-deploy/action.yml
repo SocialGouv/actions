@@ -24,6 +24,11 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Enable Relative Github Actions
+      uses: socialgouv/actions/util-enable-relative-gh-actions@v1
+      with:
+        actionPath: ${{ github.action_path }}
+
     - name: Download k8s namespace
       uses: actions/download-artifact@v2
       with:
@@ -104,7 +109,7 @@ runs:
         env_url: ${{ steps.environment-url.outputs.url }}
 
     - name: Debug manifests
-      uses: socialgouv/actions/k8s-manifests-debug@v1
+      uses: ./.socialgouv/actions/k8s-manifests-debug
       with:
         token: ${{ inputs.token }}
         path: manifests-${{ inputs.environment }}.yml
