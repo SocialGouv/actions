@@ -7,7 +7,7 @@ inputs:
     required: true
   actionRepository:
     description: "The action repository to clone"
-    default: git@github.com:SocialGouv/actions.git
+    default: https://github.com/SocialGouv/actions.git
   actionPath:
     description: "The calling's action path, pass github.action_path"
     required: true
