@@ -3,9 +3,14 @@ description: "Delete review branch environment and database"
 inputs:
   kube-config:
     description: "The base64 of the kubeconfig"
+    required: true
   github-token:
     description: "GitHub Token as provided by secrets"
     default: ${{ github.token }}
+    required: true
+  adminPgSecret:
+    description: "PG Secret admin secretRefName"
+    default: azure-pg-admin-user
     required: true
 
 runs:
@@ -42,20 +47,11 @@ runs:
         echo "🪦"
 
     - name: Drop database
-      shell: bash
-      env:
-        SOCIALGOUV_BASE_DOMAIN: some-domain # mandatory to trigger GitHub environment in kosko-charts
-      run: |
-        PROJECT=${GITHUB_REPOSITORY#*/}
-        npx @socialgouv/azure-db drop --application ${PROJECT} --database autodevops_${{ steps.k8s.outputs.branch }} --user user_${{ steps.k8s.outputs.branch }} || true
-
-    # new version
-    # - name: Drop database
-    #   uses: SocialGouv/actions/autodevops-drop-db@v1
-    #   with:
-    #     kubeconfig: ${{ inputs.kube-config }}
-    #     rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-    #     adminPgSecret: pg-scaleway
+      uses: SocialGouv/actions/autodevops-drop-db@v1
+      with:
+        kubeconfig: ${{ inputs.kube-config }}
+        adminPgSecret: ${{ inputs.adminPgSecret }}
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
     - name: Mark environment as deactivated
       uses: bobheadxi/deployments@v0.4.3
