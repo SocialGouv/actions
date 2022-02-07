@@ -1,3 +1,10 @@
+## [1.25.4](https://github.com/SocialGouv/actions/compare/v1.25.3...v1.25.4) (2022-02-07)
+
+
+### Bug Fixes
+
+* **util-ensure-namespace:** use correct yml ([#120](https://github.com/SocialGouv/actions/issues/120)) ([1872498](https://github.com/SocialGouv/actions/commit/1872498d0737d866d442daf862e30434ff59b960))
+
 ## [1.25.3](https://github.com/SocialGouv/actions/compare/v1.25.2...v1.25.3) (2022-02-07)
 
 
