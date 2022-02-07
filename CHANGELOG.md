@@ -1,3 +1,10 @@
+## [1.25.2](https://github.com/SocialGouv/actions/compare/v1.25.1...v1.25.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* **relative:** actions when checkout ([#119](https://github.com/SocialGouv/actions/issues/119)) ([008d674](https://github.com/SocialGouv/actions/commit/008d674eacff993486103d66008793c6da2120b4))
+
 ## [1.25.1](https://github.com/SocialGouv/actions/compare/v1.25.0...v1.25.1) (2022-02-07)
 
 
