@@ -21,6 +21,11 @@ runs:
     with:
       fetch-depth: 0
       persist-credentials: false
+  
+  - name: Enable Relative Github Actions
+    uses: socialgouv/actions/util-enable-relative-gh-actions@devthejo/debug-relatives-actions-branch-name-withSpecCharactersAndVeryLongName
+    with:
+      actionPath: ${{ github.action_path }}
 
   - name: Semantic Release
     uses: cycjimmy/semantic-release-action@v2

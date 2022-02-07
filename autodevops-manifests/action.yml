@@ -26,6 +26,11 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Enable Relative Github Actions
+      uses: socialgouv/actions/util-enable-relative-gh-actions@devthejo/debug-relatives-actions-branch-name-withSpecCharactersAndVeryLongName
+      with:
+        actionPath: ${{ github.action_path }}
+
     - name: Load environment variables
       shell: bash
       run: |

@@ -33,7 +33,7 @@ runs:
         echo "::set-output name=branch::$(echo ${BRANCH})"
 
     - name: Write kubeconfig
-      uses: /tmp/actions/util-write-kubeconfig
+      uses: ./.actions/util-write-kubeconfig
       with:
         kubeconfig: ${{ inputs.kube-config }}
 
@@ -54,7 +54,7 @@ runs:
 
     # new version
     # - name: Drop database
-    #   uses: /tmp/actions/autodevops-drop-db
+    #   uses: ./.actions/autodevops-drop-db
     #   with:
     #     kubeconfig: ${{ inputs.kube-config }}
     #     rancherId: ${{ secrets.RANCHER_PROJECT_ID }}

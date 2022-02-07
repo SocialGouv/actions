@@ -28,6 +28,11 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Enable Relative Github Actions
+      uses: socialgouv/actions/util-enable-relative-gh-actions@devthejo/debug-relatives-actions-branch-name-withSpecCharactersAndVeryLongName
+      with:
+        actionPath: ${{ github.action_path }}
+
     - name: Create image labels and tags
       id: docker_meta
       uses: "crazy-max/ghaction-docker-meta@2e1a5c7fa42123697f82d479b551a1bbdb1bef88"

@@ -1,10 +1,6 @@
 name: "Enable Relative Github Actions"
 description: "Enable Relative Github Actions"
 inputs:
-  path:
-    description: "The target action"
-    default: socialgouv
-    required: true
   actionRepository:
     description: "The action repository to clone"
     default: https://github.com/SocialGouv/actions.git
@@ -31,7 +27,7 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
 
-        ACTIONS_PATH=/tmp/actions
+        ACTIONS_PATH=$GITHUB_WORKSPACE/.action
 
         if [ -d "$ACTIONS_PATH/.git" ]; then
           cd $ACTIONS_PATH
