@@ -24,7 +24,8 @@ runs:
           echo "SOCIALGOUV_ACTIONS_BRANCH=$SOCIALGOUV_ACTIONS_BRANCH" >> $GITHUB_ENV
         fi
 
-        ACTIONS_PATH=/tmp/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
+        # ACTIONS_PATH=/tmp/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
+        ACTIONS_PATH=/home/runner/work/_actions/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
         mkdir -p $ACTIONS_PATH
         ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/.actions || true
 
@@ -41,4 +42,3 @@ runs:
             --single-branch \
             .
         fi
-        ls -al
