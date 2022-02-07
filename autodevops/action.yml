@@ -39,7 +39,7 @@ runs:
       actionPath: ${{ github.action_path }}
 
   - name: Use autodevops build and register
-    uses: ../.socialgouv/actions/autodevops-build-register
+    uses: ./../.socialgouv/actions/autodevops-build-register
     with:
       token: ${{ inputs.token }}
       project: ${{ inputs.project }}
@@ -49,7 +49,7 @@ runs:
       dockerbuildargs: ${{ inputs.dockerbuildargs }}
 
   - name: Use autodevops manifests generation
-    uses: ../.socialgouv/actions/autodevops-manifests
+    uses: ./../.socialgouv/actions/autodevops-manifests
     with:
       rancherId: ${{ inputs.rancherId }}
       environment: ${{ inputs.environment }}
@@ -58,7 +58,7 @@ runs:
 
   - name: Use autodevops deployment
     id: deploy
-    uses: ../.socialgouv/actions/autodevops-deploy
+    uses: ./../.socialgouv/actions/autodevops-deploy
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}
