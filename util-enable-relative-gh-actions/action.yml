@@ -15,9 +15,8 @@ runs:
       shell: bash
       run: |
         set -x
-        ACTION_PATH=${{ inputs.actionPath }}
         if [ -z "$SOCIALGOUV_ACTIONS_BRANCH" ]; then
-          SOCIALGOUV_ACTIONS_BRANCH=$ACTION_PATH
+          SOCIALGOUV_ACTIONS_BRANCH=$${{ inputs.actionPath }}
           SOCIALGOUV_ACTIONS_BRANCH=$(echo $SOCIALGOUV_ACTIONS_BRANCH | sed 's/.*\/_actions\///')
           SOCIALGOUV_ACTIONS_BRANCH=${SOCIALGOUV_ACTIONS_BRANCH#*/}
           SOCIALGOUV_ACTIONS_BRANCH=${SOCIALGOUV_ACTIONS_BRANCH#*/}
@@ -26,7 +25,7 @@ runs:
         fi
 
         ACTIONS_PATH=/tmp/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
-        mkdir -p $ACTION_PATH
+        mkdir -p $ACTIONS_PATH
         ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/.actions || true
 
         cd $ACTIONS_PATH
