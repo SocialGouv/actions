@@ -3,7 +3,7 @@ description: "Enable Relative Github Actions"
 inputs:
   path:
     description: "The target link"
-    default: .socialgouv/actions
+    default: .actions
     required: true
   actionRepository:
     description: "The action repository to clone"
@@ -30,14 +30,13 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH%/*}
         echo "::set-output name=actionBranch::$(echo ${ACTION_BRANCH})"
 
-    - name: Ensure directory exists
+    - name: Link directory to parent
       shell: bash
       run: |
-        ACTIONS_PATH=$GITHUB_WORKSPACE/../${{ inputs.path }}
-        mkdir -p $ACTIONS_PATH
+        ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/${{ inputs.path }}
 
     - uses: actions/checkout@v2
       with:
         repository: ${{ inputs.actionRepository }}
         ref: ${{ steps.get_action_branch.outputs.actionBranch }}
-        path: ../${{ inputs.path }}
+        path: ${{ inputs.path }}
