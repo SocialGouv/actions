@@ -1,3 +1,10 @@
+## [1.25.1](https://github.com/SocialGouv/actions/compare/v1.25.0...v1.25.1) (2022-02-07)
+
+
+### Bug Fixes
+
+* **clean:** remove unused rancherId input [#118](https://github.com/SocialGouv/actions/issues/118) ([0836dac](https://github.com/SocialGouv/actions/commit/0836dac631f1b7ce3a5edc7deb7d88f1d528ea6d))
+
 # [1.25.0](https://github.com/SocialGouv/actions/compare/v1.24.0...v1.25.0) (2022-02-07)
 
 
