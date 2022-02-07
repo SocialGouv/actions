@@ -33,6 +33,7 @@ runs:
 
         ACTIONS_PATH=/tmp/$ACTION_PATH
 
+        mkdir -p $GITHUB_WORKSPACE/../.action/${{ inputs.path }}
         ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/../.action/${{ inputs.path }}
 
         if [ -d "$ACTIONS_PATH/.git" ]; then
