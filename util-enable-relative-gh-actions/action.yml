@@ -23,28 +23,21 @@ runs:
       shell: bash
       id: get_action_branch
       run: |
-        ACTIONS_PATH=$GITHUB_WORKSPACE/${{ inputs.path }}
-        mkdir -p $ACTIONS_PATH
-        
-        # extract action branch from action path
         ACTION_BRANCH=${{ inputs.actionPath }}
         ACTION_BRANCH=$(echo $ACTION_BRANCH | sed 's/.*\/_actions\///')
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
-
         echo "::set-output name=actionBranch::$(echo ${ACTION_BRANCH})"
 
+    - name: Ensure directory exists
+      shell: bash
+      run: |
+        ACTIONS_PATH=$GITHUB_WORKSPACE/../${{ inputs.path }}
+        mkdir -p $ACTIONS_PATH
 
     - uses: actions/checkout@v2
       with:
         repository: ${{ inputs.actionRepository }}
         ref: ${{ steps.get_action_branch.outputs.actionBranch }}
         path: ${{ inputs.path }}
-
-    - name: Extract action branch
-      shell: bash
-      run: |
-        ACTIONS_PATH=$GITHUB_WORKSPACE/${{ inputs.path }}
-        echo ACTIONS_PATH=$ACTIONS_PATH
-        ls -al $ACTIONS_PATH
