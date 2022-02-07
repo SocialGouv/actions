@@ -18,6 +18,7 @@ runs:
     - name: Enable Relative Github Actions
       shell: bash
       run: |
+        set -x
         ACTION_PATH=${{ inputs.actionPath }}
         if ! [[ "$ACTION_PATH" == *"/_actions/"* ]]; then
           # called from a nested action
