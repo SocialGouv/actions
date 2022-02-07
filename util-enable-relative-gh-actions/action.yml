@@ -14,4 +14,4 @@ runs:
   steps:
     - name: Enable Relative Github Actions
       shell: bash
-      run: ln -s ${{ inputs.actionPath }}/.. $GITHUB_WORKSPACE/${{ inputs.path }} || true
+      run: ln -s ${{ inputs.actionPath }}/.. $GITHUB_WORKSPACE/../${{ inputs.path }} || true
