@@ -27,7 +27,7 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
 
-        ACTIONS_PATH=$GITHUB_WORKSPACE/.action
+        ACTIONS_PATH=$GITHUB_WORKSPACE/.actions
 
         if [ -d "$ACTIONS_PATH/.git" ]; then
           cd $ACTIONS_PATH
