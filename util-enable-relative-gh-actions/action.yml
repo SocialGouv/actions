@@ -31,14 +31,16 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
 
-        ACTIONS_PATH=$GITHUB_WORKSPACE/../.actions/${{ inputs.path }}
+        ACTIONS_PATH=$ACTION_PATH/..
+
+        ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/../.action/${{ inputs.path }}
+
         if [ -d "$ACTIONS_PATH/.git" ]; then
           cd $ACTIONS_PATH
           git fetch origin $ACTION_BRANCH
-          # git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
-          git reset --hard origin/$ACTION_BRANCH
+          git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
+          # git reset --hard origin/$ACTION_BRANCH
         else
-          mkdir -p $ACTIONS_PATH
           git clone \
             --depth 1 \
             ${{ inputs.actionRepository }} \
