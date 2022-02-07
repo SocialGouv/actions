@@ -2,12 +2,12 @@ name: "Enable Relative Github Actions"
 description: "Enable Relative Github Actions"
 inputs:
   path:
-    description: "The target link"
+    description: "The target action"
     default: socialgouv
     required: true
   actionRepository:
     description: "The action repository to clone"
-    default: SocialGouv/actions
+    default: git@github.com:SocialGouv/actions.git
   actionPath:
     description: "The calling's action path, pass github.action_path"
     required: true
@@ -30,19 +30,21 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH%/*}
         echo "::set-output name=actionBranch::$(echo ${ACTION_BRANCH})"
 
-    - name: Ensure directory exists in github workspace
+    - name: Checkout directory
       shell: bash
       run: |
-        ACTIONS_PATH=$GITHUB_WORKSPACE/../.actions
-        mkdir -p $ACTIONS_PATH
-        ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/.actions
-
-    - uses: actions/checkout@v2
-      with:
-        repository: ${{ inputs.actionRepository }}
-        ref: ${{ steps.get_action_branch.outputs.actionBranch }}
-        path: .actions/${{ inputs.path }}
-
-    - name: Clean github workspace
-      shell: bash
-      run: rm -f $GITHUB_WORKSPACE/.actions
+        ACTION_PATH=$GITHUB_WORKSPACE/../.actions/${{ inputs.path }}
+        ACTION_BRANCH=${{ steps.get_action_branch.outputs.actionBranch }}
+        if [ -d "$ACTION_PATH/.git" ]; then
+          cd $ACTION_PATH
+          git fetch origin $ACTION_BRANCH
+          git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
+        else
+          mkdir -p $ACTION_PATH
+          git clone \
+            --depth 1 \
+            ${{ inputs.actionRepository }} \
+            --branch ${{ steps.get_action_branch.outputs.actionBranch }} \
+            --single-branch \
+            $ACTION_PATH
+        fi
