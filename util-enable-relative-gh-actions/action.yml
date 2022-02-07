@@ -25,7 +25,7 @@ runs:
           exit 0
         fi
 
-        ACTION_BRANCH=ACTION_PATH
+        ACTION_BRANCH=$ACTION_PATH
         ACTION_BRANCH=$(echo $ACTION_BRANCH | sed 's/.*\/_actions\///')
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH#*/}
