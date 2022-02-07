@@ -40,4 +40,4 @@ runs:
       with:
         repository: ${{ inputs.actionRepository }}
         ref: ${{ steps.get_action_branch.outputs.actionBranch }}
-        path: ${{ inputs.path }}
+        path: ../${{ inputs.path }}
