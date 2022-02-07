@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup node
-      uses: ./../.socialgouv/actions/util-setup-node
+      uses: ./../.actions/util-setup-node
       with:
         actionPath: ${{ github.action_path }}
 
