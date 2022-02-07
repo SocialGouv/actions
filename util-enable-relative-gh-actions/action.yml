@@ -5,21 +5,26 @@ inputs:
     description: "The target link"
     default: .socialgouv/actions
     required: true
+  actionRepository:
+    description: "The action repository to clone"
+    default: git@github.com:SocialGouv/actions.git
   actionPath:
     description: "The calling's action path, pass github.action_path"
     required: true
+outputs:
+  actionBranch:
+    description: "Action branch"
+    value: ${{ steps.get_action_branch.outputs.actionBranch }}
 
 runs:
   using: "composite"
   steps:
-    - name: Enable Relative Github Actions
+    - name: Extract action branch
       shell: bash
+      id: get_action_branch
       run: |
         set -x
         ACTIONS_PATH=$GITHUB_WORKSPACE/${{ inputs.path }}
-        if [ -d $ACTIONS_PATH ]; then
-          exit 0
-        fi
         mkdir -p $ACTIONS_PATH
         
         # extract action branch from action path
@@ -29,8 +34,10 @@ runs:
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
 
-        git clone \
-          --depth 1 \
-          --branch $ACTION_BRANCH \
-          --single-branch \
-          $ACTIONS_PATH
+        echo "::set-output name=actionBranch::$(echo ${ACTION_BRANCH})"
+
+
+    - uses: actions/checkout@v2
+      with:
+        repository: ${{ inputs.actionRepository }}
+        ref: ${{ steps.get_action_branch.outputs.actionBranch }}
