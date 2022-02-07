@@ -35,7 +35,8 @@ runs:
         if [ -d "$ACTIONS_PATH/.git" ]; then
           cd $ACTIONS_PATH
           git fetch origin $ACTION_BRANCH
-          git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
+          # git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
+          git reset --hard origin/$ACTION_BRANCH
         else
           mkdir -p $ACTIONS_PATH
           git clone \
