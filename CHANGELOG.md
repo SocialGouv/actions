@@ -1,3 +1,10 @@
+## [1.25.7](https://github.com/SocialGouv/actions/compare/v1.25.6...v1.25.7) (2022-02-07)
+
+
+### Bug Fixes
+
+* **relative:** actions revert ([#124](https://github.com/SocialGouv/actions/issues/124)) ([d9ce6d8](https://github.com/SocialGouv/actions/commit/d9ce6d867258240da0d63ca55b6b045b0052e335))
+
 ## [1.25.6](https://github.com/SocialGouv/actions/compare/v1.25.5...v1.25.6) (2022-02-07)
 
 
