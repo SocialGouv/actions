@@ -16,30 +16,30 @@ runs:
       run: |
         set -x
         ACTION_PATH=${{ inputs.actionPath }}
-        if ! [[ "$ACTION_PATH" == *"/_actions/"* ]]; then
-          # called from a nested action
-          exit 0
+        if [ -z "$SOCIALGOUV_ACTIONS_BRANCH" ]; then
+          SOCIALGOUV_ACTIONS_BRANCH=$ACTION_PATH
+          SOCIALGOUV_ACTIONS_BRANCH=$(echo $SOCIALGOUV_ACTIONS_BRANCH | sed 's/.*\/_actions\///')
+          SOCIALGOUV_ACTIONS_BRANCH=${SOCIALGOUV_ACTIONS_BRANCH#*/}
+          SOCIALGOUV_ACTIONS_BRANCH=${SOCIALGOUV_ACTIONS_BRANCH#*/}
+          SOCIALGOUV_ACTIONS_BRANCH=${SOCIALGOUV_ACTIONS_BRANCH%/*}
+          echo "SOCIALGOUV_ACTIONS_BRANCH=$SOCIALGOUV_ACTIONS_BRANCH" >> $GITHUB_ENV
         fi
 
-        ACTION_BRANCH=$ACTION_PATH
-        ACTION_BRANCH=$(echo $ACTION_BRANCH | sed 's/.*\/_actions\///')
-        ACTION_BRANCH=${ACTION_BRANCH#*/}
-        ACTION_BRANCH=${ACTION_BRANCH#*/}
-        ACTION_BRANCH=${ACTION_BRANCH%/*}
-
-        ACTIONS_PATH=$GITHUB_WORKSPACE/.actions
+        ACTIONS_PATH=/tmp/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
+        mkdir -p $ACTION_PATH
+        ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/.actions || true
 
         if [ -d "$ACTIONS_PATH/.git" ]; then
           cd $ACTIONS_PATH
-          git fetch origin $ACTION_BRANCH
-          git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
-          # git reset --hard origin/$ACTION_BRANCH
+          git fetch origin $SOCIALGOUV_ACTIONS_BRANCH
+          git checkout -b $SOCIALGOUV_ACTIONS_BRANCH origin/$SOCIALGOUV_ACTIONS_BRANCH
+          # git reset --hard origin/$SOCIALGOUV_ACTIONS_BRANCH
         else
           mkdir -p $ACTIONS_PATH
           git clone \
             --depth 1 \
             ${{ inputs.actionRepository }} \
-            --branch $ACTION_BRANCH \
+            --branch $SOCIALGOUV_ACTIONS_BRANCH \
             --single-branch \
             $ACTIONS_PATH
         fi
