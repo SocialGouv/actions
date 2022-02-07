@@ -21,7 +21,7 @@ runs:
         actionPath: ${{ github.action_path }}
 
     - name: Setup global env vars
-      uses: ./.socialgouv/actions/util-env
+      uses: SocialGouv/actions/util-env@v1
     
     - name: Setup action bin PATH
       shell: bash
@@ -57,22 +57,22 @@ runs:
         echo "DB_USER=$DB_USER" >> $GITHUB_ENV
 
     - name: Write kubeconfig
-      uses: ./.socialgouv/actions/util-write-kubeconfig
+      uses: SocialGouv/actions/util-write-kubeconfig@v1
       with:
         kubeconfig: ${{ inputs.kubeconfig }}
       
-    - uses: ./.socialgouv/actions/util-setup-node
+    - uses: SocialGouv/actions/util-setup-node@v1
       with:
         actionPath: ${{ github.action_path }}
     
-    - uses: ./.socialgouv/actions/util-run-job
+    - uses: SocialGouv/actions/util-run-job@v1
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
         jobName: drop-db-${{ env.BRANCH_SLUG }}
         actionPath: ${{ github.action_path }}
 
     - name: Wait for drop-db job completion
-      uses: ./.socialgouv/actions/util-wait-job
+      uses: SocialGouv/actions/util-wait-job@v1
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
         jobName: drop-db-${{ env.BRANCH_SLUG }}
