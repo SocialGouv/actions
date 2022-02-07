@@ -12,6 +12,9 @@ runs:
     - name: Enable Relative Github Actions
       shell: bash
       run: |
+        set -x
+        ls -al $GITHUB_ACTION_PATH
+        ls -al $GITHUB_ACTION_PATH/..
         ACTIONS_PATH=$GITHUB_WORKSPACE/${{ inputs.path }}
         if[ -d $ACTIONS_PATH ]; then
           exit 0
