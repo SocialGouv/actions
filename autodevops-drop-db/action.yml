@@ -3,8 +3,6 @@ description: "Drop database and user"
 inputs:
   kubeconfig:
     description: "The Kubernetes authentication configuration"
-  rancherId:
-    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   adminPgSecret:
     description: "PG Secret admin secretRefName"
   pgUserAddHostSuffix:
@@ -24,8 +22,6 @@ runs:
 
     - name: Setup global env vars
       uses: ./.socialgouv/actions/util-env
-      with:
-        rancherId: ${{ inputs.rancherId }}
     
     - name: Setup action bin PATH
       shell: bash
