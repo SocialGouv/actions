@@ -6,6 +6,7 @@ inputs:
     default: .socialgouv/actions
     required: true
   actionPath:
+    description: "The calling's action path, pass github.action_path"
     required: true
 
 runs:
@@ -20,7 +21,14 @@ runs:
           exit 0
         fi
         mkdir -p $ACTIONS_PATH
-        ACTION_BRANCH=$(basename "${{ inputs.actionPath }}")
+        
+        # extract action branch from action path
+        ACTION_BRANCH=${{ inputs.actionPath }}
+        ACTION_BRANCH=$(echo $ACTION_BRANCH | sed 's/.*\/_actions\///')
+        ACTION_BRANCH=${ACTION_BRANCH#*/}
+        ACTION_BRANCH=${ACTION_BRANCH#*/}
+        ACTION_BRANCH=${ACTION_BRANCH%/*}
+
         git clone \
           --depth 1 \
           --branch $ACTION_BRANCH \
