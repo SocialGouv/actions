@@ -11,40 +11,36 @@ inputs:
   actionPath:
     description: "The calling's action path, pass github.action_path"
     required: true
-outputs:
-  actionBranch:
-    description: "Action branch"
-    value: ${{ steps.get_action_branch.outputs.actionBranch }}
 
 runs:
   using: "composite"
   steps:
-    - name: Extract action branch
+    - name: Enable Relative Github Actions
       shell: bash
-      id: get_action_branch
       run: |
-        ACTION_BRANCH=${{ inputs.actionPath }}
+        ACTION_PATH=${{ inputs.actionPath }}
+        if ! [[ "$ACTION_PATH" == *"/_actions/"* ]]; then
+          # called from a nested action
+          exit 0
+        fi
+
+        ACTION_BRANCH=ACTION_PATH
         ACTION_BRANCH=$(echo $ACTION_BRANCH | sed 's/.*\/_actions\///')
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH#*/}
         ACTION_BRANCH=${ACTION_BRANCH%/*}
-        echo "::set-output name=actionBranch::$(echo ${ACTION_BRANCH})"
 
-    - name: Checkout directory
-      shell: bash
-      run: |
-        ACTION_PATH=$GITHUB_WORKSPACE/../.actions/${{ inputs.path }}
-        ACTION_BRANCH=${{ steps.get_action_branch.outputs.actionBranch }}
-        if [ -d "$ACTION_PATH/.git" ]; then
-          cd $ACTION_PATH
+        ACTIONS_PATH=$GITHUB_WORKSPACE/../.actions/${{ inputs.path }}
+        if [ -d "$ACTIONS_PATH/.git" ]; then
+          cd $ACTIONS_PATH
           git fetch origin $ACTION_BRANCH
           git checkout -b $ACTION_BRANCH origin/$ACTION_BRANCH
         else
-          mkdir -p $ACTION_PATH
+          mkdir -p $ACTIONS_PATH
           git clone \
             --depth 1 \
             ${{ inputs.actionRepository }} \
             --branch ${{ steps.get_action_branch.outputs.actionBranch }} \
             --single-branch \
-            $ACTION_PATH
+            $ACTIONS_PATH
         fi
