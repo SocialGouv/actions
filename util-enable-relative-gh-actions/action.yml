@@ -41,7 +41,7 @@ runs:
           git clone \
             --depth 1 \
             ${{ inputs.actionRepository }} \
-            --branch ${{ steps.get_action_branch.outputs.actionBranch }} \
+            --branch $ACTION_BRANCH \
             --single-branch \
             $ACTIONS_PATH
         fi
