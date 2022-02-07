@@ -1,9 +1,6 @@
 name: "Enable Relative Github Actions"
 description: "Enable Relative Github Actions"
 inputs:
-  actionPath:
-    description: "The calling's action path"
-    required: true
   path:
     description: "The target link"
     default: .socialgouv/actions
@@ -15,5 +12,14 @@ runs:
     - name: Enable Relative Github Actions
       shell: bash
       run: |
-        mkdir -p $GITHUB_WORKSPACE/../${{ inputs.path }}
-        ln -s ${{ inputs.actionPath }}/.. $GITHUB_WORKSPACE/../${{ inputs.path }} || true
+        ACTIONS_PATH=$GITHUB_WORKSPACE/${{ inputs.path }}
+        if[ -d $ACTIONS_PATH ]; then
+          exit 0
+        fi
+        mkdir -p $ACTIONS_PATH
+        ACTION_BRANCH=$(basename $GITHUB_ACTION_PATH)
+        git clone \
+          --depth 1 \
+          --branch $ACTION_BRANCH \
+          --single-branch \
+          $ACTIONS_PATH
