@@ -31,8 +31,8 @@ runs:
 
         cd $ACTIONS_PATH
         if [ -d "$ACTIONS_PATH/.git" ]; then
-          git fetch origin $SOCIALGOUV_ACTIONS_BRANCH
-          git reset --hard origin/$SOCIALGOUV_ACTIONS_BRANCH
+          # git fetch origin $SOCIALGOUV_ACTIONS_BRANCH
+          # git reset --hard origin/$SOCIALGOUV_ACTIONS_BRANCH
         else
           mkdir -p $ACTIONS_PATH
           git clone \
