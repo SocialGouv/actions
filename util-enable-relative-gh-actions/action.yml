@@ -30,10 +30,7 @@ runs:
         ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/.actions || true
 
         cd $ACTIONS_PATH
-        if [ -d "$ACTIONS_PATH/.git" ]; then
-          # git fetch origin $SOCIALGOUV_ACTIONS_BRANCH
-          # git reset --hard origin/$SOCIALGOUV_ACTIONS_BRANCH
-        # else
+        if [ ! -d "$ACTIONS_PATH/.git" ]; then
           mkdir -p $ACTIONS_PATH
           git clone \
             --depth 1 \
@@ -41,4 +38,7 @@ runs:
             --branch $SOCIALGOUV_ACTIONS_BRANCH \
             --single-branch \
             .
+        # else
+          # git fetch origin $SOCIALGOUV_ACTIONS_BRANCH
+          # git reset --hard origin/$SOCIALGOUV_ACTIONS_BRANCH
         fi
