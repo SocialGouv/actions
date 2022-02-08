@@ -35,4 +35,4 @@ runs:
 
     - name: Ensure namespace exists
       shell: bash
-      run: kubectl create -f ${{ github.action_path }}/namespace.${{ inputs.namespace || env.NAMESPACE }}.yml || true
+      run: kubectl create -f ${GITHUB_WORKSPACE}/namespace.${{ inputs.namespace || env.NAMESPACE }}.yml || true
