@@ -1,3 +1,10 @@
+## [1.25.9](https://github.com/SocialGouv/actions/compare/v1.25.8...v1.25.9) (2022-02-08)
+
+
+### Bug Fixes
+
+* **clean:** unimplement gh relative actions ([#126](https://github.com/SocialGouv/actions/issues/126)) ([ef1d8e0](https://github.com/SocialGouv/actions/commit/ef1d8e0e43a89327c137802e0904a59747c9499b))
+
 ## [1.25.8](https://github.com/SocialGouv/actions/compare/v1.25.7...v1.25.8) (2022-02-08)
 
 
