@@ -38,6 +38,12 @@ runs:
     with:
       actionPath: ${{ github.action_path }}
 
+  - name: Get namespace name
+    uses: mikefarah/yq@v4.19.1
+    id: namespace
+    with:
+      cmd: echo Hello folks !
+
   - name: Use autodevops build and register
     uses: ./.actions/autodevops-build-register
     with:
