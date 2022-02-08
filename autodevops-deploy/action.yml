@@ -40,7 +40,7 @@ runs:
         name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
 
     - name: Get namespace name
-      uses: mikefarah/yq@v4.13.4
+      uses: mikefarah/yq@v4.19.1
       id: namespace
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml

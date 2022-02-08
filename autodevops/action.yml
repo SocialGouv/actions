@@ -58,7 +58,7 @@ runs:
 
   - name: Use autodevops deployment
     id: deploy
-    uses: SocialGouv/actions/autodevops-deploy@devthejo/debug-relatives-actions-branch-name-withSpecCharactersAndVeryLongName
+    uses: ./.actions/autodevops-deploy
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}
