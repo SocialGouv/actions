@@ -39,6 +39,12 @@ runs:
       with:
         name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
 
+    - name: debugging
+      shell: bash
+      run: |
+        echo action_path=${{ github.action_path }}
+        ls /home/runner/work/_actions/.socialgouv/actions/
+
     - name: Get namespace name
       uses: mikefarah/yq@v4.13.4
       id: namespace
