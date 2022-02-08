@@ -25,9 +25,10 @@ runs:
         fi
 
         # ACTIONS_PATH=/tmp/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
-        ACTIONS_PATH=/home/runner/work/_actions/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
+        # ACTIONS_PATH=/home/runner/work/_actions/.socialgouv/actions/$SOCIALGOUV_ACTIONS_BRANCH
+        ACTIONS_PATH=$GITHUB_WORKSPACE/.actions
         mkdir -p $ACTIONS_PATH
-        ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/.actions || true
+        # ln -s $ACTIONS_PATH $GITHUB_WORKSPACE/.actions || true
 
         cd $ACTIONS_PATH
         if [ ! -d "$ACTIONS_PATH/.git" ]; then
