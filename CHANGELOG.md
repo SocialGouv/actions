@@ -1,3 +1,10 @@
+## [1.25.8](https://github.com/SocialGouv/actions/compare/v1.25.7...v1.25.8) (2022-02-08)
+
+
+### Bug Fixes
+
+* **ensure-ns:** typo path ([93a1263](https://github.com/SocialGouv/actions/commit/93a12636b01d0642ff7a02cf9207a1f27ac1199c))
+
 ## [1.25.7](https://github.com/SocialGouv/actions/compare/v1.25.6...v1.25.7) (2022-02-07)
 
 
