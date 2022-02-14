@@ -90,7 +90,8 @@ runs:
       id: environment-url
       shell: bash
       run: |
-        HOST=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host' - | head -n 1)
+        HOSTS=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host')
+        HOST=$(echo "$HOSTS" | head -n 1)
         echo $HOST
         echo "::set-output name=url::https://$HOST"
 
