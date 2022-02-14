@@ -67,5 +67,11 @@ runs:
         build-args: ${{ inputs.dockerbuildargs }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
-        cache-from: "type=gha,scope=${{ inputs.imageName }}-cache"
-        cache-to: "type=gha,scope=${{ inputs.imageName }}-cache,mode=max"
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+    - name: Move cache
+      shell: bash
+      run: |
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
