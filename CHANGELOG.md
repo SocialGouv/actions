@@ -1,3 +1,10 @@
+## [1.25.11](https://github.com/SocialGouv/actions/compare/v1.25.10...v1.25.11) (2022-02-15)
+
+
+### Bug Fixes
+
+* **util-env:** improve inputs ([fc36074](https://github.com/SocialGouv/actions/commit/fc36074bb2145cab069aac213f0fd037a776dbc3))
+
 ## [1.25.10](https://github.com/SocialGouv/actions/compare/v1.25.9...v1.25.10) (2022-02-14)
 
 
