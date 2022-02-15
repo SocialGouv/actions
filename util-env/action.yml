@@ -3,6 +3,11 @@ description: "Setup env vars"
 inputs:
   rancherId:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  environment:
+    description: "The deployment environment (dev | preprod | prod)"
+    default: dev
+  productionNamespace:
+    description: "Override production namesapce"
 
 runs:
   using: "composite"
@@ -10,19 +15,20 @@ runs:
     - name: Setup env vars
       shell: bash
       run: |
+        ENVIRONMENT=${{ inputs.environment || env.ENVIRONMENT }}
         PROJECT_NAME=${GITHUB_REPOSITORY##*/}
         BRANCH_NAME=${GITHUB_REF#refs/heads/}
         BRANCH_NAME=${BRANCH_NAME#refs/tags/}
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
         RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         JOB_NAMESPACE=${PROJECT_NAME}-ci
-        if [ "$SOCIALGOUV_PRODUCTION" ]; then
-          if [ -n "$SOCIALGOUV_PRODUCTION_NAMESPACE" ]; then
-            NAMESPACE=$SOCIALGOUV_PRODUCTION_NAMESPACE
+        if [ "$ENVIRONMENT" = "prod" ]; then
+          if [ -n "${{ inputs.productionNamespace }}" ]; then
+            NAMESPACE="${{ inputs.productionNamespace }}"
           else
             NAMESPACE=$PROJECT_NAME
           fi
-        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+        elif [ "$ENVIRONMENT" = "preprod" ]; then
           NAMESPACE=${PROJECT_NAME}-preprod
         else
           NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT_NAME}-${BRANCH_NAME}")
@@ -30,6 +36,7 @@ runs:
         SECRETS_NAMESPACE="${PROJECT_NAME}-secret"
         
         # general purpose env vars
+        echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
         echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
         echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
         echo "BRANCH_SLUG=$BRANCH_SLUG" >> $GITHUB_ENV
