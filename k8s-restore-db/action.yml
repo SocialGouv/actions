@@ -22,7 +22,8 @@ runs:
       if test -f ".github/dev.env"; then
         cat ".github/dev.env" >> $GITHUB_ENV
       fi
-      K8S_FOLDER=[[ -d ".k8s" ]] && ".k8s" || ".socialgouv"
+      if [-d ".k8s"]; then K8S_FOLDER=".k8s"; fi
+      if [-d ".socialgouv"]; then K8S_FOLDER=".socialgouv"; fi
       echo $K8S_FOLDER
       echo "::set-output name=K8S_FOLDER::$K8S_FOLDER"
 
