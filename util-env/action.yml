@@ -18,7 +18,7 @@ runs:
       shell: bash
       run: |
         ENVIRONMENT=${{ inputs.environment || env.ENVIRONMENT }}
-        if [ -n "${{ inputs.projectName }}"]; then
+        if [ -n "${{ inputs.projectName }}" ]; then
           PROJECT_NAME=${{ inputs.projectName }}
         else
           PROJECT_NAME=${GITHUB_REPOSITORY##*/}
