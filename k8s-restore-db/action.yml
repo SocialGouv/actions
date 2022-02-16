@@ -7,7 +7,9 @@ inputs:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
-
+  productionNamespace:
+    description: "Override base project name"
+    
 runs:
   using: "composite"
   steps:
@@ -42,6 +44,7 @@ runs:
     env:
       RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
       SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+      SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
 
   - name: Generate restore-db job manifest
     shell: bash
