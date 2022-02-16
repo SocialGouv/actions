@@ -52,7 +52,8 @@ runs:
     env:
       RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
       SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
-
+      SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
+      
   - name: Archive restore-db job
     uses: actions/upload-artifact@v2
     with:
