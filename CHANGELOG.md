@@ -1,3 +1,10 @@
+## [1.25.12](https://github.com/SocialGouv/actions/compare/v1.25.11...v1.25.12) (2022-02-16)
+
+
+### Bug Fixes
+
+* **util-env:** input project-name ([7ea2545](https://github.com/SocialGouv/actions/commit/7ea25458ccb7063028717b1ea82b9a1583e15567))
+
 ## [1.25.11](https://github.com/SocialGouv/actions/compare/v1.25.10...v1.25.11) (2022-02-15)
 
 
