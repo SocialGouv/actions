@@ -8,6 +8,8 @@ inputs:
     default: dev
   productionNamespace:
     description: "Override production namesapce"
+  projectName:
+    description: "Override project name"
 
 runs:
   using: "composite"
@@ -16,7 +18,11 @@ runs:
       shell: bash
       run: |
         ENVIRONMENT=${{ inputs.environment || env.ENVIRONMENT }}
-        PROJECT_NAME=${GITHUB_REPOSITORY##*/}
+        if [ -n "${{ inputs.projectName }}"]; then
+          PROJECT_NAME=${{ inputs.projectName }}
+        else
+          PROJECT_NAME=${GITHUB_REPOSITORY##*/}
+        fi
         BRANCH_NAME=${GITHUB_REF#refs/heads/}
         BRANCH_NAME=${BRANCH_NAME#refs/tags/}
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})

@@ -9,6 +9,8 @@ inputs:
     description: "PG Secret admin secretRefName"
   pgUserAddHostSuffix:
     description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
+  projectName:
+    description: "Override project name"
 
 runs:
   using: "composite"
@@ -21,6 +23,7 @@ runs:
       uses: SocialGouv/actions/util-env@v1
       with:
         rancherId: ${{ inputs.rancherId }}
+        projectName: ${{ inputs.projectName }}
     
     - name: Setup action bin PATH
       shell: bash
