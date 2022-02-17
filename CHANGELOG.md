@@ -1,3 +1,10 @@
+# [1.26.0](https://github.com/SocialGouv/actions/compare/v1.25.14...v1.26.0) (2022-02-17)
+
+
+### Features
+
+* **util-env:** add autodevops-path ([b7ab8ba](https://github.com/SocialGouv/actions/commit/b7ab8bacb6379c9d57d715c5c58c1b67d468495a))
+
 ## [1.25.14](https://github.com/SocialGouv/actions/compare/v1.25.13...v1.25.14) (2022-02-17)
 
 
