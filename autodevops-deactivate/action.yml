@@ -62,5 +62,5 @@ runs:
       with:
         step: deactivate-env
         token: ${{ inputs.github-token }}
-        env: dev
+        env: ${{ steps.k8s.outputs.namespace }}
         desc: "Environment ${{ steps.k8s.outputs.namespace }} has been deactivated"
