@@ -7,7 +7,11 @@ inputs:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
-
+  productionNamespace:
+    description: "Override base project name"
+  pgUserSecretPrefix:
+    description: "Prefix for pg-user secret name, oldly azure-pg-user, in future pg-user"
+    default: azure-pg-user
 runs:
   using: "composite"
   steps:
@@ -17,34 +21,42 @@ runs:
 
   - name: Load environment variables
     shell: bash
+    id: env
     run: |
       if test -f ".github/dev.env"; then
         cat ".github/dev.env" >> $GITHUB_ENV
       fi
+      if [ -d ".k8s" ]; then K8S_FOLDER=".k8s"; fi
+      if [ -d ".socialgouv" ]; then K8S_FOLDER=".socialgouv"; fi
+      echo $K8S_FOLDER
+      echo "::set-output name=K8S_FOLDER::$K8S_FOLDER"
 
   - name: Yarn cache setup
     uses: c-hive/gha-yarn-cache@v2
     with:
-      directory: .k8s
+      directory: ${{ steps.env.outputs.K8S_FOLDER }}
 
   - name: Install kosko-charts dependencies
     shell: bash
-    run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+    run: yarn --cwd ${{ steps.env.outputs.K8S_FOLDER }} install --frozen-lockfile --prefer-offline
 
   - name: Generate k8s namespace
     shell: bash
-    run: yarn --cwd .k8s --silent generate --env dev _namespace > namespace-dev.yml
+    run: yarn --cwd ${{ steps.env.outputs.K8S_FOLDER }} --silent generate --env dev _namespace > namespace-dev.yml
     env:
       RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
       SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
+      SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
 
   - name: Generate restore-db job manifest
     shell: bash
-    run: yarn --cwd .k8s --silent generate --env dev jobs/restore > restore-db.yml
+    run: yarn --cwd ${{ steps.env.outputs.K8S_FOLDER }} --silent generate --env dev jobs/restore > restore-db.yml
     env:
       RANCHER_PROJECT_ID: ${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
       SOCIALGOUV_BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain || env.SOCIALGOUV_BASE_DOMAIN }}
-
+      SOCIALGOUV_PRODUCTION_NAMESPACE: ${{ inputs.productionNamespace }}
+      PG_USER_SECRET_PREFIX: ${{ inputs.pgUserSecretPrefix }}
+      
   - name: Archive restore-db job
     uses: actions/upload-artifact@v2
     with:
