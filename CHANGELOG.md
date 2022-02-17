@@ -1,3 +1,10 @@
+## [1.26.2](https://github.com/SocialGouv/actions/compare/v1.26.1...v1.26.2) (2022-02-17)
+
+
+### Bug Fixes
+
+* **deactivate:** also deactivate github env ([#109](https://github.com/SocialGouv/actions/issues/109)) ([19544e6](https://github.com/SocialGouv/actions/commit/19544e6c415ecc69b29f3cb2b120ba1cf470bc48))
+
 ## [1.26.1](https://github.com/SocialGouv/actions/compare/v1.26.0...v1.26.1) (2022-02-17)
 
 
