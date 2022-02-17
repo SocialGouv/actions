@@ -1,3 +1,10 @@
+## [1.26.1](https://github.com/SocialGouv/actions/compare/v1.26.0...v1.26.1) (2022-02-17)
+
+
+### Bug Fixes
+
+* **util-env:** ensure autodevops-path exists ([b7016cd](https://github.com/SocialGouv/actions/commit/b7016cdb27ad4c29fe97313948fa54978ddce1d7))
+
 # [1.26.0](https://github.com/SocialGouv/actions/compare/v1.25.14...v1.26.0) (2022-02-17)
 
 
