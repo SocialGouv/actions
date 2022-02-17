@@ -1,3 +1,10 @@
+## [1.25.14](https://github.com/SocialGouv/actions/compare/v1.25.13...v1.25.14) (2022-02-17)
+
+
+### Bug Fixes
+
+* **restore:** allow .socialgouv folders ([#127](https://github.com/SocialGouv/actions/issues/127)) ([17e13c3](https://github.com/SocialGouv/actions/commit/17e13c3e41ae575b4928f25d44f7d27e98e51140))
+
 ## [1.25.13](https://github.com/SocialGouv/actions/compare/v1.25.12...v1.25.13) (2022-02-16)
 
 
