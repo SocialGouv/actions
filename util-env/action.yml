@@ -40,7 +40,8 @@ runs:
           NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT_NAME}-${BRANCH_NAME}")
         fi
         SECRETS_NAMESPACE="${PROJECT_NAME}-secret"
-        
+        AUTODEVOPS_PATH=/tmp/autodevops
+
         # general purpose env vars
         echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
         echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
@@ -50,3 +51,4 @@ runs:
         echo "RANCHER_PROJECT_ID=$RANCHER_PROJECT_ID" >> $GITHUB_ENV
         echo "JOB_NAMESPACE=$JOB_NAMESPACE" >> $GITHUB_ENV
         echo "SECRETS_NAMESPACE=$SECRETS_NAMESPACE" >> $GITHUB_ENV
+        echo "AUTODEVOPS_PATH=$AUTODEVOPS_PATH" >> $GITHUB_ENV
