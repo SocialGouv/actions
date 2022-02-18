@@ -1,3 +1,10 @@
+## [1.27.2](https://github.com/SocialGouv/actions/compare/v1.27.1...v1.27.2) (2022-02-18)
+
+
+### Bug Fixes
+
+* **autodevops-helm:** clean ([f68eb3f](https://github.com/SocialGouv/actions/commit/f68eb3fcfc9a2cea70bb132f4895727ad264db61))
+
 ## [1.27.1](https://github.com/SocialGouv/actions/compare/v1.27.0...v1.27.1) (2022-02-18)
 
 
