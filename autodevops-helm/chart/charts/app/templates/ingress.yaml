@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  labels:
+    component: {{ .Chart.Name }}
+    application: {{ .Values.global.projectName }}
+  name: app
+  namespace: {{ .Values.global.namespace }}
+spec:
+  rules:
+    - host: >-
+        {{ .Values.host }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: app
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - >-
+          {{ .Values.host }}
+      {{- if .Values.global.isProduction }}
+      secretName: {{ .Values.global.projectName }}-crt
+      {{- else }}
+      secretName: wildcard-crt
+      {{- end }}

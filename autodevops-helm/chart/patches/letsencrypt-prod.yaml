@@ -1,0 +1,5 @@
+- op: add
+  path: "/metadata/annotations"
+  value:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: 'true'
