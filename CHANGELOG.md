@@ -1,3 +1,10 @@
+## [1.27.5](https://github.com/SocialGouv/actions/compare/v1.27.4...v1.27.5) (2022-02-18)
+
+
+### Bug Fixes
+
+* **deactivate:** use autodevops-drop-db ([#117](https://github.com/SocialGouv/actions/issues/117)) ([c1d6da1](https://github.com/SocialGouv/actions/commit/c1d6da10cd8f61dfeeaac20a6acbd3a1bf903d3b))
+
 ## [1.27.4](https://github.com/SocialGouv/actions/compare/v1.27.3...v1.27.4) (2022-02-18)
 
 
