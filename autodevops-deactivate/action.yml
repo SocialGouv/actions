@@ -51,7 +51,6 @@ runs:
       with:
         kubeconfig: ${{ inputs.kube-config }}
         adminPgSecret: ${{ inputs.adminPgSecret }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
     - name: Mark environment as deactivated
       uses: bobheadxi/deployments@v0.4.3
