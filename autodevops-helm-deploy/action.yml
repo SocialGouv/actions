@@ -1,0 +1,203 @@
+name: "Autodevops deploy"
+description: "Autodevops deploy using Helm template and kapp"
+inputs:
+  environment:
+    default: 'dev'
+    description: "The deployment environment (dev | preprod | prod)"
+  kubeconfig:
+    description: "The Kubernetes authentication configuration"
+  token:
+    description: "The Github authentication token"
+  productionNamespace:
+    description: "Override production namesapce"
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  socialgouvBaseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  imageName:
+    description: "The image registry path"
+outputs:
+  url:
+    description: "Main deployment URL"
+    value: ${{ steps.environment-url.outputs.url }}
+runs:
+  using: "composite"
+  steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup global env vars
+      uses: SocialGouv/actions/util-env@v1
+      with:
+        rancherId: ${{ inputs.rancherId }}
+        environment: ${{ inputs.environment }}
+        productionNamespace: ${{ inputs.productionNamespace }}
+    
+    - name: Setup node
+      uses: SocialGouv/actions/util-setup-node@v1
+      with:
+        actionPath: ${{ github.action_path }}
+
+    # start building manifests
+
+    - name: Generate values file
+      shell: bash
+      env:
+        BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
+        IMAGE_NAME: ${{ inputs.imageName }}
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: yarn --cwd ${{ github.action_path }} run -s values > values.env.yaml
+
+    - name: Archive values
+      uses: actions/upload-artifact@v2
+      with:
+        name: values.env-${{ inputs.environment }}.yaml
+        path: ${{ env.AUTODEVOPS_PATH }}/values.env.yaml
+
+    - name: Prepare charts and overlays
+      shell: bash
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: |
+        cp -r "$GITHUB_ACTION_PATH/chart/." .
+        
+        shopt -s globstar
+        for filename in $AUTODEVOPS_PATH/chart/**/kustomization.yaml; do
+          [ -f "$filename" ] || continue
+          cp "$filename" "$(dirname $filename)/kustomization.autodevops.yaml"
+        done
+
+        cp -r "$GITHUB_WORKSPACE/.socialgouv/chart/." .
+        
+    - name: Merge .socialgouv env manifests
+      shell: bash
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: |
+        for filename in $GITHUB_WORKSPACE/.socialgouv/environments/$ENVIRONMENT/*.{yml,yaml}; do
+          [ -f "$filename" ] || continue
+          echo "merging $filename to manifests templates"
+          target="templates/$(basename $filename)"
+          cp "$filename" "$target"
+          yq -i e '.metadata.namespace |= "'$NAMESPACE'"' "$target"
+        done
+    
+    - name: Build base manifest using helm
+      shell: bash
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: |
+        HELM_TEMPLATE_ARGS=""
+        if [ -f "values.project.yaml" ]; then
+          HELM_TEMPLATE_ARGS+=" -f values.project.yaml"
+        fi
+        HELM_TEMPLATE_ARGS+=" -f values.env.yaml"
+        if [ -f "values.${ENVIRONMENT}.yaml" ]; then
+          HELM_TEMPLATE_ARGS+=" -f values.${ENVIRONMENT}.yaml"
+        fi
+
+        helm template $HELM_TEMPLATE_ARGS . \
+          > manifests.base.yaml
+
+    - name: Build final manifests using kustomize
+      shell: bash
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: |
+        kustomize build \
+          --load-restrictor=LoadRestrictionsNone \
+          "env/$ENVIRONMENT" \
+          > manifests.yaml
+
+    - name: Archive manifest
+      uses: actions/upload-artifact@v2
+      with:
+        name: manifests-${{ inputs.environment }}.yaml
+        path: ${{ env.AUTODEVOPS_PATH }}/manifests.yaml
+    
+    # end building manifests
+
+    - name: Notify deployment start
+      uses: bobheadxi/deployments@v0.4.3
+      id: deployment
+      with:
+        step: start
+        token: ${{ inputs.token }}
+        desc: "Deploying environment: ${{ env.NAMESPACE }}"
+        env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
+        
+    - name: Install Kapp
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: kapp
+        token: ${{ inputs.token }}
+
+    - name: Write kubeconfig
+      uses: SocialGouv/actions/util-write-kubeconfig@v1
+      with:
+        kubeconfig: ${{ inputs.kubeconfig }}
+
+    - name: Create k8s namespace
+      shell: bash
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: |
+        cat manifests.yaml | yq eval 'select(.kind=="Namespace")' - > namespace.yaml
+
+        kubectl create -f namespace.yaml || true
+        
+        # wait for namespace to be ready
+        n=0
+        until [ "$n" -ge 10 ]; do
+          command && break  # substitute your command here
+          namespaceStatus=$(kubectl get ns $NAMESPACE -o json | jq .status.phase -r)
+          [ $namespaceStatus == "Active" ] && break
+          n=$((n+1))
+          sleep 1
+        done
+
+    # - name: Apply manifests
+    #   shell: bash
+    #   run: |
+    #     kubectl apply -f manifests.yaml
+
+    # - name: Wait for Deployment
+    #   shell: bash
+    #   run: |
+    #     DEPLOYMENTS=$(cat manifests.yaml | yq eval-all 'select(.kind=="Deployment").metadata.name' -)
+    #     for DEPLOYMENT in $(echo $DEPLOYMENTS | tr "\-\-\-" "\n"); do
+    #       kubectl -n $NAMESPACE rollout status --timeout= deployment $DEPLOYMENT
+    #     done
+    
+    - name: Apply manifests and wait for sync using kapp
+      shell: bash
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: |
+        kapp \
+          deploy \
+          --app $PROJECT_NAME \
+          --namespace $NAMESPACE \
+          --logs-all \
+          --yes \
+          -f manifests.yaml
+
+    - name: Define environment URL
+      id: environment-url
+      shell: bash
+      working-directory: ${{ env.AUTODEVOPS_PATH }}
+      run: |
+        HOSTS=$(cat manifests.yaml | yq eval-all '.spec.rules[] .host')
+        HOST=$(echo "$HOSTS" | head -n 1)
+        echo $HOST
+        echo "::set-output name=url::https://$HOST"
+
+    - name: Notify deployment end
+      uses: bobheadxi/deployments@v0.4.3
+      with:
+        step: finish
+        status: ${{ job.status }}
+        token: ${{ inputs.token }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+        env_url: ${{ steps.environment-url.outputs.url }}
+
+    - name: Debug manifests
+      uses: SocialGouv/actions/k8s-manifests-debug@v1
+      with:
+        token: ${{ inputs.token }}
+        path: ${{ env.AUTODEVOPS_PATH }}/manifests.yaml
