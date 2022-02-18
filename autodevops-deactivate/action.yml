@@ -59,3 +59,4 @@ runs:
         token: ${{ inputs.github-token }}
         env: ${{ steps.k8s.outputs.namespace }}
         desc: "Environment ${{ steps.k8s.outputs.namespace }} has been deactivated"
+        adminPgSecret: ${{ inputs.adminPgSecret }}
