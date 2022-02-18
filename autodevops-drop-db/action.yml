@@ -69,6 +69,7 @@ runs:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
         jobName: drop-db-${{ env.BRANCH_SLUG }}
         actionPath: ${{ github.action_path }}
+        jobTemplatePath: ${{ github.action_path }}/templates/job.drop-db.gtpl
 
     - name: Wait for drop-db job completion
       uses: SocialGouv/actions/util-wait-job@v1
