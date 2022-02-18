@@ -23,8 +23,14 @@ runs:
         else
           PROJECT_NAME=${GITHUB_REPOSITORY##*/}
         fi
-        BRANCH_NAME=${GITHUB_REF#refs/heads/}
-        BRANCH_NAME=${BRANCH_NAME#refs/tags/}
+        
+        if [ -n "$GITHUB_HEAD_REF" ]; then
+          BRANCH_NAME=$GITHUB_HEAD_REF
+        else
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          BRANCH_NAME=${BRANCH_NAME#refs/tags/}
+        fi
+
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
         RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         JOB_NAMESPACE=${PROJECT_NAME}-ci
