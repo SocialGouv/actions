@@ -40,14 +40,6 @@ runs:
       environment:  ${{ inputs.environment }}
       dockerbuildargs: ${{ inputs.dockerbuildargs }}
 
-  - name: Use autodevops manifests generation
-    uses: SocialGouv/actions/autodevops-manifests@v1
-    with:
-      rancherId: ${{ inputs.rancherId }}
-      environment: ${{ inputs.environment }}
-      productionNamespace: ${{ inputs.productionNamespace }}
-      socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
-
   - name: Use autodevops helm deployment
     id: deploy
     uses: SocialGouv/actions/autodevops-helm-deploy@v1
