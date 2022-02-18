@@ -42,7 +42,7 @@ runs:
 
   - name: Use autodevops helm deployment
     id: deploy
-    uses: SocialGouv/actions/autodevops-helm-deploy@v1
+    uses: SocialGouv/actions/autodevops-helm-deploy@helm-dev-local
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}
