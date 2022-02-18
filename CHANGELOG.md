@@ -1,3 +1,10 @@
+# [1.27.0](https://github.com/SocialGouv/actions/compare/v1.26.2...v1.27.0) (2022-02-18)
+
+
+### Features
+
+* **autodevops-helm:** first draft ([1a10609](https://github.com/SocialGouv/actions/commit/1a10609c4f805b9e9ddd2f2ab934bf3983f6d71f))
+
 ## [1.26.2](https://github.com/SocialGouv/actions/compare/v1.26.1...v1.26.2) (2022-02-17)
 
 
