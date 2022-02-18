@@ -37,16 +37,21 @@ Here is the order, the last in the list is the last applied:
 
 ## Merge commons manifests as helm templates
 Every yaml files that reside in `.socialgouv/chart/templates` will be merged with `templates` folder of the helm Chart before the build.
+
 All theses files can use the Helm templating syntax (or not if you don't need it, helm template is a superset of yaml).
+
 Both extensions yaml and yml are accepted.
 
 ## Merge manifests per environment as helm templates
 Every yaml files that reside in `.socialgouv/environment/$ENVIRONMENT` will be merged with `templates` folder of the helm Chart before the build, according to the `environment` input (dev | preprod | prod).
+
 All theses files can use the Helm templating syntax.
+
 More often is here you put ConfigMap and SealedSecrets ressources.
 
 ## Override and extends everything from your project
 Everything is overridable using filesystem merging.
+
 The `.socialgouv/chart` directoty of your project will be merged and eventually overwrite content of the `chart` directory of this action.
 
 ### Override the full Chart
@@ -54,7 +59,9 @@ The `.socialgouv/chart` directoty of your project will be merged and eventually 
 
 ### Override and extends kustomizations
 The kustomization patches are applied after Helm template rendering.
+
 The kustomization entrypoint is `$GITHUB_ACTION/chart/env/$ENVIRONMENT/kustomization.yaml`.
+
 To override it, create a file called `.socialgouv/chart/env/$ENVIRONMENT/kustomization.yaml` in your project and containing:
 ```yaml
 resources:
@@ -110,4 +117,15 @@ required:
 - node
 - bash >= v4
 
-download and run this script [dev-local.sh](dev-local.sh)
+test with local action repo `actions`
+```sh
+export GITHUB_ACTION_PATH=~/socialgouv/actions/autodevops-helm-deploy
+export GITHUB_WORKSPACE=~/socialgouv/standup
+$GITHUB_ACTION_PATH/dev-local.sh
+```
+
+test with auto degit action repo `actions`
+```sh
+export GITHUB_WORKSPACE=~/socialgouv/standup
+$GITHUB_ACTION_PATH/dev-local.sh
+```

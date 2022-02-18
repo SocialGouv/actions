@@ -41,70 +41,19 @@ runs:
 
     # start building manifests
 
-    - name: Generate values file
+    - name: Build manifests
       shell: bash
       env:
         BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
         IMAGE_NAME: ${{ inputs.imageName }}
       working-directory: ${{ env.AUTODEVOPS_PATH }}
-      run: yarn --cwd ${{ github.action_path }} run -s values > values.env.yaml
+      run: $GITHUB_ACTION_PATH/build-manifests.sh
 
     - name: Archive values
       uses: actions/upload-artifact@v2
       with:
         name: values.env-${{ inputs.environment }}.yaml
         path: ${{ env.AUTODEVOPS_PATH }}/values.env.yaml
-
-    - name: Prepare charts and overlays
-      shell: bash
-      working-directory: ${{ env.AUTODEVOPS_PATH }}
-      run: |
-        cp -r "$GITHUB_ACTION_PATH/chart/." .
-        
-        shopt -s globstar
-        for filename in $AUTODEVOPS_PATH/chart/**/kustomization.yaml; do
-          [ -f "$filename" ] || continue
-          cp "$filename" "$(dirname $filename)/kustomization.autodevops.yaml"
-        done
-
-        cp -r "$GITHUB_WORKSPACE/.socialgouv/chart/." .
-        
-    - name: Merge .socialgouv env manifests
-      shell: bash
-      working-directory: ${{ env.AUTODEVOPS_PATH }}
-      run: |
-        for filename in $GITHUB_WORKSPACE/.socialgouv/environments/$ENVIRONMENT/*.{yml,yaml}; do
-          [ -f "$filename" ] || continue
-          echo "merging $filename to manifests templates"
-          target="templates/$(basename $filename)"
-          cp "$filename" "$target"
-          yq -i e '.metadata.namespace |= "'$NAMESPACE'"' "$target"
-        done
-    
-    - name: Build base manifest using helm
-      shell: bash
-      working-directory: ${{ env.AUTODEVOPS_PATH }}
-      run: |
-        HELM_TEMPLATE_ARGS=""
-        if [ -f "values.project.yaml" ]; then
-          HELM_TEMPLATE_ARGS+=" -f values.project.yaml"
-        fi
-        HELM_TEMPLATE_ARGS+=" -f values.env.yaml"
-        if [ -f "values.${ENVIRONMENT}.yaml" ]; then
-          HELM_TEMPLATE_ARGS+=" -f values.${ENVIRONMENT}.yaml"
-        fi
-
-        helm template $HELM_TEMPLATE_ARGS . \
-          > manifests.base.yaml
-
-    - name: Build final manifests using kustomize
-      shell: bash
-      working-directory: ${{ env.AUTODEVOPS_PATH }}
-      run: |
-        kustomize build \
-          --load-restrictor=LoadRestrictionsNone \
-          "env/$ENVIRONMENT" \
-          > manifests.yaml
 
     - name: Archive manifest
       uses: actions/upload-artifact@v2
