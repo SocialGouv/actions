@@ -1,3 +1,10 @@
+## [1.27.6](https://github.com/SocialGouv/actions/compare/v1.27.5...v1.27.6) (2022-02-18)
+
+
+### Bug Fixes
+
+* **autodevops-helm:** iso local dev ([#128](https://github.com/SocialGouv/actions/issues/128)) ([8de7ed5](https://github.com/SocialGouv/actions/commit/8de7ed527fddc173d6133232b34f7faa942d5950))
+
 ## [1.27.5](https://github.com/SocialGouv/actions/compare/v1.27.4...v1.27.5) (2022-02-18)
 
 
