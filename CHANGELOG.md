@@ -1,3 +1,10 @@
+## [1.27.3](https://github.com/SocialGouv/actions/compare/v1.27.2...v1.27.3) (2022-02-18)
+
+
+### Bug Fixes
+
+* **drop-db:** template path input ([993c14e](https://github.com/SocialGouv/actions/commit/993c14e7e09fb8f0a0e0a3aa80f89d9d871c7f3d))
+
 ## [1.27.2](https://github.com/SocialGouv/actions/compare/v1.27.1...v1.27.2) (2022-02-18)
 
 
