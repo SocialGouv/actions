@@ -1,3 +1,10 @@
+## [1.27.4](https://github.com/SocialGouv/actions/compare/v1.27.3...v1.27.4) (2022-02-18)
+
+
+### Bug Fixes
+
+* **drop-db:** rely on github head ref ([b76e83b](https://github.com/SocialGouv/actions/commit/b76e83bc0896c0300f9b036790eac9f41d8c5ba3))
+
 ## [1.27.3](https://github.com/SocialGouv/actions/compare/v1.27.2...v1.27.3) (2022-02-18)
 
 
