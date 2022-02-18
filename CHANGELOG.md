@@ -1,3 +1,10 @@
+## [1.27.1](https://github.com/SocialGouv/actions/compare/v1.27.0...v1.27.1) (2022-02-18)
+
+
+### Bug Fixes
+
+* **autodevops-helm:** decouple deploy ([3c2066e](https://github.com/SocialGouv/actions/commit/3c2066ee944e2facec37a6cc9a05dc4ad94a510c))
+
 # [1.27.0](https://github.com/SocialGouv/actions/compare/v1.26.2...v1.27.0) (2022-02-18)
 
 
