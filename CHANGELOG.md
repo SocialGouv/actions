@@ -1,3 +1,10 @@
+## [1.27.8](https://github.com/SocialGouv/actions/compare/v1.27.7...v1.27.8) (2022-02-21)
+
+
+### Bug Fixes
+
+* **ns:** ci and secret ([e72072c](https://github.com/SocialGouv/actions/commit/e72072c6415c1d5f0eaf6a330135f0c30418e438))
+
 ## [1.27.7](https://github.com/SocialGouv/actions/compare/v1.27.6...v1.27.7) (2022-02-21)
 
 
