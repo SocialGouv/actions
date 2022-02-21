@@ -33,19 +33,20 @@ runs:
 
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
         RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        if [ -n "${{ inputs.productionNamespace }}" ]; then
+          PRODUCTION_NAMESPACE="${{ inputs.productionNamespace }}"
+        else
+          PRODUCTION_NAMESPACE=$PROJECT_NAME
+        fi
         if [ "$ENVIRONMENT" = "prod" ]; then
-          if [ -n "${{ inputs.productionNamespace }}" ]; then
-            NAMESPACE="${{ inputs.productionNamespace }}"
-          else
-            NAMESPACE=$PROJECT_NAME
-          fi
+          NAMESPACE=$PRODUCTION_NAMESPACE
         elif [ "$ENVIRONMENT" = "preprod" ]; then
           NAMESPACE=${PROJECT_NAME}-preprod
         else
           NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT_NAME}-${BRANCH_NAME}")
         fi
-        JOB_NAMESPACE=${NAMESPACE}-ci
-        SECRETS_NAMESPACE="${NAMESPACE}-secret"
+        JOB_NAMESPACE=${PRODUCTION_NAMESPACE}-ci
+        SECRETS_NAMESPACE="${PRODUCTION_NAMESPACE}-secret"
 
         AUTODEVOPS_PATH=/tmp/autodevops
         mkdir -p $AUTODEVOPS_PATH
