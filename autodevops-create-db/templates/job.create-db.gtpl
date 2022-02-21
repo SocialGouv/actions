@@ -53,7 +53,7 @@ spec:
                   key: PGHOST
                   name: {{ .Env.DB_SECRET_NAME }}
             - name: NEW_DB_EXTENSIONS
-              value: hstore pgcrypto citext uuid-ossp postgis
+              value: hstore pgcrypto citext uuid-ossp postgis pg_trgm unaccent
           envFrom:
             - secretRef:
                 name: {{ .Env.ADMIN_PG_SECRET }}
