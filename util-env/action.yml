@@ -33,7 +33,6 @@ runs:
 
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
         RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
-        JOB_NAMESPACE=${PROJECT_NAME}-ci
         if [ "$ENVIRONMENT" = "prod" ]; then
           if [ -n "${{ inputs.productionNamespace }}" ]; then
             NAMESPACE="${{ inputs.productionNamespace }}"
@@ -45,7 +44,8 @@ runs:
         else
           NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT_NAME}-${BRANCH_NAME}")
         fi
-        SECRETS_NAMESPACE="${PROJECT_NAME}-secret"
+        JOB_NAMESPACE=${NAMESPACE}-ci
+        SECRETS_NAMESPACE="${NAMESPACE}-secret"
 
         AUTODEVOPS_PATH=/tmp/autodevops
         mkdir -p $AUTODEVOPS_PATH
