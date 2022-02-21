@@ -12,6 +12,8 @@ inputs:
   pgUserSecretPrefix:
     description: "Prefix for pg-user secret name, oldly azure-pg-user, in future pg-user"
     default: azure-pg-user
+  jobNamespace:
+    description: "Namespace where to run the job"
 runs:
   using: "composite"
   steps:
@@ -79,5 +81,5 @@ runs:
   - name: Seed database
     shell: bash
     run: |
-      kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
-      kubectl apply -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }}
+      kubectl delete -f restore-db.yml --namespace ${{ inputs.jobNamespace || steps.namespace.outputs.result }} || true
+      kubectl apply -f restore-db.yml --namespace ${{ inputs.jobNamespace || steps.namespace.outputs.result }}
