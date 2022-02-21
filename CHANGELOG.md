@@ -1,3 +1,10 @@
+## [1.28.1](https://github.com/SocialGouv/actions/compare/v1.28.0...v1.28.1) (2022-02-21)
+
+
+### Bug Fixes
+
+* **restore-db:** input job ns ([5527807](https://github.com/SocialGouv/actions/commit/5527807f344ca3cf9f60bed8b07c087071f7b065))
+
 # [1.28.0](https://github.com/SocialGouv/actions/compare/v1.27.9...v1.28.0) (2022-02-21)
 
 
