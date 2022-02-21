@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/SocialGouv/actions/compare/v1.27.9...v1.28.0) (2022-02-21)
+
+
+### Features
+
+* **create-db:** default ext unaccent and pg_tgrm ([444e718](https://github.com/SocialGouv/actions/commit/444e7181ba6feef7d83df01f827c2f5b9b37b452))
+
 ## [1.27.9](https://github.com/SocialGouv/actions/compare/v1.27.8...v1.27.9) (2022-02-21)
 
 
