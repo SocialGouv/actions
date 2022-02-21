@@ -1,3 +1,10 @@
+# [1.29.0](https://github.com/SocialGouv/actions/compare/v1.28.1...v1.29.0) (2022-02-21)
+
+
+### Features
+
+* **create-db:** input extensions ([ef1b61d](https://github.com/SocialGouv/actions/commit/ef1b61d7e1306e92835b1ca12f89755d4b423e94))
+
 ## [1.28.1](https://github.com/SocialGouv/actions/compare/v1.28.0...v1.28.1) (2022-02-21)
 
 
