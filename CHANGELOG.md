@@ -1,3 +1,10 @@
+## [1.27.7](https://github.com/SocialGouv/actions/compare/v1.27.6...v1.27.7) (2022-02-21)
+
+
+### Bug Fixes
+
+* **dev-local:** overridable sample env variables ([abdd408](https://github.com/SocialGouv/actions/commit/abdd408847847a065890ad131dab622e759d3416))
+
 ## [1.27.6](https://github.com/SocialGouv/actions/compare/v1.27.5...v1.27.6) (2022-02-18)
 
 
