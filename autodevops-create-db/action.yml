@@ -11,6 +11,9 @@ inputs:
     description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
   projectName:
     description: "Override project name"
+  extensions:
+    description: "Create extensions"
+    default: "hstore pgcrypto citext uuid-ossp postgis pg_trgm unaccent"
 
 runs:
   using: "composite"
@@ -56,12 +59,14 @@ runs:
 
     - name: Generate values file
       shell: bash
+      env:
+        PG_CREATE_EXTENSIONS: ${{ inputs.extensions }}
       run: yarn --cwd ${{ github.action_path }} run -s values > values.json
 
     - name: Archive values.json
       uses: actions/upload-artifact@v2
       with:
-        name: values.json
+        name: create-db.values.json
         path: values.json
 
     - name: Ensure namespace exists
