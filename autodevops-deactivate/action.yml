@@ -18,8 +18,6 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        actionPath: ${{ github.action_path }}
 
     # could be extracted in some external action
     - name: Get k8s infos
