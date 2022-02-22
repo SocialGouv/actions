@@ -1,3 +1,5 @@
+{{ $values := (datasource "values") }}
+
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -53,7 +55,7 @@ spec:
                   key: PGHOST
                   name: {{ .Env.DB_SECRET_NAME }}
             - name: NEW_DB_EXTENSIONS
-              value: {{ .Env.PG_CREATE_EXTENSIONS }}
+              value: {{ $values.pgCreateExtensions }}
           envFrom:
             - secretRef:
                 name: {{ .Env.ADMIN_PG_SECRET }}

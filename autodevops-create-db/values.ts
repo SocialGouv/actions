@@ -5,6 +5,7 @@ const {
   BRANCH_NAME,
   COMPONENT,
   PROJECT_NAME,
+  PG_CREATE_EXTENSIONS,
 } = process.env;
 
 const isProduction = Boolean(SOCIALGOUV_PRODUCTION);
@@ -22,9 +23,12 @@ if(isDestroyable){
 
 const component = COMPONENT || PROJECT_NAME
 
+const pgCreateExtensions = PG_CREATE_EXTENSIONS
+
 const values = {
   ttl,
   component,
+  pgCreateExtensions,
 }
 
 console.log(JSON.stringify(values, null, 2))
