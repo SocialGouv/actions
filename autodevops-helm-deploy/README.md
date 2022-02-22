@@ -75,7 +75,7 @@ By doing this way you just optouted from generic kustomization for the selected 
 If you want (and more often you want) to keep the generic kustomization, containing some infra logic defined by the advised SRE team, you can extends it like this.
 ```yaml
 resources:
-- ./kustomization.autodevops.yaml
+- ../../autodevops/base
 
 patches:
 # ... put your patches here
@@ -85,7 +85,7 @@ You can do it as well for the common base file called by environment kustomizati
 ```yaml
 resources:
 # - ../manifests.base.yaml # here is if you want to optout
-- ./kustomization.autodevops.yaml # here is if you want to extends
+- ../autodevops/base # here is if you want to extends from autodevops default settings
 
 patches:
 - target:

@@ -1,0 +1,7 @@
+resources:
+- ../../../base
+
+patches:
+- target:
+    kind: Namespace
+  path: ../../../patches/wildcard-cert.yaml

@@ -7,12 +7,6 @@ yarn --cwd $GITHUB_ACTION_PATH run -s values > values.env.yaml
 echo "Prepare charts and overlays"
 cp -r "$GITHUB_ACTION_PATH/chart/." .
 
-shopt -s globstar
-for filename in $AUTODEVOPS_PATH/chart/**/kustomization.yaml; do
-  [ -f "$filename" ] || continue
-  cp "$filename" "$(dirname $filename)/kustomization.autodevops.yaml"
-done
-
 if [ -d "$GITHUB_WORKSPACE/.socialgouv/chart" ]; then
   cp -r "$GITHUB_WORKSPACE/.socialgouv/chart/." .
 fi
