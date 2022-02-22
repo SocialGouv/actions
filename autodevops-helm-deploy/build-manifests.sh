@@ -12,7 +12,8 @@ if [ -d "$GITHUB_WORKSPACE/.socialgouv/chart" ]; then
 fi
 
 echo "Merge .socialgouv env manifests"
-for filename in $GITHUB_WORKSPACE/.socialgouv/environments/$ENVIRONMENT/*.{yml,yaml}; do
+shopt -s globstar
+for filename in $GITHUB_WORKSPACE/.socialgouv/environments/$ENVIRONMENT/**/*.{yml,yaml}; do
   [ -f "$filename" ] || continue
   echo "Merging $filename to manifests templates"
   target="templates/$(basename $filename)"
