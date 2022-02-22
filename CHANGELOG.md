@@ -1,3 +1,10 @@
+## [1.29.3](https://github.com/SocialGouv/actions/compare/v1.29.2...v1.29.3) (2022-02-22)
+
+
+### Bug Fixes
+
+* **helm-deploy:** kustomize extends fix ([f9f895b](https://github.com/SocialGouv/actions/commit/f9f895b7017245774bf3e8ab9e1001a8acc28fd5))
+
 ## [1.29.2](https://github.com/SocialGouv/actions/compare/v1.29.1...v1.29.2) (2022-02-22)
 
 
