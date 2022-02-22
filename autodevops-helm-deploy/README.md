@@ -106,6 +106,9 @@ patches:
 - target:
     kind: Service
   path: ../../patches/kapp-delete-orphan.yaml
+- target:
+    kind: Ingress
+  path: ../../patches/kapp-delete-orphan.yaml
 
 # - target:
 #     kind: Service
