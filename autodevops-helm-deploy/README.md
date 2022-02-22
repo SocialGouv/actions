@@ -4,7 +4,7 @@ Deploy application over kubernetes
 ## Call it in review, preprod, and prod github workflows
 
 ```yaml
-- uses: SocialGouv/actions/autodevops-helm
+- uses: SocialGouv/actions/autodevops-helm@v1
   id: deploy
   with:
     environment: "dev"
@@ -36,23 +36,23 @@ Here is the order, the last in the list is the last applied:
 - `.socialgouv/chart/values.$ENVIRONMENT.yaml`
 
 ## Merge commons manifests as helm templates
-Every yaml files that reside in `.socialgouv/chart/templates` will be merged with `templates` folder of the helm Chart before the build.
+Every yaml file in `.socialgouv/chart/templates` will be merged with the helm Chart `templates` folder before the build.
 
 All theses files can use the Helm templating syntax (or not if you don't need it, helm template is a superset of yaml).
 
 Both extensions yaml and yml are accepted.
 
 ## Merge manifests per environment as helm templates
-Every yaml files that reside in `.socialgouv/environment/$ENVIRONMENT` will be merged with `templates` folder of the helm Chart before the build, according to the `environment` input (dev | preprod | prod).
+Every yaml files in `.socialgouv/environment/$ENVIRONMENT` will be merged with the helm Chart `templates` folder before the build, according to the `environment` input (dev | preprod | prod).
 
 All theses files can use the Helm templating syntax.
 
-More often is here you put ConfigMap and SealedSecrets ressources.
+Usually, that's where you put your ConfigMap and SealedSecrets ressources.
 
 ## Override and extends everything from your project
 Everything is overridable using filesystem merging.
 
-The `.socialgouv/chart` directoty of your project will be merged and eventually overwrite content of the `chart` directory of this action.
+The `.socialgouv/chart` directoty of your project will be merged and eventually overwrite content of this action `chart` directory.
 
 ### Override the full Chart
 - You can optout from the generic Chart and define a new one by creating your own `Chart.yaml` in the directory `.socialgouv/chart`. More often, you can use kustomize to adjust the manifests.
@@ -98,7 +98,7 @@ patches:
           more_set_headers "Content-Security-Policy: default-src 'none'; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self'; prefetch-src 'self' https://*.gouv.fr; script-src 'self' https://*.gouv.fr; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
           more_set_headers "X-Frame-Options: deny";
           more_set_headers "X-XSS-Protection: 1; mode=block";
-          more_set_headers "X-Content-Type-Options: nosniff";"
+          more_set_headers "X-Content-Type-Options: nosniff";
 
 # - target:
 #     kind: Service
