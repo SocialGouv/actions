@@ -1,3 +1,10 @@
+## [1.29.2](https://github.com/SocialGouv/actions/compare/v1.29.1...v1.29.2) (2022-02-22)
+
+
+### Bug Fixes
+
+* **helm-deploy:** check local chart dir ([c4cd0f8](https://github.com/SocialGouv/actions/commit/c4cd0f8627f283301002b0aef8966b279d1b2288))
+
 ## [1.29.1](https://github.com/SocialGouv/actions/compare/v1.29.0...v1.29.1) (2022-02-22)
 
 
