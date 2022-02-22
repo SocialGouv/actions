@@ -1,3 +1,10 @@
+## [1.29.6](https://github.com/SocialGouv/actions/compare/v1.29.5...v1.29.6) (2022-02-22)
+
+
+### Bug Fixes
+
+* **helm-deploy:** kapp change defaults ([fdd127e](https://github.com/SocialGouv/actions/commit/fdd127ef31bc39199cce2e9a22bf0e657dee852c))
+
 ## [1.29.5](https://github.com/SocialGouv/actions/compare/v1.29.4...v1.29.5) (2022-02-22)
 
 
