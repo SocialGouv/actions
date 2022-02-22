@@ -1,3 +1,10 @@
+## [1.29.1](https://github.com/SocialGouv/actions/compare/v1.29.0...v1.29.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* **create-db:** extensions value ([47514c7](https://github.com/SocialGouv/actions/commit/47514c759a5c16c6cbeccea6ba8ec9aab0b6641c))
+
 # [1.29.0](https://github.com/SocialGouv/actions/compare/v1.28.1...v1.29.0) (2022-02-21)
 
 
