@@ -1,3 +1,10 @@
+## [1.29.5](https://github.com/SocialGouv/actions/compare/v1.29.4...v1.29.5) (2022-02-22)
+
+
+### Bug Fixes
+
+* **helm-deploy:** recursive merge env yaml ([3d8722e](https://github.com/SocialGouv/actions/commit/3d8722e8618203cdb4a94f1fc4fec7ac9be2b36c))
+
 ## [1.29.4](https://github.com/SocialGouv/actions/compare/v1.29.3...v1.29.4) (2022-02-22)
 
 
