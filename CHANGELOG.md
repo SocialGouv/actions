@@ -1,3 +1,10 @@
+## [1.29.4](https://github.com/SocialGouv/actions/compare/v1.29.3...v1.29.4) (2022-02-22)
+
+
+### Bug Fixes
+
+* **helm-deploy:** deploy env ref option ([243bd3c](https://github.com/SocialGouv/actions/commit/243bd3c60ff20edb7a62cc1624d771186a880dbe))
+
 ## [1.29.3](https://github.com/SocialGouv/actions/compare/v1.29.2...v1.29.3) (2022-02-22)
 
 
