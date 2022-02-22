@@ -100,6 +100,13 @@ patches:
           more_set_headers "X-XSS-Protection: 1; mode=block";
           more_set_headers "X-Content-Type-Options: nosniff";
 
+- target:
+    kind: Deployment
+  path: ../../patches/kapp-delete-orphan.yaml
+- target:
+    kind: Service
+  path: ../../patches/kapp-delete-orphan.yaml
+
 # - target:
 #     kind: Service
 #   path: ../patches/kapp.yaml
