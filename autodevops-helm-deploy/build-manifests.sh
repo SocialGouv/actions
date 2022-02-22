@@ -13,7 +13,9 @@ for filename in $AUTODEVOPS_PATH/chart/**/kustomization.yaml; do
   cp "$filename" "$(dirname $filename)/kustomization.autodevops.yaml"
 done
 
-cp -r "$GITHUB_WORKSPACE/.socialgouv/chart/." .
+if [ -d "$GITHUB_WORKSPACE/.socialgouv/chart" ]; then
+  cp -r "$GITHUB_WORKSPACE/.socialgouv/chart/." .
+fi
 
 echo "Merge .socialgouv env manifests"
 for filename in $GITHUB_WORKSPACE/.socialgouv/environments/$ENVIRONMENT/*.{yml,yaml}; do
