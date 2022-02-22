@@ -53,8 +53,14 @@ spec:
               path: /index.html
               port: http
             periodSeconds: 5
+          {{- if or .Values.envSecretName .Values.envConfigName }}
           envFrom:
+            {{- if .Values.envSecretName }}
             - secretRef:
-                name: {{ .Values.envSecretName }}
+                name: "{{ .Values.envSecretName }}"
+            {{- end }}
+            {{- if .Values.envConfigName }}
             - configMapRef:
-                name: {{ .Values.envConfigName }}
+                name: "{{ .Values.envConfigName }}"
+            {{- end }}
+          {{- end }}

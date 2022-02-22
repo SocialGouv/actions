@@ -8,5 +8,5 @@ gitBranch: my-awesome-branch
 isProduction: false
 isPreProduction: false
 containerPort: 8080
-envSecretName: awesome-sealed-secret
-envConfigName: awesome-configmap
+envSecretName: 
+envConfigName: 
