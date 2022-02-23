@@ -1,3 +1,10 @@
+## [1.29.11](https://github.com/SocialGouv/actions/compare/v1.29.10...v1.29.11) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** app value probesPath ([d77c2db](https://github.com/SocialGouv/actions/commit/d77c2db3d03e5f3ba9b8a84e7330953e84c3a60a))
+
 ## [1.29.10](https://github.com/SocialGouv/actions/compare/v1.29.9...v1.29.10) (2022-02-23)
 
 
