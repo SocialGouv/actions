@@ -1,3 +1,10 @@
+## [1.29.7](https://github.com/SocialGouv/actions/compare/v1.29.6...v1.29.7) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** input production host ([5c3417f](https://github.com/SocialGouv/actions/commit/5c3417f2f4657a591defe3b7059ee7a82bcff50a))
+
 ## [1.29.6](https://github.com/SocialGouv/actions/compare/v1.29.5...v1.29.6) (2022-02-22)
 
 
