@@ -1,3 +1,10 @@
+## [1.29.12](https://github.com/SocialGouv/actions/compare/v1.29.11...v1.29.12) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** transmit input ([74611cb](https://github.com/SocialGouv/actions/commit/74611cb9adcfbba43807ce408fd1f86c2d85dc7e))
+
 ## [1.29.11](https://github.com/SocialGouv/actions/compare/v1.29.10...v1.29.11) (2022-02-23)
 
 
