@@ -14,6 +14,8 @@ inputs:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  productionHost:
+    description: "Override production host"
   imageName:
     description: "The image registry path"
 outputs:
@@ -45,6 +47,7 @@ runs:
       shell: bash
       env:
         BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
+        PRODUCTION_HOST: ${{ inputs.productionHost }}
         IMAGE_NAME: ${{ inputs.imageName }}
       working-directory: ${{ env.AUTODEVOPS_PATH }}
       run: $GITHUB_ACTION_PATH/build-manifests.sh

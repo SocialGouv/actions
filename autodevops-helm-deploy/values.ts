@@ -1,5 +1,5 @@
-import generate from "@socialgouv/env-slug"
-import yaml from "js-yaml"
+import generate from "@socialgouv/env-slug";
+import yaml from "js-yaml";
 
 const {
   ENVIRONMENT,
@@ -10,52 +10,56 @@ const {
   GITHUB_REF,
   GITHUB_SHA,
   BASE_DOMAIN,
+  PRODUCTION_HOST,
   KEEP_ALIVE,
-} = process.env
+} = process.env;
 
-const gitBranch = GITHUB_REF ?? ""
+const gitBranch = GITHUB_REF ?? "";
 
-const isProduction = ENVIRONMENT === "prod"
-const isPreProduction = ENVIRONMENT === "preprod"
-const isDev = !(isProduction || isPreProduction)
+const isProduction = ENVIRONMENT === "prod";
+const isPreProduction = ENVIRONMENT === "preprod";
+const isDev = !(isProduction || isPreProduction);
 
-const keepAlive = Boolean(KEEP_ALIVE)
+const keepAlive = Boolean(KEEP_ALIVE);
 
 const branchName = gitBranch
   .replace("refs/heads/", "")
-  .replace("refs/tags/", "")
+  .replace("refs/tags/", "");
 
-const isRenovate = branchName.startsWith("renovate")
-const isDestroyable = isDev && !keepAlive
+const isRenovate = branchName.startsWith("renovate");
+const isDestroyable = isDev && !keepAlive;
 
-const ttl = isDestroyable ? (isRenovate ? "1d" : "7d") : ""
+const ttl = isDestroyable ? (isRenovate ? "1d" : "7d") : "";
 
-const imageName = IMAGE_NAME
-const sha = GITHUB_SHA ?? ""
+const imageName = IMAGE_NAME;
+const sha = GITHUB_SHA ?? "";
 const imageTag = gitBranch.startsWith("refs/tags/")
   ? (gitBranch.split("/").pop() ?? "").substring(1)
-  : `sha-${sha}`
+  : `sha-${sha}`;
 
-const projectName = PROJECT_NAME ?? ""
-const namespace = NAMESPACE ?? ""
+const projectName = PROJECT_NAME ?? "";
+const namespace = NAMESPACE ?? "";
 
 const subdomain = isProduction
   ? projectName
   : isPreProduction
   ? `${projectName}-preprod`
-  : generate(`${projectName}-${branchName}`)
+  : generate(`${projectName}-${branchName}`);
 
-const MAX_HOSTNAME_SIZE = 53
+const MAX_HOSTNAME_SIZE = 53;
 const shortenHost = (hostname: string): string =>
-  hostname.slice(0, MAX_HOSTNAME_SIZE).replace(/-+$/, "")
+  hostname.slice(0, MAX_HOSTNAME_SIZE).replace(/-+$/, "");
 
-const domain = BASE_DOMAIN ?? ""
+const domain = BASE_DOMAIN ?? "";
 
-const host = `${shortenHost(subdomain)}.${domain}`
+const host =
+  isProduction && PRODUCTION_HOST
+    ? PRODUCTION_HOST
+    : `${shortenHost(subdomain)}.${domain}`;
 
-const registry = `ghcr.io/socialgouv/${imageName ?? projectName}`
+const registry = `ghcr.io/socialgouv/${imageName ?? projectName}`;
 
-const rancherProjectId = RANCHER_PROJECT_ID
+const rancherProjectId = RANCHER_PROJECT_ID;
 
 const values = {
   global: {
@@ -71,9 +75,9 @@ const values = {
   app: {
     host,
     imageTag,
-  }
-}
+  },
+};
 
-const dump: string = yaml.dump(values)
+const dump: string = yaml.dump(values);
 
-console.log(dump)
+console.log(dump);

@@ -16,7 +16,9 @@ inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
   productionNamespace:
-    description: "Override production namesapce"
+    description: "Override production namespace"
+  productionHost:
+    description: "Override production host"
   rancherId:
     description: "The Rancher project ID"
   socialgouvBaseDomain:
@@ -50,4 +52,5 @@ runs:
       environment: ${{ inputs.environment }}
       productionNamespace: ${{ inputs.productionNamespace }}
       socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
+      productionHost: ${{ inputs.productionHost }}
       imageName: ${{ inputs.imageName }}
