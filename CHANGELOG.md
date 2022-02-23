@@ -1,3 +1,10 @@
+## [1.30.3](https://github.com/SocialGouv/actions/compare/v1.30.2...v1.30.3) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** autoscaler ([4c9843c](https://github.com/SocialGouv/actions/commit/4c9843c58d10216dfed82463ff14bcbf7e940533))
+
 ## [1.30.2](https://github.com/SocialGouv/actions/compare/v1.30.1...v1.30.2) (2022-02-23)
 
 
