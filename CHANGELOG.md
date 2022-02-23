@@ -1,3 +1,10 @@
+## [1.29.13](https://github.com/SocialGouv/actions/compare/v1.29.12...v1.29.13) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** improve default resources ([ae11f5b](https://github.com/SocialGouv/actions/commit/ae11f5b2ed15a764ca57550c89c7a6eb1fc37e49))
+
 ## [1.29.12](https://github.com/SocialGouv/actions/compare/v1.29.11...v1.29.12) (2022-02-23)
 
 
