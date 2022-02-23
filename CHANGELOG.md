@@ -1,3 +1,10 @@
+## [1.30.4](https://github.com/SocialGouv/actions/compare/v1.30.3...v1.30.4) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** env projectName ([8a3049b](https://github.com/SocialGouv/actions/commit/8a3049b454382eac4e6f97d472bbc99688f62144))
+
 ## [1.30.3](https://github.com/SocialGouv/actions/compare/v1.30.2...v1.30.3) (2022-02-23)
 
 
