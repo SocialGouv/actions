@@ -1,4 +1,4 @@
-{{ if Values.autoscale.enabled }}
+{{ if .Values.autoscale.enabled }}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -7,19 +7,19 @@ metadata:
   labels:
     component: app
 spec:
-  minReplicas: {{ Values.autoscale.minReplicas }}
-  maxReplicas: {{ Values.autoscale.maxReplicas }}
+  minReplicas: {{ .Values.autoscale.minReplicas }}
+  maxReplicas: {{ .Values.autoscale.maxReplicas }}
   metrics:
     - resource:
         name: cpu
         target:
-          averageUtilization: {{ Values.autoscale.averageUtilization.cpu }}
+          averageUtilization: {{ .Values.autoscale.averageUtilization.cpu }}
           type: Utilization
       type: Resource
     - resource:
         name: memory
         target:
-          averageUtilization: {{ Values.autoscale.averageUtilization.memory }}
+          averageUtilization: {{ .Values.autoscale.averageUtilization.memory }}
           type: Utilization
       type: Resource
   scaleTargetRef:
