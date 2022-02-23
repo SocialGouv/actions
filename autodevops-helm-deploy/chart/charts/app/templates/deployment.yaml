@@ -20,7 +20,7 @@ spec:
       containers:
         - image: "{{ .Values.global.registry }}:{{ .Values.imageTag }}"
           livenessProbe:
-            failureThreshold: 6
+            failureThreshold: 15
             httpGet:
               path: {{ .Values.probesPath }}
               port: http
