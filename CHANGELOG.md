@@ -1,3 +1,10 @@
+## [1.30.2](https://github.com/SocialGouv/actions/compare/v1.30.1...v1.30.2) (2022-02-23)
+
+
+### Bug Fixes
+
+* **util-setup-node:** fix action yarn cache ([fdba98a](https://github.com/SocialGouv/actions/commit/fdba98ae6a8e0cae185f1186bf81fcf009067adb))
+
 ## [1.30.1](https://github.com/SocialGouv/actions/compare/v1.30.0...v1.30.1) (2022-02-23)
 
 
