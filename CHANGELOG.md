@@ -1,3 +1,10 @@
+# [1.30.0](https://github.com/SocialGouv/actions/compare/v1.29.15...v1.30.0) (2022-02-23)
+
+
+### Features
+
+* **helm-deploy:** add autoscaler option ([3cfb840](https://github.com/SocialGouv/actions/commit/3cfb84029759d2d9876f9f83770e4f0d8eeebd00))
+
 ## [1.29.15](https://github.com/SocialGouv/actions/compare/v1.29.14...v1.29.15) (2022-02-23)
 
 
