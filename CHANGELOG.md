@@ -1,3 +1,10 @@
+## [1.29.14](https://github.com/SocialGouv/actions/compare/v1.29.13...v1.29.14) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** improve failureThreshold ([b54b54e](https://github.com/SocialGouv/actions/commit/b54b54ed605bc0a6c95abc9b04581ac21a7bc40a))
+
 ## [1.29.13](https://github.com/SocialGouv/actions/compare/v1.29.12...v1.29.13) (2022-02-23)
 
 
