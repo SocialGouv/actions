@@ -21,6 +21,8 @@ inputs:
     description: "Override production host"
   rancherId:
     description: "The Rancher project ID"
+  rancherProjectName:
+    description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
 outputs:
@@ -48,6 +50,7 @@ runs:
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}
+      rancherProjectName: ${{ inputs.rancherProjectName }}
       kubeconfig: ${{ inputs.kubeconfig }}
       environment: ${{ inputs.environment }}
       productionNamespace: ${{ inputs.productionNamespace }}
