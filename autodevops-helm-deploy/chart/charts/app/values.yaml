@@ -18,3 +18,10 @@ resources:
   requests:
     cpu: 50m
     memory: 128Mi
+autoscale:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  averageUtilization:
+    cpu: 100
+    memory: 100
