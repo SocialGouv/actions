@@ -20,6 +20,8 @@ inputs:
     description: "The image registry path"
   rancherProjectName:
     description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
+  projectName:
+    description: "Override project name"
 outputs:
   url:
     description: "Main deployment URL"
@@ -34,10 +36,11 @@ runs:
     - name: Setup global env vars
       uses: SocialGouv/actions/util-env@v1
       with:
-        rancherId: ${{ inputs.rancherId }}
+        projectName: ${{ inputs.projectName }}
         environment: ${{ inputs.environment }}
-        productionNamespace: ${{ inputs.productionNamespace }}
+        rancherId: ${{ inputs.rancherId }}
         rancherProjectName: ${{ inputs.rancherProjectName }}
+        productionNamespace: ${{ inputs.productionNamespace }}
     
     - name: Setup node
       uses: SocialGouv/actions/util-setup-node@v1

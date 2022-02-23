@@ -57,3 +57,4 @@ runs:
       socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
       productionHost: ${{ inputs.productionHost }}
       imageName: ${{ inputs.imageName }}
+      projectName: ${{ inputs.project }}
