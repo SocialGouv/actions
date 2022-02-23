@@ -1,3 +1,10 @@
+## [1.29.10](https://github.com/SocialGouv/actions/compare/v1.29.9...v1.29.10) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** default static port 3000 ([7fbf3b4](https://github.com/SocialGouv/actions/commit/7fbf3b415c40be52d49c4ebea2150922a58bfa6a))
+
 ## [1.29.9](https://github.com/SocialGouv/actions/compare/v1.29.8...v1.29.9) (2022-02-23)
 
 
