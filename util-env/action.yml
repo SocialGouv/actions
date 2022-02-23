@@ -3,6 +3,8 @@ description: "Setup env vars"
 inputs:
   rancherId:
     description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  rancherProjectName:
+    description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME"
   environment:
     description: "The deployment environment (dev | preprod | prod)"
     default: dev
@@ -33,6 +35,7 @@ runs:
 
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
         RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
+        RANCHER_PROJECT_NAME=${{ inputs.rancherProjectName || env.RANCHER_PROJECT_NAME }}
         if [ -n "${{ inputs.productionNamespace }}" ]; then
           PRODUCTION_NAMESPACE="${{ inputs.productionNamespace }}"
         else
@@ -45,8 +48,8 @@ runs:
         else
           NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT_NAME}-${BRANCH_NAME}")
         fi
-        JOB_NAMESPACE=${PRODUCTION_NAMESPACE}-ci
-        SECRETS_NAMESPACE="${PRODUCTION_NAMESPACE}-secret"
+        JOB_NAMESPACE=${RANCHER_PROJECT_NAME:-"$PROJECT_NAME"}-ci
+        SECRETS_NAMESPACE="${RANCHER_PROJECT_NAME:-"$PROJECT_NAME"}-secret"
 
         AUTODEVOPS_PATH=/tmp/autodevops
         mkdir -p $AUTODEVOPS_PATH
@@ -58,6 +61,7 @@ runs:
         echo "BRANCH_SLUG=$BRANCH_SLUG" >> $GITHUB_ENV
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
         echo "RANCHER_PROJECT_ID=$RANCHER_PROJECT_ID" >> $GITHUB_ENV
+        echo "RANCHER_PROJECT_NAME=$RANCHER_PROJECT_NAME" >> $GITHUB_ENV
         echo "JOB_NAMESPACE=$JOB_NAMESPACE" >> $GITHUB_ENV
         echo "SECRETS_NAMESPACE=$SECRETS_NAMESPACE" >> $GITHUB_ENV
         echo "AUTODEVOPS_PATH=$AUTODEVOPS_PATH" >> $GITHUB_ENV

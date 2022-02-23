@@ -9,6 +9,8 @@ inputs:
     description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
   projectName:
     description: "Override project name"
+  rancherProjectName:
+    description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME"
 
 runs:
   using: "composite"
@@ -21,6 +23,7 @@ runs:
       uses: SocialGouv/actions/util-env@v1
       with:
         projectName: ${{ inputs.projectName }}
+        rancherProjectName: ${{ inputs.rancherProjectName }}
     
     - name: Setup action bin PATH
       shell: bash
