@@ -11,6 +11,11 @@ Deploy application over kubernetes
     token: ${{ secrets.GITHUB_TOKEN }}
     kubeconfig: ${{ secrets.KUBECONFIG }}
     rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+    rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
+    socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+    # imageName: fabrique/www
+    # productionNamespace: www
+    # productionHost: www.fabrique.social.gouv.fr
 ```
 
 ## Configure your project's Helm Charts values
