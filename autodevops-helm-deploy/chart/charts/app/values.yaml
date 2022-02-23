@@ -10,3 +10,4 @@ isPreProduction: false
 containerPort: 3000
 envSecretName: 
 envConfigName: 
+probesPath: /index.html

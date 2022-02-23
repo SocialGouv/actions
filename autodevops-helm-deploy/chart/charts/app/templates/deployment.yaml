@@ -22,7 +22,7 @@ spec:
           livenessProbe:
             failureThreshold: 6
             httpGet:
-              path: /index.html
+              path: {{ .Values.probesPath }}
               port: http
             initialDelaySeconds: 30
             periodSeconds: 5
@@ -34,7 +34,7 @@ spec:
           readinessProbe:
             failureThreshold: 15
             httpGet:
-              path: /index.html
+              path: {{ .Values.probesPath }}
               port: http
             initialDelaySeconds: 0
             periodSeconds: 5
@@ -50,7 +50,7 @@ spec:
           startupProbe:
             failureThreshold: 12
             httpGet:
-              path: /index.html
+              path: {{ .Values.probesPath }}
               port: http
             periodSeconds: 5
           {{- if or .Values.envSecretName .Values.envConfigName }}
