@@ -1,3 +1,10 @@
+## [1.29.15](https://github.com/SocialGouv/actions/compare/v1.29.14...v1.29.15) (2022-02-23)
+
+
+### Bug Fixes
+
+* **helm-deploy:** optional resources ([5967d20](https://github.com/SocialGouv/actions/commit/5967d20fa803b6112da932e4e75d7a3695ee163c))
+
 ## [1.29.14](https://github.com/SocialGouv/actions/compare/v1.29.13...v1.29.14) (2022-02-23)
 
 
