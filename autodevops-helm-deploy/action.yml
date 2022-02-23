@@ -18,6 +18,8 @@ inputs:
     description: "Override production host"
   imageName:
     description: "The image registry path"
+  rancherProjectName:
+    description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
 outputs:
   url:
     description: "Main deployment URL"
@@ -35,6 +37,7 @@ runs:
         rancherId: ${{ inputs.rancherId }}
         environment: ${{ inputs.environment }}
         productionNamespace: ${{ inputs.productionNamespace }}
+        rancherProjectName: ${{ inputs.rancherProjectName }}
     
     - name: Setup node
       uses: SocialGouv/actions/util-setup-node@v1

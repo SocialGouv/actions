@@ -14,6 +14,8 @@ inputs:
   extensions:
     description: "Create extensions"
     default: "hstore pgcrypto citext uuid-ossp postgis pg_trgm unaccent"
+  rancherProjectName:
+    description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
 
 runs:
   using: "composite"
@@ -27,6 +29,7 @@ runs:
       with:
         rancherId: ${{ inputs.rancherId }}
         projectName: ${{ inputs.projectName }}
+        rancherProjectName: ${{ inputs.rancherProjectName }}
     
     - name: Setup action bin PATH
       shell: bash
