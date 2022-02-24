@@ -40,7 +40,6 @@ runs:
         rancherId: ${{ inputs.rancherId }}
         rancherProjectName: ${{ inputs.rancherProjectName }}
         baseNamespace: ${{ inputs.baseNamespace }}
-        baseSubdomain: ${{ inputs.baseSubdomain }}
     
     - name: Setup node
       uses: SocialGouv/actions/util-setup-node@refacto-j
