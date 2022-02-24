@@ -35,7 +35,7 @@ runs:
   steps:
 
   - name: Use autodevops build and register
-    uses: SocialGouv/actions/autodevops-build-register@v1
+    uses: SocialGouv/actions/autodevops-build-register@refacto-j
     with:
       token: ${{ inputs.token }}
       imageName: ${{ inputs.imageName }}
@@ -45,7 +45,7 @@ runs:
 
   - name: Use autodevops helm deployment
     id: deploy
-    uses: SocialGouv/actions/autodevops-helm-deploy@v1
+    uses: SocialGouv/actions/autodevops-helm-deploy@refacto-j
     with:
       token: ${{ inputs.token }}
       rancherId: ${{ inputs.rancherId }}

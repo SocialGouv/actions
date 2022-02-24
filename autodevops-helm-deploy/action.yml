@@ -34,7 +34,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Setup global env vars
-      uses: SocialGouv/actions/util-env@v1
+      uses: SocialGouv/actions/util-env@refacto-j
       with:
         environment: ${{ inputs.environment }}
         rancherId: ${{ inputs.rancherId }}
@@ -43,7 +43,7 @@ runs:
         baseSubdomain: ${{ inputs.baseSubdomain }}
     
     - name: Setup node
-      uses: SocialGouv/actions/util-setup-node@v1
+      uses: SocialGouv/actions/util-setup-node@refacto-j
       with:
         actionPath: ${{ github.action_path }}
 
@@ -82,13 +82,13 @@ runs:
         env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
         
     - name: Install Kapp
-      uses: vmware-tanzu/carvel-setup-action@v1
+      uses: vmware-tanzu/carvel-setup-action@refacto-j
       with:
         only: kapp
         token: ${{ inputs.token }}
 
     - name: Write kubeconfig
-      uses: SocialGouv/actions/util-write-kubeconfig@v1
+      uses: SocialGouv/actions/util-write-kubeconfig@refacto-j
       with:
         kubeconfig: ${{ inputs.kubeconfig }}
 
@@ -142,7 +142,7 @@ runs:
         env_url: ${{ steps.environment-url.outputs.url }}
 
     - name: Debug manifests
-      uses: SocialGouv/actions/k8s-manifests-debug@v1
+      uses: SocialGouv/actions/k8s-manifests-debug@refacto-j
       with:
         token: ${{ inputs.token }}
         path: ${{ env.AUTODEVOPS_PATH }}/manifests.yaml
