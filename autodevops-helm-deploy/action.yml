@@ -82,7 +82,7 @@ runs:
         env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
         
     - name: Install Kapp
-      uses: vmware-tanzu/carvel-setup-action@refacto-j
+      uses: vmware-tanzu/carvel-setup-action@v1
       with:
         only: kapp
         token: ${{ inputs.token }}
