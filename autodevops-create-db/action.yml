@@ -25,7 +25,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Setup global env vars
-      uses: SocialGouv/actions/util-env@v1
+      uses: SocialGouv/actions/util-env@refacto-j
       with:
         rancherId: ${{ inputs.rancherId }}
         baseNamespace: ${{ inputs.baseNamespace }}
@@ -51,12 +51,12 @@ runs:
         echo "ADMIN_PG_SECRET=$ADMIN_PG_SECRET" >> $GITHUB_ENV
     
     - name: Write kubeconfig
-      uses: SocialGouv/actions/util-write-kubeconfig@v1
+      uses: SocialGouv/actions/util-write-kubeconfig@refacto-j
       with:
         kubeconfig: ${{ inputs.kubeconfig }}
 
     - name: Setup node
-      uses: SocialGouv/actions/util-setup-node@v1
+      uses: SocialGouv/actions/util-setup-node@refacto-j
       with:
         actionPath: ${{ github.action_path }}
 
@@ -73,7 +73,7 @@ runs:
         path: values.json
 
     - name: Ensure namespace exists
-      uses: SocialGouv/actions/util-ensure-namespace@v1
+      uses: SocialGouv/actions/util-ensure-namespace@refacto-j
       with:
         namespace: ${{ env.NAMESPACE }}
         rancherId: ${{ env.RANCHER_PROJECT_ID }}
@@ -88,7 +88,7 @@ runs:
         copy-secret $DB_SECRET_NAME $NAMESPACE $JOB_NAMESPACE
 
     - name: Run create-db job
-      uses: SocialGouv/actions/util-run-job@v1
+      uses: SocialGouv/actions/util-run-job@refacto-j
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
         jobName: create-db-user-${{ env.BRANCH_SLUG }}
@@ -97,7 +97,7 @@ runs:
         actionPath: ${{ github.action_path }}
 
     - name: Wait for create-db job completion
-      uses: SocialGouv/actions/util-wait-job@v1
+      uses: SocialGouv/actions/util-wait-job@refacto-j
       with:
         jobNamespace: ${{ env.JOB_NAMESPACE }}
         jobName: create-db-user-${{ env.BRANCH_SLUG }}
