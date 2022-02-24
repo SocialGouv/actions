@@ -1,3 +1,10 @@
+## [1.31.1](https://github.com/SocialGouv/actions/compare/v1.31.0...v1.31.1) (2022-02-24)
+
+
+### Bug Fixes
+
+* **autodevops-create-db:** use 5432 as default PGPORT ([#133](https://github.com/SocialGouv/actions/issues/133)) ([88722e1](https://github.com/SocialGouv/actions/commit/88722e1ea8c90e0c1ee3ad2c8ba7a9bab90c3369))
+
 # [1.31.0](https://github.com/SocialGouv/actions/compare/v1.30.5...v1.31.0) (2022-02-24)
 
 
