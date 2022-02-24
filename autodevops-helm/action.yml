@@ -1,8 +1,6 @@
 name: "Autodevops"
 description: "SocialGouv automated deployment"
 inputs:
-  project:
-    description: "The project name, usually the repository name"
   imageName:
     description: "The image registry path"
   dockerfile:
@@ -40,7 +38,6 @@ runs:
     uses: SocialGouv/actions/autodevops-build-register@v1
     with:
       token: ${{ inputs.token }}
-      project: ${{ inputs.project }}
       imageName: ${{ inputs.imageName }}
       dockerfile: ${{ inputs.dockerfile }}
       environment:  ${{ inputs.environment }}
@@ -60,4 +57,3 @@ runs:
       socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
       productionHost: ${{ inputs.productionHost }}
       imageName: ${{ inputs.imageName }}
-      projectName: ${{ inputs.project }}
