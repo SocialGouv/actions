@@ -1,3 +1,10 @@
+# [1.31.0](https://github.com/SocialGouv/actions/compare/v1.30.5...v1.31.0) (2022-02-24)
+
+
+### Features
+
+* **autodevops-helm-deploy:** add app.replicas ([#132](https://github.com/SocialGouv/actions/issues/132)) ([d02be59](https://github.com/SocialGouv/actions/commit/d02be59dfc277a1cf2d4ded5cdd9efccb850274e))
+
 ## [1.30.5](https://github.com/SocialGouv/actions/compare/v1.30.4...v1.30.5) (2022-02-24)
 
 
