@@ -15,16 +15,18 @@ inputs:
     description: "The Kubernetes authentication config"
   environment:
     description: "The deployment environment (dev | preprod | prod)"
-  productionNamespace:
-    description: "Override production namespace"
-  productionHost:
-    description: "Override production host"
   rancherId:
     description: "The Rancher project ID"
   rancherProjectName:
     description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
+  baseNamespace:
+    description: "Override base namespace, default repository name"
+  baseSubdomain:
+    description: "Override base subdomain, default repository name"
   socialgouvBaseDomain:
     description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
+  productionHost:
+    description: "Override production host"
 outputs:
   url:
     description: "Main URL extracted from kube manifests"
@@ -53,7 +55,8 @@ runs:
       rancherProjectName: ${{ inputs.rancherProjectName }}
       kubeconfig: ${{ inputs.kubeconfig }}
       environment: ${{ inputs.environment }}
-      productionNamespace: ${{ inputs.productionNamespace }}
+      baseNamespace: ${{ inputs.baseNamespace }}
+      baseSubdomain: ${{ inputs.baseSubdomain }}
       socialgouvBaseDomain: ${{ inputs.socialgouvBaseDomain }}
       productionHost: ${{ inputs.productionHost }}
       imageName: ${{ inputs.imageName }}

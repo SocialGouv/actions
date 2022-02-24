@@ -11,9 +11,6 @@ metadata:
     app.github.com/sha: "{{ .Env.GITHUB_SHA | strings.Trunc 7 }}"
   labels:
     component: ci-create-db-job
-    application: {{ .Env.PROJECT_NAME }}
-    owner: {{ .Env.PROJECT_NAME }}
-    team: {{ .Env.PROJECT_NAME }}
   name: create-db-user-{{ .Env.BRANCH_SLUG }}
   namespace: {{ .Env.JOB_NAMESPACE }}
 spec:

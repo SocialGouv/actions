@@ -25,3 +25,4 @@ autoscale:
   averageUtilization:
     cpu: 100
     memory: 100
+certSecretName: wildcard-crt

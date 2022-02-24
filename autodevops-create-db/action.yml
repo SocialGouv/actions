@@ -9,8 +9,8 @@ inputs:
     description: "PG Secret admin secretRefName"
   pgUserAddHostSuffix:
     description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
-  projectName:
-    description: "Override project name"
+  baseNamespace:
+    description: "Override base namespace"
   extensions:
     description: "Create extensions"
     default: "hstore pgcrypto citext uuid-ossp postgis pg_trgm unaccent"
@@ -28,7 +28,7 @@ runs:
       uses: SocialGouv/actions/util-env@v1
       with:
         rancherId: ${{ inputs.rancherId }}
-        projectName: ${{ inputs.projectName }}
+        baseNamespace: ${{ inputs.baseNamespace }}
         rancherProjectName: ${{ inputs.rancherProjectName }}
     
     - name: Setup action bin PATH
@@ -39,9 +39,9 @@ runs:
       shell: bash
       run: |
         ADMIN_PG_SECRET="${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}"
-        if [ "$SOCIALGOUV_PRODUCTION" ]; then
+        if [ "$ENVIRONMENT" = "prod" ]; then
           DB_SECRET_NAME=pg-user
-        elif [ "$SOCIALGOUV_PREPRODUCTION" ]; then
+        elif [ "$ENVIRONMENT" = "preprod" ]; then
           DB_SECRET_NAME=pg-user-preprod
         else
           DB_SECRET_NAME="pg-user-${BRANCH_SLUG}"

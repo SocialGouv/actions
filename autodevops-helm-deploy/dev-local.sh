@@ -9,13 +9,13 @@ export ENVIRONMENT=${ENVIRONMENT:-"dev"}
 export AUTODEVOPS_PATH=${AUTODEVOPS_PATH:-"/tmp/audodevops"}
 
 # sample variables
-export PROJECT_NAME=${PROJECT_NAME:-"standup"}
+export REPOSITORY_NAME=${REPOSITORY_NAME:-"$(basename $GITHUB_WORKSPACE)"}
 export RANCHER_PROJECT_ID=${RANCHER_PROJECT_ID:-"1234"}
-export IMAGE_NAME=${IMAGE_NAME:-standup}
+export IMAGE_NAME=${IMAGE_NAME:-"$REPOSITORY_NAME"}
 export GITHUB_REF=${GITHUB_REF:-refs/heads/feature-branch-1}
 export GITHUB_SHA=${GITHUB_SHA-ffac537e6cbbf934b08745a378932722df287a53}
 export BASE_DOMAIN=${BASE_DOMAIN:-fabrique.social.gouv.fr}
-export NAMESPACE=${NAMESPACE:-standup-dev}
+export NAMESPACE=${NAMESPACE:-"$REPOSITORY_NAME-$ENVIRONMENT"}
 
 mkdir -p $AUTODEVOPS_PATH
 cd $AUTODEVOPS_PATH

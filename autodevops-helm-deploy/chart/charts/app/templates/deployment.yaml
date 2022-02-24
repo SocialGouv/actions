@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     component: {{ .Chart.Name }}
-    application: {{ .Values.global.projectName }}
+    application: {{ .Values.global.repositoryName }}
   name: app
   namespace: {{ .Values.global.namespace }}
 spec:
@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         component: {{ .Chart.Name }}
-        application: {{ .Values.global.projectName }}
+        application: {{ .Values.global.repositoryName }}
     spec:
       containers:
         - image: "{{ .Values.global.registry }}:{{ .Values.imageTag }}"

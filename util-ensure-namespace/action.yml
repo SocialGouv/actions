@@ -14,10 +14,6 @@ runs:
       with:
         actionPath: ${{ github.action_path }}
 
-    - name: Generate values file
-      shell: bash
-      run: yarn --cwd ${{ github.action_path }} run -s values > ${{ github.action_path }}/values.json
-
     - name: Generate k8s namespace
       shell: bash
       run: |
@@ -25,7 +21,7 @@ runs:
         export RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         cd ${{ github.action_path }}
         cat templates/namespace.gtpl | \
-          gomplate -d values.json > ${GITHUB_WORKSPACE}/namespace.${{ inputs.namespace || env.NAMESPACE }}.yml
+          gomplate > ${GITHUB_WORKSPACE}/namespace.${{ inputs.namespace || env.NAMESPACE }}.yml
 
     - name: Archive namespace manifests
       uses: actions/upload-artifact@v2

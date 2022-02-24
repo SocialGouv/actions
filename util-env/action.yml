@@ -8,11 +8,9 @@ inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
     default: dev
-  productionNamespace:
-    description: "Override production namesapce"
-  projectName:
-    description: "Override project name"
-
+  baseNamespace:
+    description: "Override base namespace"
+  
 runs:
   using: "composite"
   steps:
@@ -20,11 +18,7 @@ runs:
       shell: bash
       run: |
         ENVIRONMENT=${{ inputs.environment || env.ENVIRONMENT }}
-        if [ -n "${{ inputs.projectName }}" ]; then
-          PROJECT_NAME=${{ inputs.projectName }}
-        else
-          PROJECT_NAME=${GITHUB_REPOSITORY##*/}
-        fi
+        REPOSITORY_NAME=${GITHUB_REPOSITORY##*/}
         
         if [ -n "$GITHUB_HEAD_REF" ]; then
           BRANCH_NAME=$GITHUB_HEAD_REF
@@ -36,27 +30,27 @@ runs:
         BRANCH_SLUG=$(npx @socialgouv/env-slug ${BRANCH_NAME})
         RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         RANCHER_PROJECT_NAME=${{ inputs.rancherProjectName || env.RANCHER_PROJECT_NAME }}
-        if [ -n "${{ inputs.productionNamespace }}" ]; then
-          PRODUCTION_NAMESPACE="${{ inputs.productionNamespace }}"
+        if [ -n "${{ inputs.baseNamespace }}" ]; then
+          BASE_NAMESPACE="${{ inputs.baseNamespace }}"
         else
-          PRODUCTION_NAMESPACE=$PROJECT_NAME
+          BASE_NAMESPACE=$REPOSITORY_NAME
         fi
         if [ "$ENVIRONMENT" = "prod" ]; then
-          NAMESPACE=$PRODUCTION_NAMESPACE
+          NAMESPACE=$BASE_NAMESPACE
         elif [ "$ENVIRONMENT" = "preprod" ]; then
-          NAMESPACE=${PROJECT_NAME}-preprod
+          NAMESPACE=${BASE_NAMESPACE}-preprod
         else
-          NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT_NAME}-${BRANCH_NAME}")
+          NAMESPACE=$(npx @socialgouv/env-slug "${BASE_NAMESPACE}-${BRANCH_NAME}")
         fi
-        JOB_NAMESPACE=${RANCHER_PROJECT_NAME:-"$PROJECT_NAME"}-ci
-        SECRETS_NAMESPACE="${RANCHER_PROJECT_NAME:-"$PROJECT_NAME"}-secret"
+        JOB_NAMESPACE=${RANCHER_PROJECT_NAME:-"$REPOSITORY_NAME"}-ci
+        SECRETS_NAMESPACE="${RANCHER_PROJECT_NAME:-"$REPOSITORY_NAME"}-secret"
 
         AUTODEVOPS_PATH=/tmp/autodevops
         mkdir -p $AUTODEVOPS_PATH
 
         # general purpose env vars
         echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
-        echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
+        echo "REPOSITORY_NAME=$REPOSITORY_NAME" >> $GITHUB_ENV
         echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
         echo "BRANCH_SLUG=$BRANCH_SLUG" >> $GITHUB_ENV
         echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
