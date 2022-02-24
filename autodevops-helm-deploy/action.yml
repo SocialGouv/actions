@@ -34,7 +34,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Setup global env vars
-      uses: SocialGouv/actions/util-env@refacto-j
+      uses: SocialGouv/actions/util-env@v1
       with:
         environment: ${{ inputs.environment }}
         rancherId: ${{ inputs.rancherId }}
@@ -42,7 +42,7 @@ runs:
         baseNamespace: ${{ inputs.baseNamespace }}
     
     - name: Setup node
-      uses: SocialGouv/actions/util-setup-node@refacto-j
+      uses: SocialGouv/actions/util-setup-node@v1
       with:
         actionPath: ${{ github.action_path }}
 
@@ -87,7 +87,7 @@ runs:
         token: ${{ inputs.token }}
 
     - name: Write kubeconfig
-      uses: SocialGouv/actions/util-write-kubeconfig@refacto-j
+      uses: SocialGouv/actions/util-write-kubeconfig@v1
       with:
         kubeconfig: ${{ inputs.kubeconfig }}
 
@@ -141,7 +141,7 @@ runs:
         env_url: ${{ steps.environment-url.outputs.url }}
 
     - name: Debug manifests
-      uses: SocialGouv/actions/k8s-manifests-debug@refacto-j
+      uses: SocialGouv/actions/k8s-manifests-debug@v1
       with:
         token: ${{ inputs.token }}
         path: ${{ env.AUTODEVOPS_PATH }}/manifests.yaml
