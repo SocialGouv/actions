@@ -1,3 +1,10 @@
+## [1.30.5](https://github.com/SocialGouv/actions/compare/v1.30.4...v1.30.5) (2022-02-24)
+
+
+### Bug Fixes
+
+* **helm-deploy:** big refacto ([#131](https://github.com/SocialGouv/actions/issues/131)) ([2c6f7d3](https://github.com/SocialGouv/actions/commit/2c6f7d37040bab78601dd203daba315e2921641b))
+
 ## [1.30.4](https://github.com/SocialGouv/actions/compare/v1.30.3...v1.30.4) (2022-02-23)
 
 
