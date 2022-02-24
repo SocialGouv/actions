@@ -26,6 +26,7 @@ runs:
 
     - name: Get project name
       id: project-title
+      shell: bash
       run: |
         echo "::set-output name=project::${GITHUB_REPOSITORY#*/}"
 
