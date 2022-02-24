@@ -1,8 +1,6 @@
 name: "Build and Register"
 description: "Build and register a docker image on ghcr.io"
 inputs:
-  project:
-    description: "The project name, usually the repository name"
   imageName:
     description: "The image registry path"
   dockerfile:
@@ -26,14 +24,20 @@ runs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Get project name
+      id: project-title
+      shell: bash
+      run: |
+        echo "::set-output name=project::${GITHUB_REPOSITORY#*/}"
+
     - name: Create image labels and tags
       id: docker_meta
       uses: "crazy-max/ghaction-docker-meta@2e1a5c7fa42123697f82d479b551a1bbdb1bef88"
       with:
         images: ghcr.io/socialgouv/${{ inputs.imageName }}
         labels: |
-          org.opencontainers.image.title=${{ inputs.project }}
-          org.opencontainers.image.documentation=https://github.com/SocialGouv/${{ inputs.project }}/tree/${{ github.sha }}
+          org.opencontainers.image.title=${{ steps.project-title.outputs.project }}
+          org.opencontainers.image.documentation=https://github.com/${{ github.repository }}/tree/${{ github.sha }}
         tags: |
           type=sha
           type=ref,event=pr

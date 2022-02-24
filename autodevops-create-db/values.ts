@@ -3,8 +3,6 @@ const {
   SOCIALGOUV_PREPRODUCTION,
   KEEP_ALIVE,
   BRANCH_NAME,
-  COMPONENT,
-  PROJECT_NAME,
   PG_CREATE_EXTENSIONS,
 } = process.env;
 
@@ -21,13 +19,10 @@ if(isDestroyable){
   ttl = isRenovate ? "1d" : "7d";
 }
 
-const component = COMPONENT || PROJECT_NAME
-
 const pgCreateExtensions = PG_CREATE_EXTENSIONS
 
 const values = {
   ttl,
-  component,
   pgCreateExtensions,
 }
 

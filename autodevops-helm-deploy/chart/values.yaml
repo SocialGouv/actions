@@ -1,9 +1,10 @@
 global:
   isProduction: false
   namespace: default
-  projectName: the-awesome
+  repositoryName: the-awesome
 
 components:
   app: true
+  certSecretName: wildcard-crt
 
 app: {}
