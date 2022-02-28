@@ -1,3 +1,10 @@
+# [1.32.0](https://github.com/SocialGouv/actions/compare/v1.31.2...v1.32.0) (2022-02-28)
+
+
+### Features
+
+* **helm-deploy:** hasura + improve ([cf1357a](https://github.com/SocialGouv/actions/commit/cf1357a2e14b662dd4f48501c97969c08fd56f26))
+
 ## [1.31.2](https://github.com/SocialGouv/actions/compare/v1.31.1...v1.31.2) (2022-02-25)
 
 
