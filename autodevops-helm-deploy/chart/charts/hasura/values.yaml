@@ -1,7 +1,7 @@
 namespace: 
 host: 
 image: 
-imagePackage: 
+imagePackage: hasura
 imageTag: 
 ttl: 
 rancherProjectId: my-cluser-id:my-project-id
@@ -9,10 +9,10 @@ gitBranch: my-awesome-branch
 isProduction: false
 isPreProduction: false
 replicas: 1
-containerPort: 3000
-envSecretName: 
+containerPort: 8080
+envFrom: []
 envConfigName: 
-probesPath: /index.html
+probesPath: /healthz
 resources:
   limits:
     cpu: 200m
@@ -28,3 +28,5 @@ autoscale:
     cpu: 100
     memory: 100
 certSecretName: 
+createNamespace: false
+hostPrefix: hasura-

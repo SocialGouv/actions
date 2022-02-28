@@ -2,9 +2,11 @@ global:
   isProduction: false
   namespace: default
   repositoryName: the-awesome
+  host:
+  certSecretName: wildcard-crt
 
 components:
   app: true
-  certSecretName: wildcard-crt
+  hasura: false
 
 app: {}

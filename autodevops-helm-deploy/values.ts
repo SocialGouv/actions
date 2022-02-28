@@ -6,6 +6,7 @@ const {
   ENVIRONMENT,
   NAMESPACE,
   RANCHER_PROJECT_ID,
+  IMAGE_REGISTRY,
   IMAGE_NAME,
   GITHUB_REF,
   GITHUB_SHA,
@@ -35,7 +36,6 @@ const isDestroyable = isDev && !keepAlive;
 
 const ttl = isDestroyable ? (isRenovate ? "1d" : "7d") : "";
 
-const imageName = IMAGE_NAME ?? repositoryName;
 const sha = GITHUB_SHA ?? "";
 const imageTag = isProduction
   ? "prod"
@@ -65,7 +65,9 @@ const host =
     ? PRODUCTION_HOST
     : `${shortenHost(subdomain)}.${domain}`;
 
-const registry = `ghcr.io/socialgouv/${imageName}`;
+const registry = IMAGE_REGISTRY ?? "ghcr.io/socialgouv";
+const imageName = IMAGE_NAME ?? repositoryName;
+const image = `${registry}/${imageName}`;
 
 const rancherProjectId = RANCHER_PROJECT_ID;
 
@@ -79,13 +81,13 @@ const values = {
     isPreProduction,
     ttl,
     namespace,
-    registry,
     gitBranch,
     rancherProjectId,
     certSecretName,
+    host,
   },
   app: {
-    host,
+    image,
     imageTag,
   },
 };

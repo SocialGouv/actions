@@ -13,3 +13,6 @@ dependencies:
 - name: app
   repository: file://./charts/app
   condition: components.app
+- name: hasura
+  repository: file://./charts/hasura
+  condition: components.hasura

@@ -4,7 +4,7 @@ metadata:
   labels:
     component: {{ .Chart.Name }}
     application: {{ .Values.global.repositoryName }}
-  name: app
+  name: hasura
   namespace: {{ .Values.global.namespace }}
 spec:
   replicas: {{ .Values.replicas }}
@@ -27,7 +27,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 5
             timeoutSeconds: 5
-          name: app
+          name: hasura
           ports:
             - containerPort: {{ .Values.containerPort }}
               name: http
@@ -36,7 +36,7 @@ spec:
             httpGet:
               path: {{ .Values.probesPath }}
               port: http
-            initialDelaySeconds: 0
+            initialDelaySeconds: 30
             periodSeconds: 5
             successThreshold: 1
             timeoutSeconds: 1
@@ -48,19 +48,9 @@ spec:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
           startupProbe:
-            failureThreshold: 12
+            failureThreshold: 20
             httpGet:
               path: {{ .Values.probesPath }}
               port: http
             periodSeconds: 5
-          {{- if or .Values.envSecretName .Values.envConfigName }}
-          envFrom:
-            {{- if .Values.envSecretName }}
-            - secretRef:
-                name: "{{ .Values.envSecretName }}"
-            {{- end }}
-            {{- if .Values.envConfigName }}
-            - configMapRef:
-                name: "{{ .Values.envConfigName }}"
-            {{- end }}
-          {{- end }}
+          # envFrom: {{ .Values.envFrom | toJson }}

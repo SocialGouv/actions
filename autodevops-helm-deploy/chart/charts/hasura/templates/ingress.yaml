@@ -6,17 +6,17 @@ metadata:
   labels:
     component: {{ .Chart.Name }}
     application: {{ .Values.global.repositoryName }}
-  name: app
+  name: hasura
   namespace: {{ .Values.global.namespace }}
 spec:
   rules:
     - host: >-
-        {{ if .Values.host }}{{ .Values.host }}{{ else }}{{ .Values.global.host }}{{ end }}
+        {{ .Values.hostPrefix }}{{ if .Values.host }}{{ .Values.host }}{{ else }}{{ .Values.global.host }}{{ end }}
       http:
         paths:
           - backend:
               service:
-                name: app
+                name: hasura
                 port:
                   name: http
             path: /
@@ -24,5 +24,5 @@ spec:
   tls:
     - hosts:
         - >-
-          {{ if .Values.host }}{{ .Values.host }}{{ else }}{{ .Values.global.host }}{{ end }}
+          {{ .Values.hostPrefix }}{{ if .Values.host }}{{ .Values.host }}{{ else }}{{ .Values.global.host }}{{ end }}
       secretName: {{ if .Values.certSecretName }}{{ .Values.certSecretName }}{{ else }}{{ .Values.global.certSecretName }}{{ end }}
