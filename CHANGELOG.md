@@ -1,3 +1,10 @@
+## [1.32.2](https://github.com/SocialGouv/actions/compare/v1.32.1...v1.32.2) (2022-02-28)
+
+
+### Bug Fixes
+
+* **helm-deploy:** envFrom + improve ([32c2646](https://github.com/SocialGouv/actions/commit/32c2646aa8d6f8b8ae8e513062e895e302ed26cf))
+
 ## [1.32.1](https://github.com/SocialGouv/actions/compare/v1.32.0...v1.32.1) (2022-02-28)
 
 
