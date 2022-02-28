@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+rm -rf $AUTODEVOPS_PATH/*
+
 echo "Generate values file"
 yarn --cwd $GITHUB_ACTION_PATH run -s values > values.env.yaml
 

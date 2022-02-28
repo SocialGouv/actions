@@ -28,5 +28,4 @@ autoscale:
     cpu: 100
     memory: 100
 certSecretName: 
-createNamespace: false
 hostPrefix: hasura-

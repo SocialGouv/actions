@@ -63,4 +63,6 @@ spec:
             - configMapRef:
                 name: "{{ .Values.envConfigName }}"
             {{- end }}
+          {{- else }}
+          envFrom: {{ .Values.envFrom | toJson }}
           {{- end }}
