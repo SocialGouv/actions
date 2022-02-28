@@ -1,3 +1,10 @@
+## [1.32.1](https://github.com/SocialGouv/actions/compare/v1.32.0...v1.32.1) (2022-02-28)
+
+
+### Bug Fixes
+
+* **helm-deploy:** hasura enable envFrom ([9c39467](https://github.com/SocialGouv/actions/commit/9c3946774046853b182b7b5ec88577ee67ad3af3))
+
 # [1.32.0](https://github.com/SocialGouv/actions/compare/v1.31.2...v1.32.0) (2022-02-28)
 
 
