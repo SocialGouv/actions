@@ -74,6 +74,8 @@ const rancherProjectId = RANCHER_PROJECT_ID;
 const certSecretName =
   CERT_SECRET_NAME ?? (isProduction ? `${repositoryName}-crt` : "wildcard-crt");
 
+const branchSlug = generate(branchName)
+
 const values = {
   global: {
     repositoryName,
@@ -85,11 +87,12 @@ const values = {
     rancherProjectId,
     certSecretName,
     host,
-  },
-  app: {
+    branchSlug,
     image,
     imageTag,
   },
+  app: {},
+  hasura: {},
 };
 
 const dump: string = yaml.dump(values);

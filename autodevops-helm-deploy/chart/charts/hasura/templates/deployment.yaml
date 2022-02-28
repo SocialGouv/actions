@@ -18,7 +18,7 @@ spec:
         application: {{ .Values.global.repositoryName }}
     spec:
       containers:
-        - image: "{{ .Values.image }}{{ if .Values.imagePackage }}{{ (print "/" .Values.imagePackage) }}{{ end }}:{{ .Values.imageTag }}"
+        - image: "{{ or .Values.image .Values.global.image }}{{ if .Values.imagePackage }}{{ (print "/" .Values.imagePackage) }}{{ end }}:{{ or .Values.imageTag .Values.global.imageTag }}"
           livenessProbe:
             failureThreshold: 15
             httpGet:
@@ -53,4 +53,4 @@ spec:
               path: {{ .Values.probesPath }}
               port: http
             periodSeconds: 5
-          envFrom: {{ .Values.envFrom | toJson }}
+          envFrom: {{ tpl (.Values.envFrom | toJson) . }}

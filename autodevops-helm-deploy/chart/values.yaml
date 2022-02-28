@@ -4,9 +4,13 @@ global:
   repositoryName: the-awesome
   host:
   certSecretName: wildcard-crt
+  branchSlug:
+  image:
+  imageTag:
 
 components:
   app: true
   hasura: false
 
 app: {}
+hasura: {}
