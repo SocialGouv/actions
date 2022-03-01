@@ -11,6 +11,9 @@ spec:
   backoffLimit: 5
   template:
     spec:
+      volumes:
+        - name: seed-db-volume
+          emptyDir: {}
       initContainers:
         - name: seed-db-init
           image: alpine/git:v2.30.2
@@ -51,6 +54,9 @@ spec:
           image: ghcr.io/socialgouv/docker/psql:6.70.0
           imagePullPolicy: IfNotPresent
           name: seed-db
+          volumeMounts:
+            - name: seed-db-volume
+              mountPath: /mnt/repository
           resources:
             limits:
               cpu: 300m
