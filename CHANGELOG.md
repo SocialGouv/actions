@@ -1,3 +1,10 @@
+## [1.34.2](https://github.com/SocialGouv/actions/compare/v1.34.1...v1.34.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* **seed-db:** fix volume ([4bdacb3](https://github.com/SocialGouv/actions/commit/4bdacb38cea7ad3dc8de2f0b6afc8fe800e22708))
+
 ## [1.34.1](https://github.com/SocialGouv/actions/compare/v1.34.0...v1.34.1) (2022-03-01)
 
 
