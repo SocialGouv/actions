@@ -13,7 +13,7 @@ done
 # set defaults
 PGUSER=${PGUSER:-postgres}
 PGPORT=${PGPORT:-5432}
-PGHOST=${PGHOST:--127.0.0.1}
+PGHOST=${PGHOST:-127.0.0.1}
 
 # urlencode the original pg user
 # ORIGINAL_PGUSER_URLENCODED=${PGUSER/@/%40}

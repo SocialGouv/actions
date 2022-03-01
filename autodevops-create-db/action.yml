@@ -16,6 +16,9 @@ inputs:
     default: "hstore pgcrypto citext uuid-ossp postgis pg_trgm unaccent"
   rancherProjectName:
     description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
+  restoreDb:
+    description: "Enable DB restore using script"
+
 
 runs:
   using: "composite"
