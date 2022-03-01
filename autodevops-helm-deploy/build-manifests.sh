@@ -32,6 +32,7 @@ HELM_TEMPLATE_ARGS+=" -f values.env.yaml"
 if [ -f "values.${ENVIRONMENT}.yaml" ]; then
   HELM_TEMPLATE_ARGS+=" -f values.${ENVIRONMENT}.yaml"
 fi
+HELM_TEMPLATE_ARGS+=" $HELM_ARGS"
 
 helm template $HELM_TEMPLATE_ARGS . \
   > manifests.base.yaml

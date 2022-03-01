@@ -22,6 +22,8 @@ inputs:
     description: "Override production host"
   imageName:
     description: "The image registry path"
+  helmArgs:
+    description: "Add extra args to Helm template command"
 outputs:
   url:
     description: "Main deployment URL"
@@ -54,6 +56,7 @@ runs:
         BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
         PRODUCTION_HOST: ${{ inputs.productionHost }}
         IMAGE_NAME: ${{ inputs.imageName }}
+        HELM_ARGS: ${{ inputs.helmArgs }}
       working-directory: ${{ env.AUTODEVOPS_PATH }}
       run: $GITHUB_ACTION_PATH/build-manifests.sh
 
