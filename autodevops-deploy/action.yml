@@ -35,6 +35,7 @@ runs:
         name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
 
     - name: Get namespace name
+      shell: bash
       run: echo ::set-output name=result::$(yq .metadata.name namespace-${{ inputs.environment }}.yml)
 
     - name: Get project and namespace names
