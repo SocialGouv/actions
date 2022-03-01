@@ -1,3 +1,10 @@
+# [1.34.0](https://github.com/SocialGouv/actions/compare/v1.33.2...v1.34.0) (2022-03-01)
+
+
+### Features
+
+* **helm:** helmArgs input ([b336e0e](https://github.com/SocialGouv/actions/commit/b336e0e8e1f908fcd77b83180b338d477b86c555))
+
 ## [1.33.2](https://github.com/SocialGouv/actions/compare/v1.33.1...v1.33.2) (2022-03-01)
 
 
