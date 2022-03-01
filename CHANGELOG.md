@@ -1,3 +1,10 @@
+## [1.34.1](https://github.com/SocialGouv/actions/compare/v1.34.0...v1.34.1) (2022-03-01)
+
+
+### Bug Fixes
+
+* **helm-deploy:** fix values ([57be10a](https://github.com/SocialGouv/actions/commit/57be10a7f0a8d612ff900b8df7d7713cd2a53f16))
+
 # [1.34.0](https://github.com/SocialGouv/actions/compare/v1.33.2...v1.34.0) (2022-03-01)
 
 
