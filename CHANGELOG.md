@@ -1,3 +1,10 @@
+## [1.33.1](https://github.com/SocialGouv/actions/compare/v1.33.0...v1.33.1) (2022-03-01)
+
+
+### Bug Fixes
+
+* **seed-db:** fix values ([e93c200](https://github.com/SocialGouv/actions/commit/e93c2009a806537012ee23ce88937c72e7279922))
+
 # [1.33.0](https://github.com/SocialGouv/actions/compare/v1.32.6...v1.33.0) (2022-03-01)
 
 
