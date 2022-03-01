@@ -11,22 +11,22 @@ spec:
   backoffLimit: 5
   template:
     spec:
-    initContainers:
-      - name: seed-db-init
-        image: alpine/git:v2.30.2
-        command:
-          - git
-        args:
-          - clone
-          - -b
-          - {{ .Env.BRANCH_NAME }}
-          - --single-branch
-          - --depth=1
-          - https://github.com/{{ .Env.GITHUB_REPOSITORY }}.git
-          - /mnt/repository
-        volumeMounts:
-          - name: seed-db-volume
-            mountPath: /mnt/repository
+      initContainers:
+        - name: seed-db-init
+          image: alpine/git:v2.30.2
+          command:
+            - git
+          args:
+            - clone
+            - -b
+            - {{ .Env.BRANCH_NAME }}
+            - --single-branch
+            - --depth=1
+            - https://github.com/{{ .Env.GITHUB_REPOSITORY }}.git
+            - /mnt/repository
+          volumeMounts:
+            - name: seed-db-volume
+              mountPath: /mnt/repository
       containers:
         - command:
             - /bin/sh
