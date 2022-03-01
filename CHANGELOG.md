@@ -1,3 +1,10 @@
+# [1.33.0](https://github.com/SocialGouv/actions/compare/v1.32.6...v1.33.0) (2022-03-01)
+
+
+### Features
+
+* **seed-db:** first draft ([da78749](https://github.com/SocialGouv/actions/commit/da7874900b88b02134814b91dd0b4d6e17a6d17c))
+
 ## [1.32.6](https://github.com/SocialGouv/actions/compare/v1.32.5...v1.32.6) (2022-03-01)
 
 
