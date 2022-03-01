@@ -1,3 +1,10 @@
+## [1.32.6](https://github.com/SocialGouv/actions/compare/v1.32.5...v1.32.6) (2022-03-01)
+
+
+### Bug Fixes
+
+* **helm-deploy:** fix preprod and prod tag ([52ee32a](https://github.com/SocialGouv/actions/commit/52ee32a6f8af463538acf01c12e4ff9c202e6012))
+
 ## [1.32.5](https://github.com/SocialGouv/actions/compare/v1.32.4...v1.32.5) (2022-03-01)
 
 
