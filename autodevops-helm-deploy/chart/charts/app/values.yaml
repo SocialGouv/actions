@@ -12,6 +12,7 @@ replicas: 1
 containerPort: 3000
 envSecretName: 
 envConfigName: 
+env: []
 envFrom: []
 probesPath: /index.html
 resources:

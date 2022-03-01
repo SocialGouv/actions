@@ -53,6 +53,7 @@ spec:
               path: {{ .Values.probesPath }}
               port: http
             periodSeconds: 5
+          env: {{ tpl (.Values.env | toJson) . }}
           {{- if or .Values.envSecretName .Values.envConfigName }}
           envFrom:
             {{- if .Values.envSecretName }}
