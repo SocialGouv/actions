@@ -1,3 +1,10 @@
+## [1.33.2](https://github.com/SocialGouv/actions/compare/v1.33.1...v1.33.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* **seed-db:** fix job yaml ([20d728d](https://github.com/SocialGouv/actions/commit/20d728da4190b409a0ef7a3cdd39d3e7d085b653))
+
 ## [1.33.1](https://github.com/SocialGouv/actions/compare/v1.33.0...v1.33.1) (2022-03-01)
 
 
