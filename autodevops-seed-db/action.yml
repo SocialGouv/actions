@@ -1,0 +1,82 @@
+name: "Create database"
+description: "Create database and user using random secure"
+inputs:
+  kubeconfig:
+    description: "The Kubernetes authentication configuration"
+  rancherId:
+    description: "The Rancher project ID, usually secrets.RANCHER_PROJECT_ID"
+  adminPgSecret:
+    description: "PG Secret admin secretRefName"
+  pgUserAddHostSuffix:
+    description: "Add user suffix `@hostname`, muste be true for Azure, false for Scaleway, if not provided it autodetect azure using PGHOST"
+  baseNamespace:
+    description: "Override base namespace"
+  rancherProjectName:
+    description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
+  seedPath:
+    description: "The project name seed file path to load into the db"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup global env vars
+      uses: SocialGouv/actions/util-env@v1
+      with:
+        rancherId: ${{ inputs.rancherId }}
+        baseNamespace: ${{ inputs.baseNamespace }}
+        rancherProjectName: ${{ inputs.rancherProjectName }}
+    
+    - name: Setup action bin PATH
+      shell: bash
+      run: echo "${{ github.action_path }}/bin" >> $GITHUB_PATH
+
+    - name: Setup action's env vars
+      shell: bash
+      run: |
+        ADMIN_PG_SECRET="${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}"
+        PGDATABASE="autodevops_${BRANCH_SLUG}"
+        echo "ADMIN_PG_SECRET=$ADMIN_PG_SECRET" >> $GITHUB_ENV
+        echo "PGDATABASE=$PGDATABASE" >> $GITHUB_ENV
+    
+    - name: Write kubeconfig
+      uses: SocialGouv/actions/util-write-kubeconfig@v1
+      with:
+        kubeconfig: ${{ inputs.kubeconfig }}
+
+    - name: Setup node
+      uses: SocialGouv/actions/util-setup-node@v1
+      with:
+        actionPath: ${{ github.action_path }}
+
+    - name: Generate values file
+      shell: bash
+      env:
+        SEED_PATH: ${{ inputs.seedPath }}
+      run: yarn --cwd ${{ github.action_path }} run -s values > values.json
+
+    - name: Archive values.json
+      uses: actions/upload-artifact@v2
+      with:
+        name: seed-db.values.json
+        path: values.json
+
+    - name: Run seed-db job
+      uses: SocialGouv/actions/util-run-job@v1
+      with:
+        jobNamespace: ${{ env.JOB_NAMESPACE }}
+        jobName: seed-db-${{ env.BRANCH_SLUG }}
+        jobTemplatePath: ${{ github.action_path }}/templates/job.seed-db.gtpl
+        gomplateArgs: -d values.json
+        actionPath: ${{ github.action_path }}
+
+    - name: Wait for seed-db job completion
+      uses: SocialGouv/actions/util-wait-job@v1
+      with:
+        jobNamespace: ${{ env.JOB_NAMESPACE }}
+        jobName: seed-db-${{ env.BRANCH_SLUG }}
+    
