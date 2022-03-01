@@ -1,3 +1,10 @@
+## [1.32.5](https://github.com/SocialGouv/actions/compare/v1.32.4...v1.32.5) (2022-03-01)
+
+
+### Bug Fixes
+
+* **helm-deploy:** inc hasura default resources ([c3269df](https://github.com/SocialGouv/actions/commit/c3269dfa6dd9f4d91ae9c32ea55b28ae5ed225a0))
+
 ## [1.32.4](https://github.com/SocialGouv/actions/compare/v1.32.3...v1.32.4) (2022-03-01)
 
 
