@@ -37,10 +37,8 @@ const isDestroyable = isDev && !keepAlive;
 const ttl = isDestroyable ? (isRenovate ? "1d" : "7d") : "";
 
 const sha = GITHUB_SHA ?? "";
-const imageTag = isProduction
-  ? "prod"
-  : isPreProduction
-  ? "preprod"
+const imageTag = isPreProduction
+  ? `preprod-${sha}`
   : gitBranch.startsWith("refs/tags/")
   ? (gitBranch.split("/").pop() ?? "").substring(1)
   : `sha-${sha}`;
@@ -74,8 +72,6 @@ const rancherProjectId = RANCHER_PROJECT_ID;
 const certSecretName =
   CERT_SECRET_NAME ?? (isProduction ? `${repositoryName}-crt` : "wildcard-crt");
 
-const branchSlug = generate(branchName)
-
 const values = {
   global: {
     repositoryName,
@@ -87,12 +83,11 @@ const values = {
     rancherProjectId,
     certSecretName,
     host,
-    branchSlug,
+  },
+  app: {
     image,
     imageTag,
   },
-  app: {},
-  hasura: {},
 };
 
 const dump: string = yaml.dump(values);
