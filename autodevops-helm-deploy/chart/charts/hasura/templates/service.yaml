@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
     - name: http
-      port: {{ .Values.containerPort }}
+      port: {{ .Values.servicePort }}
       targetPort: {{ .Values.containerPort }}
   selector:
     component: hasura

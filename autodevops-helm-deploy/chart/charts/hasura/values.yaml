@@ -10,6 +10,7 @@ isProduction: false
 isPreProduction: false
 replicas: 1
 containerPort: 8080
+servicePort: 80
 env: []
 envFrom: []
 envConfigName: 
