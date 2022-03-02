@@ -16,6 +16,9 @@ inputs:
   seedPath:
     description: "The project name seed file path to load into the db"
     required: true
+  environment:
+    default: 'dev'
+    description: "The deployment environment (dev | preprod | prod)"
 
 runs:
   using: "composite"
@@ -30,6 +33,7 @@ runs:
         rancherId: ${{ inputs.rancherId }}
         baseNamespace: ${{ inputs.baseNamespace }}
         rancherProjectName: ${{ inputs.rancherProjectName }}
+        environment: ${{ inputs.environment }}
     
     - name: Setup action bin PATH
       shell: bash
@@ -39,7 +43,13 @@ runs:
       shell: bash
       run: |
         ADMIN_PG_SECRET="${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}"
-        PGDATABASE="autodevops_${BRANCH_SLUG}"
+        if [ "$ENVIRONMENT" = "prod" ]; then
+          PGDATABASE="$NAMESPACE"
+        elif [ "$ENVIRONMENT" = "preprod" ]; then
+          PGDATABASE="autodevops_preprod"
+        else
+          PGDATABASE="autodevops_${BRANCH_SLUG}"
+        fi
         echo "ADMIN_PG_SECRET=$ADMIN_PG_SECRET" >> $GITHUB_ENV
         echo "PGDATABASE=$PGDATABASE" >> $GITHUB_ENV
     
