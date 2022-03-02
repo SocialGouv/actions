@@ -1,3 +1,10 @@
+## [1.34.3](https://github.com/SocialGouv/actions/compare/v1.34.2...v1.34.3) (2022-03-02)
+
+
+### Bug Fixes
+
+* **helm-deploy:** gh notify deploy ([c7830f4](https://github.com/SocialGouv/actions/commit/c7830f485b14618256ed623f3104016b793cfd15))
+
 ## [1.34.2](https://github.com/SocialGouv/actions/compare/v1.34.1...v1.34.2) (2022-03-01)
 
 
