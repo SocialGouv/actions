@@ -81,7 +81,7 @@ runs:
         step: start
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.NAMESPACE }}"
-        env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
+        env: ${{ inputs.environment == 'dev' && env.NAMESPACE || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
         
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
