@@ -1,3 +1,10 @@
+## [1.34.4](https://github.com/SocialGouv/actions/compare/v1.34.3...v1.34.4) (2022-03-02)
+
+
+### Bug Fixes
+
+* **helm-deploy:** decouple servicePort ([05db294](https://github.com/SocialGouv/actions/commit/05db294683e3b07bcfbffd11cda2a9e5d923474a))
+
 ## [1.34.3](https://github.com/SocialGouv/actions/compare/v1.34.2...v1.34.3) (2022-03-02)
 
 
