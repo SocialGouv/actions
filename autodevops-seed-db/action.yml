@@ -46,7 +46,7 @@ runs:
         if [ "$ENVIRONMENT" = "prod" ]; then
           PGDATABASE="$NAMESPACE"
         elif [ "$ENVIRONMENT" = "preprod" ]; then
-          PGDATABASE="autodevops_preprod"
+          PGDATABASE="preprod"
         else
           PGDATABASE="autodevops_${BRANCH_SLUG}"
         fi
