@@ -36,7 +36,7 @@ runs:
       uses: actions/checkout@v2
 
     - name: Setup global env vars
-      uses: SocialGouv/actions/util-env@v1
+      uses: SocialGouv/actions/util-env@refacto-env
       with:
         environment: ${{ inputs.environment }}
         rancherId: ${{ inputs.rancherId }}
