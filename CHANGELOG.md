@@ -1,3 +1,10 @@
+## [1.34.8](https://github.com/SocialGouv/actions/compare/v1.34.7...v1.34.8) (2022-03-04)
+
+
+### Bug Fixes
+
+* **release:** dummy commit ([b055eec](https://github.com/SocialGouv/actions/commit/b055eecf870293243f05f94267688b911957d12b))
+
 ## [1.34.7](https://github.com/SocialGouv/actions/compare/v1.34.6...v1.34.7) (2022-03-02)
 
 
