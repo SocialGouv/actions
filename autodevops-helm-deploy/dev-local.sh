@@ -1,36 +1,32 @@
 #!/usr/bin/env bash
 set -e
 
-USER_WORKING_DIR="$PWD"
+# dev-local
+export TARGET_DIR=${TARGET_DIR:-"$PWD"}
 
+# github sample variables
 export GITHUB_WORKSPACE=${GITHUB_WORKSPACE:-"$PWD"}
-export GITHUB_ACTION_PATH=${GITHUB_ACTION_PATH:-"/tmp/autodevops/actions/autodevops-helm"}
-export ENVIRONMENT=${ENVIRONMENT:-"dev"}
-export AUTODEVOPS_PATH=${AUTODEVOPS_PATH:-"/tmp/audodevops"}
-
-# sample variables
-export REPOSITORY_NAME=${REPOSITORY_NAME:-"$(basename $GITHUB_WORKSPACE)"}
-export RANCHER_PROJECT_ID=${RANCHER_PROJECT_ID:-"1234"}
-export IMAGE_NAME=${IMAGE_NAME:-"$REPOSITORY_NAME"}
+export GITHUB_REPOSITORY=${GITHUB_REPOSITORY:-"SocialGouv/$(basename $GITHUB_WORKSPACE)"}
+export GITHUB_ACTION_PATH=${GITHUB_ACTION_PATH:-"$(dirname $0)"}
 export GITHUB_REF=${GITHUB_REF:-refs/heads/feature-branch-1}
 export GITHUB_SHA=${GITHUB_SHA-ffac537e6cbbf934b08745a378932722df287a53}
-export BASE_DOMAIN=${BASE_DOMAIN:-fabrique.social.gouv.fr}
-export NAMESPACE=${NAMESPACE:-"$REPOSITORY_NAME-$ENVIRONMENT"}
+export GITHUB_ENV=${GITHUB_ENV:-/tmp/.github_env}
 
-mkdir -p $AUTODEVOPS_PATH
+# load env
+export ENVIRONMENT=${ENVIRONMENT:-dev}
+export RANCHER_PROJECT_ID=${RANCHER_PROJECT_ID:-1234}
+export RANCHER_PROJECT_NAME=${RANCHER_PROJECT_NAME:-awesome}
+
+source $GITHUB_ACTION_PATH/../util-env/env.sh
+
 cd $AUTODEVOPS_PATH
 
-if [ ! -d $GITHUB_ACTION_PATH ]; then
-  mkdir -p $GITHUB_ACTION_PATH
-  npx degit https://github.com/SocialGouv/actions/autodevops-helm $GITHUB_ACTION_PATH --force
-fi
-if [ ! -d $GITHUB_ACTION_PATH/node_modules ]; then
-  yarn --cwd $GITHUB_ACTION_PATH install
-fi
+# generate values.env.yaml
+node $GITHUB_ACTION_PATH/values.js > values.env.yaml
 
-yarn --cwd $GITHUB_ACTION_PATH run -s values > values.env.yaml
-
+# generate manifests
 $GITHUB_ACTION_PATH/build-manifests.sh 2> >(grep -v 'found symbolic link' >&2)
 
-cp manifests.yaml "$USER_WORKING_DIR/manifests.yaml"
-echo "Built: $USER_WORKING_DIR/manifests.yaml"
+# copy manifests to current working dir
+cp manifests.yaml "$TARGET_DIR/manifests.yaml"
+echo "Built: $TARGET_DIR/manifests.yaml"

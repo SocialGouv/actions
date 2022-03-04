@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
+# check mandatory environment variables
+MANDATORY_VARS="AUTODEVOPS_PATH GITHUB_ACTION_PATH GITHUB_WORKSPACE ENVIRONMENT"
+for VAR in $MANDATORY_VARS; do
+  if [[ -z "${!VAR}" ]]; then
+    echo "${VAR} environment variable is empty"
+    exit 1
+  fi
+done
+
 rm -rf $AUTODEVOPS_PATH/*
 
 echo "Generate values file"
-yarn --cwd $GITHUB_ACTION_PATH run -s values > values.env.yaml
+node $GITHUB_ACTION_PATH/values.js > values.env.yaml
 
 echo "Prepare charts and overlays"
 cp -r "$GITHUB_ACTION_PATH/chart/." .

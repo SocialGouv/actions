@@ -124,23 +124,30 @@ If you think you patches can be reused by other project, contribute to [chart/pa
 
 ### Test Helm chart generation
 required:
-- helm v3
-- kustomize v4
-- yq
+- helm v3 [install guide](https://helm.sh/docs/intro/install/)
+  ```sh
+  curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  ```
+- kustomize v4 [install guide](https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/)
+  ```sh
+  curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+  ```
+- yq >= 4 [install guide](https://github.com/mikefarah/yq#install)
+  ```sh
+  wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY} -O /usr/bin/yq &&\
+    chmod +x /usr/bin/yq
+  ```
+- bash >= v4
+- node >= 16
 - yarn
 - npx
-- node
-- bash >= v4
 
 test with local action repo `actions`
 ```sh
+mkdir -p ~/socialgouv
+cd ~/socialgouv
+git clone https://github.com/SocialGouv/actions
 export GITHUB_ACTION_PATH=~/socialgouv/actions/autodevops-helm-deploy
-export GITHUB_WORKSPACE=~/socialgouv/standup
-$GITHUB_ACTION_PATH/dev-local.sh
-```
-
-test with auto degit action repo `actions`
-```sh
 export GITHUB_WORKSPACE=~/socialgouv/standup
 $GITHUB_ACTION_PATH/dev-local.sh
 ```

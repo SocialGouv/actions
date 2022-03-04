@@ -43,11 +43,6 @@ runs:
         rancherProjectName: ${{ inputs.rancherProjectName }}
         baseNamespace: ${{ inputs.baseNamespace }}
     
-    - name: Setup node
-      uses: SocialGouv/actions/util-setup-node@v1
-      with:
-        actionPath: ${{ github.action_path }}
-
     # start building manifests
 
     - name: Build manifests
