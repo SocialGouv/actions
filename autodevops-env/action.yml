@@ -19,9 +19,9 @@ runs:
       shell: bash
       run: |
         RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-        BRANCH=$(npx @socialgouv/env-slug "${RAW_BRANCH}")
+        BRANCH=$(npx --prefer-offline @socialgouv/env-slug "${RAW_BRANCH}")
         PROJECT=${GITHUB_REPOSITORY##*/}
-        NAMESPACE=$(npx @socialgouv/env-slug "${PROJECT}-${RAW_BRANCH}")
+        NAMESPACE=$(npx --prefer-offline @socialgouv/env-slug "${PROJECT}-${RAW_BRANCH}")
         echo "::set-output name=namespace::$(echo ${NAMESPACE})"
         echo "::set-output name=project::$(echo ${PROJECT})"
         echo "::set-output name=branch::$(echo ${BRANCH})"

@@ -1,6 +1,3 @@
-import generate from "@socialgouv/env-slug";
-import yaml from "js-yaml";
-
 const {
   REPOSITORY_NAME,
   ENVIRONMENT,
@@ -10,8 +7,11 @@ const {
   IMAGE_NAME,
   GITHUB_REF,
   GITHUB_SHA,
+  BRANCH_NAME,
+  BRANCH_SLUG,
   BASE_DOMAIN,
   BASE_SUBDOMAIN,
+  SUBDOMAIN,
   PRODUCTION_HOST,
   KEEP_ALIVE,
   CERT_SECRET_NAME,
@@ -27,9 +27,7 @@ const repositoryName = REPOSITORY_NAME || "";
 
 const keepAlive = Boolean(KEEP_ALIVE);
 
-const branchName = gitBranch
-  .replace("refs/heads/", "")
-  .replace("refs/tags/", "");
+const branchName = BRANCH_NAME;
 
 const isRenovate = branchName.startsWith("renovate");
 const isDestroyable = isDev && !keepAlive;
@@ -46,17 +44,13 @@ const imageTag = isPreProduction
 const namespace = NAMESPACE || "";
 
 const MAX_HOSTNAME_SIZE = 53;
-const shortenHost = (hostname: string): string =>
+const shortenHost = (hostname) =>
   hostname.slice(0, MAX_HOSTNAME_SIZE).replace(/-+$/, "");
 
 const domain = BASE_DOMAIN || "";
 const baseSubdomain = BASE_SUBDOMAIN || repositoryName;
 
-const subdomain = isProduction
-  ? baseSubdomain
-  : isPreProduction
-  ? `${baseSubdomain}-preprod`
-  : generate(`${baseSubdomain}-${branchName}`);
+const subdomain = SUBDOMAIN
 
 const host =
   isProduction && PRODUCTION_HOST
@@ -72,7 +66,7 @@ const rancherProjectId = RANCHER_PROJECT_ID;
 const certSecretName =
   CERT_SECRET_NAME || (isProduction ? `${repositoryName}-crt` : "wildcard-crt");
 
-const branchSlug = generate(branchName);
+const branchSlug = BRANCH_SLUG;
 
 const values = {
   global: {
@@ -93,6 +87,6 @@ const values = {
   hasura: {},
 };
 
-const dump: string = yaml.dump(values);
+const dump = JSON.stringify(values, null, 2);
 
 console.log(dump);
