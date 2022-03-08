@@ -16,3 +16,6 @@ dependencies:
 - name: hasura
   repository: file://./charts/hasura
   condition: components.hasura
+- name: maildev
+  repository: file://./charts/maildev
+  condition: components.maildev

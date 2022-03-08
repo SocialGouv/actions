@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: maildev
+    application: {{ .Values.global.repositoryName }}
+  name: maildev
+  namespace: {{ .Values.global.namespace }}
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.servicePort }}
+      targetPort: 1025
+  selector:
+    component: maildev
+  type: ClusterIP
+  

@@ -11,6 +11,7 @@ global:
 components:
   app: true
   hasura: false
+  maildev: false
 
 app: {}
 hasura: {}
