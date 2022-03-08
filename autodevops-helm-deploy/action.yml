@@ -46,14 +46,14 @@ runs:
         rancherId: ${{ inputs.rancherId }}
         rancherProjectName: ${{ inputs.rancherProjectName }}
         baseNamespace: ${{ inputs.baseNamespace }}
+        baseSubdomain: ${{ inputs.baseSubdomain }}
+        baseDomain: ${{ inputs.socialgouvBaseDomain }}
     
     # start building manifests
 
     - name: Build manifests
       shell: bash
       env:
-        BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
-        BASE_SUBDOMAIN: ${{ inputs.baseSubdomain }}
         PRODUCTION_HOST: ${{ inputs.productionHost }}
         IMAGE_NAME: ${{ inputs.imageName }}
         HELM_ARGS: ${{ inputs.helmArgs }}

@@ -10,6 +10,10 @@ inputs:
     default: dev
   baseNamespace:
     description: "Override base namespace"
+  baseSubdomain:
+    description: "Override base subdomain, default repository name"
+  baseDomain:
+    description: "The base domain name, usually secrets.SOCIALGOUV_BASE_DOMAIN"
   
 runs:
   using: "composite"
@@ -23,6 +27,8 @@ runs:
         export RANCHER_PROJECT_ID=${{ inputs.rancherId || env.RANCHER_PROJECT_ID }}
         export RANCHER_PROJECT_NAME=${{ inputs.rancherProjectName || env.RANCHER_PROJECT_NAME }}
         export BASE_NAMESPACE=${{ inputs.baseNamespace || env.BASE_NAMESPACE }}
+        export BASE_DOMAIN=${{ inputs.baseDomain || env.BASE_DOMAIN }}
+        export BASE_SUBDOMAIN=${{ inputs.baseSubdomain || env.BASE_SUBDOMAIN }}
 
         source $GITHUB_ACTION_PATH/env.sh
         
