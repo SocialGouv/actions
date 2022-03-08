@@ -10,7 +10,6 @@ const {
   BRANCH_NAME,
   BRANCH_SLUG,
   BASE_DOMAIN,
-  BASE_SUBDOMAIN,
   SUBDOMAIN,
   PRODUCTION_HOST,
   KEEP_ALIVE,
@@ -48,8 +47,6 @@ const shortenHost = (hostname) =>
   hostname.slice(0, MAX_HOSTNAME_SIZE).replace(/-+$/, "");
 
 const domain = BASE_DOMAIN || "";
-const baseSubdomain = BASE_SUBDOMAIN || repositoryName;
-
 const subdomain = SUBDOMAIN
 
 const host =
