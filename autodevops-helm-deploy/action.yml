@@ -24,6 +24,8 @@ inputs:
     description: "The image registry path"
   helmArgs:
     description: "Add extra args to Helm template command"
+  basePath:
+    description: "base path containing the .socialgouv directory, default to GITHUB_WORKSPACE"
 outputs:
   url:
     description: "Main deployment URL"
@@ -52,6 +54,7 @@ runs:
         PRODUCTION_HOST: ${{ inputs.productionHost }}
         IMAGE_NAME: ${{ inputs.imageName }}
         HELM_ARGS: ${{ inputs.helmArgs }}
+        BASE_PATH: ${{ inputs.basePath }}
       working-directory: ${{ env.AUTODEVOPS_PATH }}
       run: $GITHUB_ACTION_PATH/build-manifests.sh
 

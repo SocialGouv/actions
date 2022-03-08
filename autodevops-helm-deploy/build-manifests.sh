@@ -2,13 +2,15 @@
 set -e
 
 # check mandatory environment variables
-MANDATORY_VARS="AUTODEVOPS_PATH GITHUB_ACTION_PATH GITHUB_WORKSPACE ENVIRONMENT"
+MANDATORY_VARS="AUTODEVOPS_PATH GITHUB_ACTION_PATH ENVIRONMENT"
 for VAR in $MANDATORY_VARS; do
   if [[ -z "${!VAR}" ]]; then
     echo "${VAR} environment variable is empty"
     exit 1
   fi
 done
+
+BASE_PATH=${BASE_PATH:-"${GITHUB_WORKSPACE}"}
 
 rm -rf $AUTODEVOPS_PATH/*
 
@@ -18,13 +20,13 @@ node $GITHUB_ACTION_PATH/values.js > values.env.yaml
 echo "Prepare charts and overlays"
 cp -r "$GITHUB_ACTION_PATH/chart/." .
 
-if [ -d "$GITHUB_WORKSPACE/.socialgouv/chart" ]; then
-  cp -r "$GITHUB_WORKSPACE/.socialgouv/chart/." .
+if [ -d "$BASE_PATH/.socialgouv/chart" ]; then
+  cp -r "$BASE_PATH/.socialgouv/chart/." .
 fi
 
 echo "Merge .socialgouv env manifests"
 shopt -s globstar
-for filename in $GITHUB_WORKSPACE/.socialgouv/environments/$ENVIRONMENT/**/*.{yml,yaml}; do
+for filename in $BASE_PATH/.socialgouv/environments/$ENVIRONMENT/**/*.{yml,yaml}; do
   [ -f "$filename" ] || continue
   echo "Merging $filename to manifests templates"
   target="templates/$(basename $filename)"
