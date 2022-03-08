@@ -1,3 +1,10 @@
+## [1.36.7](https://github.com/SocialGouv/actions/compare/v1.36.6...v1.36.7) (2022-03-08)
+
+
+### Bug Fixes
+
+* **helm-deploy:** clean rm values artifact ([6b45ee6](https://github.com/SocialGouv/actions/commit/6b45ee6d312b61ea821ce4e724dc096baef4eb98))
+
 ## [1.36.6](https://github.com/SocialGouv/actions/compare/v1.36.5...v1.36.6) (2022-03-08)
 
 
