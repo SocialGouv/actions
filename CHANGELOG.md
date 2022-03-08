@@ -1,3 +1,10 @@
+## [1.36.1](https://github.com/SocialGouv/actions/compare/v1.36.0...v1.36.1) (2022-03-08)
+
+
+### Bug Fixes
+
+* **autodevops-helm-deploy:** use inputs.baseSubdomain ([#136](https://github.com/SocialGouv/actions/issues/136)) ([7cf4533](https://github.com/SocialGouv/actions/commit/7cf4533d88f446cf4d77bcce0ece6b1bd32d7dc2))
+
 # [1.36.0](https://github.com/SocialGouv/actions/compare/v1.35.0...v1.36.0) (2022-03-08)
 
 
