@@ -28,6 +28,8 @@ inputs:
     description: "base path containing the .socialgouv directory, default to GITHUB_WORKSPACE"
   components:
     description: "list of components to enable separated by spaces, default to app"
+  deploymentName:
+    description: "override manifests name as manifest-$deploymentName.yaml, default to manifest-$environment.yaml"
 outputs:
   url:
     description: "Main deployment URL"
@@ -71,7 +73,7 @@ runs:
     - name: Archive manifest
       uses: actions/upload-artifact@v2
       with:
-        name: manifests-${{ inputs.environment }}.yaml
+        name: manifests-${{ inputs.deploymentName || inputs.environment }}.yaml
         path: ${{ env.AUTODEVOPS_PATH }}/manifests.yaml
     
     # end building manifests
