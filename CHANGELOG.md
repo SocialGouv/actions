@@ -1,3 +1,10 @@
+## [1.36.5](https://github.com/SocialGouv/actions/compare/v1.36.4...v1.36.5) (2022-03-08)
+
+
+### Bug Fixes
+
+* **env-slug:** as npm i g ([99faddf](https://github.com/SocialGouv/actions/commit/99faddfc1f94c4048b94fafa5442b2d2862954ed))
+
 ## [1.36.4](https://github.com/SocialGouv/actions/compare/v1.36.3...v1.36.4) (2022-03-08)
 
 
