@@ -51,6 +51,7 @@ runs:
       shell: bash
       env:
         BASE_DOMAIN: ${{ inputs.socialgouvBaseDomain }}
+        BASE_SUBDOMAIN: ${{ inputs.baseSubdomain }}
         PRODUCTION_HOST: ${{ inputs.productionHost }}
         IMAGE_NAME: ${{ inputs.imageName }}
         HELM_ARGS: ${{ inputs.helmArgs }}
