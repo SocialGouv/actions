@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-envslug="npx --prefer-offline @socialgouv/env-slug"
+which env-slug || npm i -g @socialgouv/env-slug
 
 ## start of exported variables
 set -a
