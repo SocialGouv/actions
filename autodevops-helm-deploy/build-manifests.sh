@@ -45,6 +45,19 @@ if [ -f "values.${ENVIRONMENT}.yaml" ]; then
 fi
 HELM_TEMPLATE_ARGS+=" $HELM_ARGS"
 
+if [ -n "$COMPONENTS" ]; then
+  # first disable all existing components
+  while IFS= read -r value; do
+    component="$(echo $value | sed 's/- //g')"
+    HELM_TEMPLATE_ARGS+=" --set components.$component=false"
+  done < <(yq '.components | keys' values.yaml)
+  
+  # then enable that was specified by `components` input
+  for component in "$COMPONENTS"; do
+    HELM_TEMPLATE_ARGS+=" --set components.$component=true"
+  done
+fi
+
 helm template $HELM_TEMPLATE_ARGS . \
   > manifests.base.yaml
 

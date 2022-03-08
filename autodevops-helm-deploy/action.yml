@@ -26,6 +26,8 @@ inputs:
     description: "Add extra args to Helm template command"
   basePath:
     description: "base path containing the .socialgouv directory, default to GITHUB_WORKSPACE"
+  components:
+    description: "list of components to enable separated by spaces, default to app"
 outputs:
   url:
     description: "Main deployment URL"
@@ -55,6 +57,7 @@ runs:
         IMAGE_NAME: ${{ inputs.imageName }}
         HELM_ARGS: ${{ inputs.helmArgs }}
         BASE_PATH: ${{ inputs.basePath }}
+        COMPONENTS: ${{ inputs.components }}
       working-directory: ${{ env.AUTODEVOPS_PATH }}
       run: $GITHUB_ACTION_PATH/build-manifests.sh
 
