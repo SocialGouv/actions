@@ -1,3 +1,10 @@
+## [1.36.4](https://github.com/SocialGouv/actions/compare/v1.36.3...v1.36.4) (2022-03-08)
+
+
+### Bug Fixes
+
+* **env-slug:** fix var ([a19fa1d](https://github.com/SocialGouv/actions/commit/a19fa1d6828195db976a99aa6f3ab6fb009ca8ab))
+
 ## [1.36.3](https://github.com/SocialGouv/actions/compare/v1.36.2...v1.36.3) (2022-03-08)
 
 
