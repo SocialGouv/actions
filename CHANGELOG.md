@@ -1,3 +1,10 @@
+# [1.36.0](https://github.com/SocialGouv/actions/compare/v1.35.0...v1.36.0) (2022-03-08)
+
+
+### Features
+
+* **helm-deploy:** components input ([e89a151](https://github.com/SocialGouv/actions/commit/e89a1512ca9e0bab5137d3c80dfb73553730a97f))
+
 # [1.35.0](https://github.com/SocialGouv/actions/compare/v1.34.9...v1.35.0) (2022-03-08)
 
 
