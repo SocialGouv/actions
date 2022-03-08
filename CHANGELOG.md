@@ -1,3 +1,10 @@
+## [1.34.9](https://github.com/SocialGouv/actions/compare/v1.34.8...v1.34.9) (2022-03-08)
+
+
+### Bug Fixes
+
+* **helm-deploy:** vars add base path input ([104dc38](https://github.com/SocialGouv/actions/commit/104dc38498acad5c8e495bb98b248d3081546e1f))
+
 ## [1.34.8](https://github.com/SocialGouv/actions/compare/v1.34.7...v1.34.8) (2022-03-04)
 
 
