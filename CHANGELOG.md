@@ -1,3 +1,10 @@
+## [1.36.2](https://github.com/SocialGouv/actions/compare/v1.36.1...v1.36.2) (2022-03-08)
+
+
+### Bug Fixes
+
+* **env:** base domain and subdomain ([058a077](https://github.com/SocialGouv/actions/commit/058a077fa08625512966e20cbbca43771b4dbb41))
+
 ## [1.36.1](https://github.com/SocialGouv/actions/compare/v1.36.0...v1.36.1) (2022-03-08)
 
 
