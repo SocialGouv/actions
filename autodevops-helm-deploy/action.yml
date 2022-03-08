@@ -64,12 +64,6 @@ runs:
       working-directory: ${{ env.AUTODEVOPS_PATH }}
       run: $GITHUB_ACTION_PATH/build-manifests.sh
 
-    - name: Archive values
-      uses: actions/upload-artifact@v2
-      with:
-        name: values.env-${{ inputs.environment }}.yaml
-        path: ${{ env.AUTODEVOPS_PATH }}/values.env.yaml
-
     - name: Archive manifest
       uses: actions/upload-artifact@v2
       with:
