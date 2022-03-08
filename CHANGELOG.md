@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/SocialGouv/actions/compare/v1.34.9...v1.35.0) (2022-03-08)
+
+
+### Features
+
+* **maildev:** add subchart ([68ca3a5](https://github.com/SocialGouv/actions/commit/68ca3a5e0aa282ff8bd5fa57bdbc6b8695d992ea))
+
 ## [1.34.9](https://github.com/SocialGouv/actions/compare/v1.34.8...v1.34.9) (2022-03-08)
 
 
