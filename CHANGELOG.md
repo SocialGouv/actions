@@ -1,3 +1,10 @@
+## [1.36.6](https://github.com/SocialGouv/actions/compare/v1.36.5...v1.36.6) (2022-03-08)
+
+
+### Bug Fixes
+
+* **helm-deploy:** deploymentName input ([9cc0507](https://github.com/SocialGouv/actions/commit/9cc050756a986176e166e4706c0c2095e162d26c))
+
 ## [1.36.5](https://github.com/SocialGouv/actions/compare/v1.36.4...v1.36.5) (2022-03-08)
 
 
