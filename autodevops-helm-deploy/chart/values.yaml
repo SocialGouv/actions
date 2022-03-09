@@ -12,6 +12,9 @@ components:
   app: true
   hasura: false
   maildev: false
+  jobs: false
 
 app: {}
 hasura: {}
+maildev: {}
+jobs: {}

@@ -1,0 +1,71 @@
+{{- range $run := $.Values.runs }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-{{ $run.name }}
+  namespace: {{ or $.Values.namespace $.Values.global.namespace }}
+  annotations:
+    kapp.k14s.io/change-group: "autodevops/{{ $run.name }}-{{ $.Values.global.namespace }}"
+    {{- if $run.needs }}
+    {{- range $need := $run.needs }}
+    kapp.k14s.io/change-rule.{{ $need }}: "upsert after upserting autodevops/{{ $need }}-{{ $.Values.global.namespace }}"
+    {{- end }}
+    {{- end }}
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 3600
+  ttlSecondsAfterFinished: 1800
+  template:
+    metadata:
+      annotations: {}
+      labels: {}
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: git-clone-repo
+          image: alpine/git:v2.30.0
+          command:
+            - sh
+            - -c
+            - |
+              git clone \
+                --depth 1 \
+                {{ $.Values.repositoryUrl }} \
+                --branch {{ $.Values.branchName }} \
+                --single-branch \
+                /workspace
+              cd /workspace
+              git tag --points-at HEAD>/workspace/.git/CURRENT_COMMIT_TAG
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+      containers:          
+        - name: job
+          image: "{{ or $run.image "alpine:3" }}"
+          {{- if $run.env }}
+          env:
+            {{- range $name, $value := $run.env }}
+            - name: "{{ $name }}"
+              value: "{{ $value }}"
+            {{- end }}
+          {{- end }}
+          
+          {{- if $run.run }}
+          command:
+            - /bin/{{ or $run.shell "bash" }}
+            - -c
+            - |
+              {{- nindent 90 $run.run }}
+          {{- end }}
+          volumeMounts:
+            - name: workspace
+              readOnly: true
+              mountPath: /workspace
+
+      # volumes:
+      #   {{ .volume }}
+{{- end }}
