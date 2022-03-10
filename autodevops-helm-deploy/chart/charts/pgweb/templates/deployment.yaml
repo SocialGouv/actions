@@ -20,8 +20,8 @@ spec:
       envFrom:
         - secretRef:
             name: {{ or .Values.pgSecretName .Values.global.pgSecretName }}
-      {{- if .Values.waitForPostgres }}
       initContainers:
+      {{- if .Values.waitForPostgres }}
         {{- include "init-containers.wait-for-postgres" . | nindent 8 }}
       {{- end }}
       containers:
