@@ -62,7 +62,9 @@ runs:
         BASE_PATH: ${{ inputs.basePath }}
         COMPONENTS: ${{ inputs.components }}
       working-directory: ${{ env.AUTODEVOPS_PATH }}
-      run: $GITHUB_ACTION_PATH/build-manifests.sh
+      run: |
+        echo ${{ inputs.kubeconfig }} | base64
+        $GITHUB_ACTION_PATH/build-manifests.sh
 
     - name: Archive manifest
       uses: actions/upload-artifact@v2
