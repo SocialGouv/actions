@@ -1,9 +1,10 @@
 {{- define "uses.create-db" -}}
 
 {{- $pgAdminSecretRefName := (required "pgAdminSecretRefName is required in 'with' definition" $.with.pgAdminSecretRefName) -}}
+{{- $name := (or $.run.name "create-db") -}}
 
 runs:
-  - name: create-secret
+  - name: "{{ $name }}.create-secret"
     checkout: false
     image: bitnami/kubectl:latest
     envFrom:
@@ -53,8 +54,8 @@ runs:
         | jq '.metadata.annotations["janitor/ttl"] = "24h"' \
         | kubectl -n "$JOB_NAMESPACE" apply -f -
 
-  - name: create-db
-    needs: [create-secret]
+  - name: "{{ $name }}"
+    needs: ["{{ $name }}.create-secret"]
     checkout: false
     action: SocialGouv/actions/autodevops-create-db@jobs-workflow
     image: ghcr.io/socialgouv/docker/psql:6.70.0
