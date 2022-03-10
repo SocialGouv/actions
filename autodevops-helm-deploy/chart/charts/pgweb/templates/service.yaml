@@ -2,15 +2,16 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    component: {{ .Chart.Name }}
+    component: maildev
     application: {{ .Values.global.repositoryName }}
-  name: {{ .Chart.Name }}
+  name: maildev
   namespace: {{ .Values.global.namespace }}
 spec:
   ports:
     - name: http
       port: {{ .Values.servicePort }}
-      targetPort: {{ .Values.containerPort }}
+      targetPort: 8081
   selector:
-    component: {{ .Chart.Name }}
+    component: maildev
   type: ClusterIP
+  

@@ -12,9 +12,11 @@ components:
   app: true
   hasura: false
   maildev: false
+  pgweb: false
   jobs: false
 
 app: {}
 hasura: {}
 maildev: {}
+pgweb: {}
 jobs: {}

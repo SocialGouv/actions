@@ -1,0 +1,8 @@
+namespace: 
+host: 
+servicePort: 8081
+certSecretName: 
+env: []
+envFrom: []
+waitForPostgres: true
+pgSecretName: pg-user

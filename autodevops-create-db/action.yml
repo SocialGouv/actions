@@ -69,12 +69,6 @@ runs:
         PG_CREATE_EXTENSIONS: ${{ inputs.extensions }}
       run: yarn --cwd ${{ github.action_path }} run -s values > values.json
 
-    - name: Archive values.json
-      uses: actions/upload-artifact@v2
-      with:
-        name: create-db.values.json
-        path: values.json
-
     - name: Ensure namespace exists
       uses: SocialGouv/actions/util-ensure-namespace@v1
       with:

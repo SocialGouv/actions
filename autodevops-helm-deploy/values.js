@@ -65,6 +65,10 @@ const certSecretName =
 
 const branchSlug = BRANCH_SLUG;
 
+const pgSecretName = isProduction ? "pg-user" :
+  isPreProduction ? "pg-user-preprod"
+  : `pg-user-${branchSlug}`
+
 const values = {
   global: {
     repositoryName,
@@ -75,6 +79,7 @@ const values = {
     gitBranch,
     rancherProjectId,
     certSecretName,
+    pgSecretName,
     host,
     image,
     imageTag,
