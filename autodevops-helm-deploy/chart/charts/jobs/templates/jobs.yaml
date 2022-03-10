@@ -47,7 +47,7 @@ spec:
       {{- end }}
       {{- if $run.action }}
         - name: degit-action
-          image: node-17:alpine
+          image: node:17-alpine
           command:
             - sh
             - -c
