@@ -52,7 +52,7 @@ spec:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
           startupProbe:
-            failureThreshold: 20
+            failureThreshold: 30
             httpGet:
               path: {{ .Values.probesPath }}
               port: http
