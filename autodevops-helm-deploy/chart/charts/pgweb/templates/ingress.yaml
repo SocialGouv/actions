@@ -11,7 +11,7 @@ metadata:
 spec:
   rules:
     - host: >-
-        {{ or .Values.host .Values.global.host }}
+        pgweb-{{ or .Values.host .Values.global.host }}
       http:
         paths:
           - backend:
