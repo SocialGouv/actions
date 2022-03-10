@@ -17,6 +17,9 @@ spec:
         component: {{ .Chart.Name }}
         application: {{ .Values.global.repositoryName }}
     spec:
+      envFrom:
+        - secretRef:
+            name: {{ or .Values.pgSecretName .Values.global.pgSecretName }}
       {{- if .Values.waitForPostgres }}
       initContainers:
         {{- include "init-containers.wait-for-postgres" . | nindent 8 }}
