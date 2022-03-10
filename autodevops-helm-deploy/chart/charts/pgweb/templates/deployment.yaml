@@ -4,7 +4,7 @@ metadata:
   labels:
     component: {{ .Chart.Name }}
     application: {{ .Values.global.repositoryName }}
-  name: maildev
+  name: {{ .Chart.Name }}
   namespace: {{ .Values.global.namespace }}
 spec:
   replicas: 1

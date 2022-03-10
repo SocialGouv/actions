@@ -6,7 +6,7 @@ metadata:
   labels:
     component: {{ .Chart.Name }}
     application: {{ .Values.global.repositoryName }}
-  name: maildev
+  name: {{ .Chart.Name }}
   namespace: {{ .Values.global.namespace }}
 spec:
   rules:
@@ -16,7 +16,7 @@ spec:
         paths:
           - backend:
               service:
-                name: maildev
+                name: {{ .Chart.Name }}
                 port:
                   name: http
             path: /
