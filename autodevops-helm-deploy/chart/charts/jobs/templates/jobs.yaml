@@ -59,7 +59,7 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
           volumeMounts:
-            - name: /action
+            - name: action
               mountPath: /action
       {{- end }}
       containers:          
