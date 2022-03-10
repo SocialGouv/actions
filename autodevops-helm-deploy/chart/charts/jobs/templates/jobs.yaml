@@ -68,6 +68,9 @@ spec:
         - name: job
           image: "{{ or $run.image "alpine:3" }}"
           imagePullPolicy: IfNotPresent
+          {{- if $run.envFrom }}
+          envFrom: {{ tpl ($run.envFrom | toJson) $ }}
+          {{- end }}
           env:
             {{- if $run.env }}
               {{- tpl ($run.env | toYaml) $ | nindent 12 }}
