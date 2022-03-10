@@ -14,6 +14,8 @@ const {
   PRODUCTION_HOST,
   KEEP_ALIVE,
   CERT_SECRET_NAME,
+  JOB_NAMESPACE,
+  PRODUCTION_DATABASE,
 } = process.env;
 
 const gitBranch = GITHUB_REF || "";
@@ -69,6 +71,18 @@ const pgSecretName = isProduction ? "pg-user" :
   isPreProduction ? "pg-user-preprod"
   : `pg-user-${branchSlug}`
 
+const productionDatabase = PRODUCTION_DATABASE || repositoryName
+
+const pgDatabase = isProduction ? productionDatabase :
+  isPreProduction ? "preprod"
+    : `autodevops_${branchSlug}`
+    
+const pgUser = isProduction ? productionDatabase :
+  isPreProduction ? "preprod"
+    : `user_${branchSlug}`
+
+const jobNamespace = JOB_NAMESPACE || namespace
+
 const values = {
   global: {
     repositoryName,
@@ -87,6 +101,9 @@ const values = {
   },
   app: {},
   hasura: {},
+  jobs: {
+    namespace: jobNamespace,
+  }
 };
 
 const dump = JSON.stringify(values, null, 2);

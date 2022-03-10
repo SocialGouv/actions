@@ -23,6 +23,7 @@ spec:
     spec:
       restartPolicy: Never
       initContainers:
+      {{- if or (not (hasKey $run "checkout")) $run.checkout }}
         - name: git-clone-repo
           image: alpine/git:v2.30.0
           command:
@@ -43,29 +44,61 @@ spec:
           volumeMounts:
             - name: workspace
               mountPath: /workspace
+      {{- end }}
+      {{- if $run.action }}
+        - name: degit-action
+          image: node-17:alpine
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /action
+              cd /action
+              npx degit {{ $run.action | replace "@" "#" }}
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: /action
+              mountPath: /action
+      {{- end }}
       containers:          
         - name: job
           image: "{{ or $run.image "alpine:3" }}"
-          {{- if $run.env }}
+          imagePullPolicy: IfNotPresent
           env:
-            {{- range $name, $value := $run.env }}
+            {{- if $run.env }}
+              {{- tpl ($run.env | toYaml) $ | nindent 12 }}
+            {{- end }}
+            {{- range $name, $value := $run.vars }}
             - name: "{{ $name }}"
               value: "{{ $value }}"
             {{- end }}
-          {{- end }}
           
           {{- if $run.run }}
           command:
             - /bin/{{ or $run.shell "bash" }}
             - -c
             - |
-              {{- nindent 90 $run.run }}
+              {{- nindent 90 (tpl $run.run $) }}
+          {{- else if $run.action }}
+          command:
+            - /bin/{{ or $run.shell "bash" }}
+            - -c
+            - |
+              /action/action.sh
           {{- end }}
+
           volumeMounts:
             - name: workspace
-              readOnly: true
               mountPath: /workspace
+            - name: action
+              mountPath: /action
 
-      # volumes:
+      volumes:
+        - name: workspace
+          emptyDir: {}
+        - name: action
+          emptyDir: {}
       #   {{ .volume }}
 {{- end }}
