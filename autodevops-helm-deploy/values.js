@@ -94,6 +94,8 @@ const values = {
     rancherProjectId,
     certSecretName,
     pgSecretName,
+    pgDatabase,
+    pgUser,
     host,
     image,
     imageTag,
