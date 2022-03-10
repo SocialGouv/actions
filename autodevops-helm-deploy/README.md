@@ -151,3 +151,17 @@ export GITHUB_ACTION_PATH=~/socialgouv/actions/autodevops-helm-deploy
 export GITHUB_WORKSPACE=~/socialgouv/standup
 $GITHUB_ACTION_PATH/dev-local.sh
 ```
+
+### Development
+
+#### helm templates
+
+to enable correct syntax recognition and coloration of yaml helm templates in vscode, enable [Kubenernetes extension](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
+
+
+Resources:
+- [Learn X in Y minutes](https://learnxinyminutes.com/docs/yaml/)
+- [JSON to YAML](https://www.json2yaml.com/)
+- [Kubernetes doc](https://kubernetes.io/docs/concepts/)
+- [Helm doc](https://helm.sh/docs/)
+- [Kapp doc](https://carvel.dev/kapp/docs/v0.46.0/)
