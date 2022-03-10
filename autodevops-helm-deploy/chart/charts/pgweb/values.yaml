@@ -5,4 +5,4 @@ certSecretName:
 env: []
 envFrom: []
 waitForPostgres: true
-pgSecretName: pg-user
+pgSecretName: 
