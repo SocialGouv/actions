@@ -38,8 +38,7 @@ const requireUse = async (use) => {
   if (!fs.existsSync(target)){
     let loading = downloadingPromises[slug]
     if (!loading){
-      loading = await asyncShell(["cp","-r",`/lab/betagouv/socialgouv/actions/uses/${use}`,target])
-      // loading = await asyncShell(["degit",use,target])
+      loading = await asyncShell(["degit",use,target])
       downloadingPromises[slug] = loading
     }
   }
