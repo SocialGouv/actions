@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { execFile, execSync } = require('child_process');
-const hash = require("./utils/mini-hash")
 
 const promiseFromChildProcess = (child) => {
   return new Promise(function (resolve, reject) {
