@@ -53,10 +53,7 @@ spec:
           command:
             - sh
             - -c
-            - |
-              mkdir -p /action
-              cd /action
-              npx degit {{ $run.action | replace "@" "#" }}
+            - npx degit {{ $run.action | replace "@" "#" }} /action
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
