@@ -1,3 +1,3 @@
 runs:
-  - use: SocialGouv/uses/a.yaml@jobs-workflow
+  - use: SocialGouv/actions/uses/b.yaml@jobs-workflow
     name: b

@@ -1,2 +1,2 @@
 runs:
-  - use: SocialGouv/uses/create-db@jobs-workflow
+  - use: SocialGouv/actions/uses/create-db@jobs-workflow
