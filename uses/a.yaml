@@ -1,0 +1,3 @@
+runs:
+  - use: SocialGouv/uses/a.yaml@jobs-workflow
+    name: b

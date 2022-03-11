@@ -1,14 +1,5 @@
 {{- range $run := $.Values.runs }}
 ---
-  {{- if $run.use }}
-  
-    {{- $jobs := (include (print "uses." $run.use) (merge (dict "run" $run "with" $run.with) $)) }}
-    {{- range $r := ($jobs | fromYaml ).runs }}
-      {{- include "job" (merge (dict "run" $r) $) }}
-    {{- end }}
-  
-  {{- else }}
-    {{- include "job" (merge (dict "run" $run) $) }}
-  {{- end }}
-
+  {{- $context := (merge (dict "run" $run "with" $run.with "parentWith" $run.parentWith) $) -}}
+  {{- include "job" $context }}
 {{- end }}
