@@ -93,6 +93,10 @@ const compile = async (file, parentScope = [], parentWith = {}) => {
       newRuns.push(run)
       continue
     }
+
+    if (!run.action && run.action !== false) {
+      run.action = run.use
+    }
     
     const { target } = await requireUse(run.use)
     const compiled = await compile(target, scope, run.parentWith)

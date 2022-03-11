@@ -5,6 +5,7 @@ const {
   RANCHER_PROJECT_ID,
   IMAGE_REGISTRY,
   IMAGE_NAME,
+  GITHUB_REPOSITORY,
   GITHUB_REF,
   GITHUB_SHA,
   BRANCH_NAME,
@@ -24,6 +25,7 @@ const isProduction = ENVIRONMENT === "prod";
 const isPreProduction = ENVIRONMENT === "preprod";
 const isDev = !(isProduction || isPreProduction);
 
+const repository = GITHUB_REPOSITORY
 const repositoryName = REPOSITORY_NAME || "";
 
 const keepAlive = Boolean(KEEP_ALIVE);
@@ -85,6 +87,7 @@ const jobNamespace = JOB_NAMESPACE || namespace
 
 const values = {
   global: {
+    repository,
     repositoryName,
     isProduction,
     isPreProduction,
@@ -100,6 +103,7 @@ const values = {
     image,
     imageTag,
     branchSlug,
+    branchName,
   },
   app: {},
   hasura: {},

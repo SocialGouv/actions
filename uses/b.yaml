@@ -1,3 +1,0 @@
-runs:
-  - use: SocialGouv/actions/uses/c.yaml@jobs-workflow
-  - use: SocialGouv/actions/uses/d.yaml@jobs-workflow

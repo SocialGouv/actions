@@ -32,20 +32,14 @@ spec:
       restartPolicy: Never
       initContainers:
       {{- if or (not (hasKey $run "checkout")) $run.checkout }}
-        - name: git-clone-repo
-          image: alpine/git:v2.30.0
+        - name: degit-repository
+          image: node:17
           command:
             - sh
             - -c
             - |
-              git clone \
-                --depth 1 \
-                {{ $val.repositoryUrl }} \
-                --branch {{ $val.branchName }} \
-                --single-branch \
+              npx degit {{ or $val.repository $val.global.repository }}#{{ or $val.branchName $val.global.branchName }} \
                 /workspace
-              cd /workspace
-              git tag --points-at HEAD>/workspace/.git/CURRENT_COMMIT_TAG
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
