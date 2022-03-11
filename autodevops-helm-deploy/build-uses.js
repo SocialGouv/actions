@@ -94,14 +94,11 @@ const compile = async (file, parentScope = [], parentWith = {}) => {
       continue
     }
 
-    if (!run.action && run.action !== false) {
-      run.action = run.use
-    }
-    
     const { target } = await requireUse(run.use)
     const compiled = await compile(target, scope, run.parentWith)
     if (compiled.runs){
       const flat = compiled.runs.map(r => ({
+        action: run.use,
         ...Object.entries(r).reduce((acc, [key, value]) => {
           if (key != "use") {
             acc[key] = value
