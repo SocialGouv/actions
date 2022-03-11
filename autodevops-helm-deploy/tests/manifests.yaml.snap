@@ -403,15 +403,15 @@ spec:
           /action/create-secret.sh
         env:
         - name: DB_SECRET_NAME
-          value: '{{ $.Values.global.pgSecretName }}'
+          value: pg-user-feature-branch-1
         - name: JOB_NAMESPACE
-          value: '{{ $.Values.namespace }}'
+          value: awesome-ci
         - name: NAMESPACE
-          value: '{{ $.Values.global.namespace }}'
+          value: tests-feature-branch-1
         - name: PGDATABASE
-          value: '{{ $.Values.global.pgDatabase }}'
+          value: autodevops_feature-branch-1
         - name: PGUSER
-          value: '{{ $.Values.global.pgUser }}'
+          value: user_feature-branch-1
         envFrom:
         - secretRef:
             name: pg-scaleway
