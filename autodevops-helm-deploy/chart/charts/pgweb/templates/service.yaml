@@ -10,7 +10,8 @@ spec:
   ports:
     - name: http
       port: {{ .Values.servicePort }}
-      targetPort: {{ .Values.containerPort }}
+      targetPort: 8081
   selector:
     component: {{ .Chart.Name }}
   type: ClusterIP
+  

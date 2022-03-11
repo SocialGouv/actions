@@ -31,3 +31,4 @@ autoscale:
     memory: 100
 certSecretName: 
 hostPrefix: hasura-
+waitForPostgres: false

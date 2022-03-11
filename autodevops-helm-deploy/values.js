@@ -5,6 +5,7 @@ const {
   RANCHER_PROJECT_ID,
   IMAGE_REGISTRY,
   IMAGE_NAME,
+  GITHUB_REPOSITORY,
   GITHUB_REF,
   GITHUB_SHA,
   BRANCH_NAME,
@@ -14,6 +15,8 @@ const {
   PRODUCTION_HOST,
   KEEP_ALIVE,
   CERT_SECRET_NAME,
+  JOB_NAMESPACE,
+  PRODUCTION_DATABASE,
 } = process.env;
 
 const gitBranch = GITHUB_REF || "";
@@ -22,6 +25,7 @@ const isProduction = ENVIRONMENT === "prod";
 const isPreProduction = ENVIRONMENT === "preprod";
 const isDev = !(isProduction || isPreProduction);
 
+const repository = GITHUB_REPOSITORY
 const repositoryName = REPOSITORY_NAME || "";
 
 const keepAlive = Boolean(KEEP_ALIVE);
@@ -65,8 +69,25 @@ const certSecretName =
 
 const branchSlug = BRANCH_SLUG;
 
+const pgSecretName = isProduction ? "pg-user" :
+  isPreProduction ? "pg-user-preprod"
+  : `pg-user-${branchSlug}`
+
+const productionDatabase = PRODUCTION_DATABASE || repositoryName
+
+const pgDatabase = isProduction ? productionDatabase :
+  isPreProduction ? "preprod"
+    : `autodevops_${branchSlug}`
+    
+const pgUser = isProduction ? productionDatabase :
+  isPreProduction ? "preprod"
+    : `user_${branchSlug}`
+
+const jobNamespace = JOB_NAMESPACE || namespace
+
 const values = {
   global: {
+    repository,
     repositoryName,
     isProduction,
     isPreProduction,
@@ -75,13 +96,20 @@ const values = {
     gitBranch,
     rancherProjectId,
     certSecretName,
+    pgSecretName,
+    pgDatabase,
+    pgUser,
     host,
     image,
     imageTag,
     branchSlug,
+    branchName,
   },
   app: {},
   hasura: {},
+  jobs: {
+    namespace: jobNamespace,
+  }
 };
 
 const dump = JSON.stringify(values, null, 2);

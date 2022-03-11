@@ -19,3 +19,9 @@ dependencies:
 - name: maildev
   repository: file://./charts/maildev
   condition: components.maildev
+- name: pgweb
+  repository: file://./charts/pgweb
+  condition: components.pgweb
+- name: jobs
+  repository: file://./charts/jobs
+  condition: components.jobs
