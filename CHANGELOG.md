@@ -1,3 +1,10 @@
+# [1.37.0](https://github.com/SocialGouv/actions/compare/v1.36.7...v1.37.0) (2022-03-11)
+
+
+### Features
+
+* **kube-actions:** using helm jobs ! ([#137](https://github.com/SocialGouv/actions/issues/137)) ([58150dd](https://github.com/SocialGouv/actions/commit/58150dd4286421865268506ccce394ccc36ed371))
+
 ## [1.36.7](https://github.com/SocialGouv/actions/compare/v1.36.6...v1.36.7) (2022-03-08)
 
 
