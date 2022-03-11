@@ -1,3 +1,10 @@
+## [1.37.1](https://github.com/SocialGouv/actions/compare/v1.37.0...v1.37.1) (2022-03-11)
+
+
+### Bug Fixes
+
+* **branch:** deplace pr version ([ad2a675](https://github.com/SocialGouv/actions/commit/ad2a675c7b9ecec0bdcf1a20a8d9e8cbe6884f06))
+
 # [1.37.0](https://github.com/SocialGouv/actions/compare/v1.36.7...v1.37.0) (2022-03-11)
 
 
