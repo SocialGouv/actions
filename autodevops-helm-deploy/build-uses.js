@@ -42,8 +42,14 @@ const requireUse = async (use) => {
   if (!fs.existsSync(`${process.cwd()}/${target}`)){
     let loading = downloadingPromises[slug]
     if (!loading){
-      const cmd = ["degit", use, target]
-      console.log(`degit ${use}`)
+      let cmd
+      if (use.startsWith(".") || use.startsWith("/")){
+        console.log(`get local ${use}`)
+        cmd = ["cp", use, target]
+      } else {
+        console.log(`degit ${use}`)
+        cmd = ["degit", use, target]
+      }
       loading = await asyncShell(cmd)
       downloadingPromises[slug] = loading
     }

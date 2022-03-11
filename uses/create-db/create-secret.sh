@@ -5,12 +5,6 @@ set -e
 echo "$KUBECONFIG" > ~/.kube/config
 export KUBECONFIG=~/.kube/config
 
-DB_SECRET_NAME="{{ $.Values.global.pgSecretName }}"
-NAMESPACE="{{ $.Values.global.namespace }}"
-JOB_NAMESPACE="{{ $.Values.namespace }}"
-PGDATABASE="{{ $.Values.global.pgDatabase }}"
-PGUSER="{{ $.Values.global.pgUser }}"
-
 if [ -n "$(kubectl -n $NAMESPACE get secret $DB_SECRET_NAME 2>/dev/null)" ]; then
   echo "secret named '$DB_SECRET_NAME' already exists in namespace '$NAMESPACE'"
 else
