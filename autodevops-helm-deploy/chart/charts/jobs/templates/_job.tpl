@@ -74,7 +74,7 @@ spec:
             {{- end }}
             {{- range $name, $value := $run.vars }}
             - name: "{{ $name }}"
-              value: "{{ $value }}"
+              value: "{{ tpl $value $ }}"
             {{- end }}
           
           {{- if $run.run }}
