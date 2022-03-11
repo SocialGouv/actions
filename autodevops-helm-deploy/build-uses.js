@@ -64,7 +64,9 @@ const compile = async (file, parentScope = [], parentWith = {}) => {
   const json = shell(`yq ${file} -o json`)
   const values = JSON.parse(json)
   const runs = values.jobs?.runs || values.runs
-  if (!runs) return []
+  if (!runs) {
+    return values
+  }
   const newRuns = []
   for (let i = 0; i < runs.length; i++) {
     const run = runs[i]
