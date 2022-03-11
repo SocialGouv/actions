@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-which env-slug || npm i -g @socialgouv/env-slug
+which env-slug >/dev/null 2>&1 || npm i -g @socialgouv/env-slug
 
 ## start of exported variables
 set -a
