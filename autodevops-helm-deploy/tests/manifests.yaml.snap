@@ -359,7 +359,7 @@ spec:
       - command:
         - sh
         - -c
-        - npx degit SocialGouv/actions/autodevops-create-db#jobs-workflow /action
+        - npx degit SocialGouv/actions/autodevops-create-db#v1 /action
         image: node:17
         name: degit-action
         securityContext:
@@ -429,7 +429,7 @@ spec:
       - command:
         - sh
         - -c
-        - npx degit SocialGouv/actions/uses/create-db#jobs-workflow /action
+        - npx degit SocialGouv/actions/uses/create-db#v1 /action
         image: node:17
         name: degit-action
         securityContext:

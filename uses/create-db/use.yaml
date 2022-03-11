@@ -18,7 +18,7 @@ runs:
   - name: create-db
     needs: [create-secret]
     checkout: false
-    action: SocialGouv/actions/autodevops-create-db@jobs-workflow
+    action: SocialGouv/actions/autodevops-create-db@v1
     image: ghcr.io/socialgouv/docker/psql:6.70.0
     envFrom:
       - secretRef:
