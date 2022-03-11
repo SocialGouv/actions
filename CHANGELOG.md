@@ -1,3 +1,11 @@
+## [1.37.2](https://github.com/SocialGouv/actions/compare/v1.37.1...v1.37.2) (2022-03-11)
+
+
+### Bug Fixes
+
+* **build-uses:** when empty runs ([aa5812f](https://github.com/SocialGouv/actions/commit/aa5812f54a1dcc9c98fdc7fd645623c17d43ac26))
+* **build-uses:** when empty runs ([43e4350](https://github.com/SocialGouv/actions/commit/43e4350f0f01d5ec7f4ced89f1cdc2d75f8f61a7))
+
 ## [1.37.1](https://github.com/SocialGouv/actions/compare/v1.37.0...v1.37.1) (2022-03-11)
 
 
