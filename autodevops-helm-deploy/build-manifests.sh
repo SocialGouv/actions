@@ -34,16 +34,44 @@ for filename in $BASE_PATH/.socialgouv/environments/$ENVIRONMENT/**/*.{yml,yaml}
   yq -i e '.metadata.namespace |= "'$NAMESPACE'"' "$target"
 done
 
-echo "Build base manifest using helm"
-HELM_TEMPLATE_ARGS=""
+VALUES_FILES=""
 if [ -f "values.project.yaml" ]; then
-  HELM_TEMPLATE_ARGS+=" -f values.project.yaml"
+  VALUES_FILES+=" values.project.yaml"
 fi
-HELM_TEMPLATE_ARGS+=" -f values.env.yaml"
+VALUES_FILES+=" values.env.yaml"
 if [ -f "values.${ENVIRONMENT}.yaml" ]; then
-  HELM_TEMPLATE_ARGS+=" -f values.${ENVIRONMENT}.yaml"
+  VALUES_FILES+=" values.${ENVIRONMENT}.yaml"
 fi
-HELM_TEMPLATE_ARGS+=" $HELM_ARGS"
+
+echo "Compiling composite uses"
+which degit >/dev/null 2>&1 || npm i -g degit
+cp values.yaml values.merged.yaml
+for valuefile in $VALUES_FILES; do
+  echo "$(yq eval-all -o yaml 'select(fileIndex == 0) * select(fileIndex == 1)' values.merged.yaml $valuefile)" \
+    >values.merged.yaml
+done
+USES_DEFS=$(cat values.merged.yaml | yq eval '.jobs.runs.[].use')
+for usedef in $USES_DEFS; do
+  if [[ "$usedef" == *"/"* ]]; then
+    usedef_slug=$(env-slug $usedef)
+    usedef_path="uses/$usedef_slug"
+    echo "use: $usedef"
+    if [ ! -e "$usedef_path" ]; then
+      degit "${usedef/\@/\#}" "$usedef_path"
+    fi
+    if [ -d "$usedef_path" ]; then
+      usedef_path+="/use.yaml"
+    fi
+    usedef_dest="charts/jobs/templates/$usedef_slug"
+    echo '{{- define "uses.'$usedef_slug'" -}}'>$usedef_dest
+    cat $usedef_path>>$usedef_dest
+    echo '{{- end -}}'>>$usedef_dest
+    yq -i e '(.jobs.runs.[] | select(.use == "'$usedef'").use) |= "'$usedef_slug'"' values.merged.yaml
+  fi
+done
+
+echo "Build base manifest using helm"
+HELM_TEMPLATE_ARGS=" -f values.merged.yaml"
 
 if [ -n "$COMPONENTS" ]; then
   # first disable all existing components
