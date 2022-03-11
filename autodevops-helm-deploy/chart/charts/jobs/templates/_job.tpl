@@ -15,12 +15,10 @@ metadata:
     kapp.k14s.io/nonce: ""
     kapp.k14s.io/update-strategy: fallback-on-replace
     {{- range $scope := $run.scopes }}
-    kapp.k14s.io/change-group: "autodevops/{{ $scope }}.{{ $val.global.namespace }}"
+    kapp.k14s.io/change-group.{{ $scope }}: "autodevops/{{ $scope }}.{{ $val.global.namespace }}"
     {{- end }}
-    {{- if $run.needs }}
     {{- range $need := $run.needs }}
     kapp.k14s.io/change-rule.{{ $need }}: "upsert after upserting autodevops/{{ $need }}.{{ $val.global.namespace }}"
-    {{- end }}
     {{- end }}
 spec:
   backoffLimit: 3

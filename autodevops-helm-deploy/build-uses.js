@@ -9,9 +9,14 @@ const promiseFromChildProcess = (child) => {
 }
 
 const shell = (cmd) => execSync(cmd, { encoding: 'utf8' })
-const asyncShell = ([cmd, ...args]) => promiseFromChildProcess(
-    execFile(cmd, args, { encoding: 'utf8' })
-  )
+const asyncShell = ([cmd, ...args], pipe = false) => {
+  const childProcess = execFile(cmd, args, { encoding: 'utf8' })
+  if (pipe){
+    childProcess.stdout.pipe(process.stdout)
+    childProcess.stderr.pipe(process.stderr)
+  }
+  return promiseFromChildProcess(childProcess)
+}
 
 const miniHash = function jenkinsOneAtATimeHash(keyString) {
   let hash = 0;
@@ -34,10 +39,12 @@ const requireUse = async (use) => {
   const slug = shell(`env-slug ${use}`).trim()
   use = use.replace("@", "#")
   let target = `uses/${slug}`
-  if (!fs.existsSync(target)){
+  if (!fs.existsSync(`${process.cwd()}/${target}`)){
     let loading = downloadingPromises[slug]
     if (!loading){
-      loading = await asyncShell(["degit",use,target])
+      const cmd = ["degit", use, target]
+      console.log(`degit ${use}`)
+      loading = await asyncShell(cmd)
       downloadingPromises[slug] = loading
     }
   }
@@ -72,10 +79,15 @@ const compile = async (file, parentScope = [], parentWith = {}) => {
       scopes.push(currentScope.join("."))
     }
     if (scope.length > 1){
-      scopes.push([scope[0], scope[1]].join(".."))
+        scopes.push([scope[0], scope[scope.length - 1]].join(".."))
     }
     run.scopes = scopes
     run.parentWith = Object.assign({}, parentWith, run.with)
+
+    if (!run.needs) {
+      run.needs = []
+    }
+    run.needs = run.needs.map((r) => [ scope[0], r ].join("..") )
 
     if (!run.use){
       newRuns.push(run)
