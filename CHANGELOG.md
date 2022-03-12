@@ -1,3 +1,11 @@
+# [1.38.0](https://github.com/SocialGouv/actions/compare/v1.37.2...v1.38.0) (2022-03-12)
+
+
+### Features
+
+* **build-chart:** multi instance + improvements ([f50e7c3](https://github.com/SocialGouv/actions/commit/f50e7c3de2077b3dabe4775e5c9e40e3e4a90e9e))
+* **build-chart:** multi instance + improvements ([bd925cb](https://github.com/SocialGouv/actions/commit/bd925cbbaffd9753c973ea0cbd95b2c5998eba35))
+
 ## [1.37.2](https://github.com/SocialGouv/actions/compare/v1.37.1...v1.37.2) (2022-03-11)
 
 
