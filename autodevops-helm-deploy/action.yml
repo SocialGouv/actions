@@ -62,7 +62,7 @@ runs:
         BASE_PATH: ${{ inputs.basePath }}
         COMPONENTS: ${{ inputs.components }}
       working-directory: ${{ env.AUTODEVOPS_PATH }}
-      run: $GITHUB_ACTION_PATH/build-manifests.sh
+      run: $GITHUB_ACTION_PATH/builder/build.sh
 
     - name: Archive manifest
       uses: actions/upload-artifact@v2

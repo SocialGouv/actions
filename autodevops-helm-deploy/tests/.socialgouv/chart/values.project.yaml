@@ -2,8 +2,20 @@ components:
   app: true
   hasura: true
   pgweb: true
+  app-2nd-instance: true
 
 app:
+  imagePackage: app
+  probesPath: /healthz
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+
+app-2nd-instance:
   imagePackage: app
   probesPath: /healthz
   envFrom:

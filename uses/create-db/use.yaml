@@ -10,7 +10,7 @@ runs:
     vars:
       DB_SECRET_NAME: "{{ $.Values.global.pgSecretName }}"
       NAMESPACE: "{{ $.Values.global.namespace }}"
-      JOB_NAMESPACE: "{{ $.Values.namespace }}"
+      JOB_NAMESPACE: "{{ $.Values.global.jobNamespace }}"
       PGDATABASE: "{{ $.Values.global.pgDatabase }}"
       PGUSER: "{{ $.Values.global.pgUser }}"
     run: /action/create-secret.sh

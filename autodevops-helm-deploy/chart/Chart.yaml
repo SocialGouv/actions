@@ -13,15 +13,20 @@ dependencies:
 - name: app
   repository: file://./charts/app
   condition: components.app
+  version: 1.0.0
 - name: hasura
   repository: file://./charts/hasura
   condition: components.hasura
+  version: 1.0.0
 - name: maildev
   repository: file://./charts/maildev
   condition: components.maildev
+  version: 1.0.0
 - name: pgweb
   repository: file://./charts/pgweb
   condition: components.pgweb
+  version: 1.0.0
 - name: jobs
   repository: file://./charts/jobs
   condition: components.jobs
+  version: 1.0.0

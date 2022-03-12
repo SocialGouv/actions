@@ -21,12 +21,5 @@ source $GITHUB_ACTION_PATH/../util-env/env.sh
 
 cd $AUTODEVOPS_PATH
 
-# generate values.env.yaml
-node $GITHUB_ACTION_PATH/values.js > values.env.yaml
-
 # generate manifests
-$GITHUB_ACTION_PATH/build-manifests.sh 2> >(grep -v 'found symbolic link' >&2)
-
-# copy manifests to current working dir
-cp manifests.yaml "$TARGET_DIR/manifests.yaml"
-echo "Built: $TARGET_DIR/manifests.yaml"
+$GITHUB_ACTION_PATH/builder/build.sh 2> >(grep -v 'found symbolic link' >&2)

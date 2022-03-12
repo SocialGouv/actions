@@ -10,7 +10,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: job-{{ join "--" $run.scope }}
-  namespace: {{ or $val.namespace $val.global.namespace }}
+  namespace: {{ or $val.namespace $val.global.jobNamespace }}
   annotations:
     kapp.k14s.io/nonce: ""
     kapp.k14s.io/update-strategy: fallback-on-replace

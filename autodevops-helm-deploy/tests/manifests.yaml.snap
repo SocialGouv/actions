@@ -48,6 +48,26 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ""
   labels:
     application: tests
+    component: app-2nd-instance
+  name: app-2nd-instance
+  namespace: tests-feature-branch-1
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
+  selector:
+    component: app-2nd-instance
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-label-scoping-rules: ""
+    kapp.k14s.io/disable-default-ownership-label-rules: ""
+  labels:
+    application: tests
     component: hasura
   name: hasura
   namespace: tests-feature-branch-1
@@ -101,6 +121,74 @@ spec:
       labels:
         application: tests
         component: app
+    spec:
+      containers:
+      - env: []
+        envFrom:
+        - secretRef:
+            name: pg-user-feature-branch-1
+        - secretRef:
+            name: app-sealed-secret
+        - configMapRef:
+            name: app-configmap
+        image: ghcr.io/socialgouv/tests/app:sha-ffac537e6cbbf934b08745a378932722df287a53
+        livenessProbe:
+          failureThreshold: 15
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 5
+        name: app
+        ports:
+        - containerPort: 3000
+          name: http
+        readinessProbe:
+          failureThreshold: 15
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        startupProbe:
+          failureThreshold: 12
+          httpGet:
+            path: /healthz
+            port: http
+          periodSeconds: 5
+      initContainers: null
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-label-scoping-rules: ""
+    kapp.k14s.io/disable-default-ownership-label-rules: ""
+  labels:
+    application: tests
+    component: app-2nd-instance
+  name: app-2nd-instance
+  namespace: tests-feature-branch-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: app-2nd-instance
+  template:
+    metadata:
+      labels:
+        application: tests
+        component: app-2nd-instance
     spec:
       containers:
       - env: []
@@ -429,7 +517,7 @@ spec:
       - command:
         - sh
         - -c
-        - npx degit SocialGouv/actions/uses/create-db#v1 /action
+        - npx degit ../uses/create-db /action
         image: node:17
         name: degit-action
         securityContext:
@@ -485,6 +573,33 @@ spec:
       - backend:
           service:
             name: app
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - tests-feature-branch-1.fabrique.social.gouv.fr
+    secretName: wildcard-crt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  labels:
+    application: tests
+    component: app-2nd-instance
+  name: app-2nd-instance
+  namespace: tests-feature-branch-1
+spec:
+  rules:
+  - host: tests-feature-branch-1.fabrique.social.gouv.fr
+    http:
+      paths:
+      - backend:
+          service:
+            name: app-2nd-instance
             port:
               name: http
         path: /

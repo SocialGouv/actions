@@ -2,10 +2,10 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{.Values.component }}
   namespace: {{ .Values.global.namespace }}
   labels:
-    component: {{ .Chart.Name }}
+    component: {{.Values.component }}
 spec:
   minReplicas: {{ .Values.autoscale.minReplicas }}
   maxReplicas: {{ .Values.autoscale.maxReplicas }}
@@ -25,5 +25,5 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Chart.Name }}
+    name: {{.Values.component }}
 {{ end }}
