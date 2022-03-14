@@ -1,3 +1,10 @@
+## [1.39.1](https://github.com/SocialGouv/actions/compare/v1.39.0...v1.39.1) (2022-03-14)
+
+
+### Bug Fixes
+
+* **build-reg:** imageName default + imagePackage ([0bfdb48](https://github.com/SocialGouv/actions/commit/0bfdb489a1a0ca8f415594f339579270ced85165))
+
 # [1.39.0](https://github.com/SocialGouv/actions/compare/v1.38.0...v1.39.0) (2022-03-14)
 
 
