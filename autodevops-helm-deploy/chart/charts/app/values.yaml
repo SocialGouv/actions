@@ -32,3 +32,6 @@ autoscale:
     memory: 100
 certSecretName: 
 waitForPostgres: false
+addVolumes: []
+volumes: []
+volumeMounts: []
