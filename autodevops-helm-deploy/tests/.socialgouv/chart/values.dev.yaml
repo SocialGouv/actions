@@ -1,6 +1,20 @@
 components:
   jobs: true
 
+app:
+  # simple case, automated
+  addVolumes:
+    - docs
+  
+  # more fine grained controle, equivalent to addVolume sample if you replace upload by docs
+  volumes:
+    - name: upload
+      persistentVolumeClaim:
+        claimName: upload
+  volumeMounts:
+    - mountPath: /mnt/upload
+      name: upload
+
 hasura:
   needs: [db]
 

@@ -166,7 +166,19 @@ spec:
             path: /healthz
             port: http
           periodSeconds: 5
+        volumeMounts:
+        - mountPath: /mnt/upload
+          name: upload
+        - mountPath: /mnt/docs
+          name: docs
       initContainers: null
+      volumes:
+      - name: upload
+        persistentVolumeClaim:
+          claimName: upload
+      - name: docs
+        persistentVolumeClaim:
+          claimName: docs
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -234,7 +246,9 @@ spec:
             path: /healthz
             port: http
           periodSeconds: 5
+        volumeMounts: []
       initContainers: null
+      volumes: []
 ---
 apiVersion: apps/v1
 kind: Deployment
