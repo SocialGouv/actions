@@ -6,7 +6,7 @@ app:
   addVolumes:
     - docs
   
-  # more fine grained controle, equivalent to addVolume sample if you replace upload by docs
+  # more fine grained control, equivalent to addVolume sample if you replace upload by docs
   volumes:
     - name: upload
       persistentVolumeClaim:
