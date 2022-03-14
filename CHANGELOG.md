@@ -1,3 +1,10 @@
+# [1.40.0](https://github.com/SocialGouv/actions/compare/v1.39.2...v1.40.0) (2022-03-14)
+
+
+### Features
+
+* **values:** sha ([0419c15](https://github.com/SocialGouv/actions/commit/0419c1590cd07fc533e9aa53579ab26156e676f7))
+
 ## [1.39.2](https://github.com/SocialGouv/actions/compare/v1.39.1...v1.39.2) (2022-03-14)
 
 
