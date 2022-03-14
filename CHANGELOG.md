@@ -1,3 +1,10 @@
+## [1.39.2](https://github.com/SocialGouv/actions/compare/v1.39.1...v1.39.2) (2022-03-14)
+
+
+### Bug Fixes
+
+* **build-register:** syntax typo ([9711d74](https://github.com/SocialGouv/actions/commit/9711d74c55d9cdf444f3f31edc730c59028d7640))
+
 ## [1.39.1](https://github.com/SocialGouv/actions/compare/v1.39.0...v1.39.1) (2022-03-14)
 
 
