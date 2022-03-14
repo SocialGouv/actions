@@ -1,3 +1,10 @@
+## [1.41.1](https://github.com/SocialGouv/actions/compare/v1.41.0...v1.41.1) (2022-03-14)
+
+
+### Bug Fixes
+
+* **kustomize:** patchJson6902 add ([a07b253](https://github.com/SocialGouv/actions/commit/a07b253a988d3cb86361d137b9be76647e41e525))
+
 # [1.41.0](https://github.com/SocialGouv/actions/compare/v1.40.0...v1.41.0) (2022-03-14)
 
 
