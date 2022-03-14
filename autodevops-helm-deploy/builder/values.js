@@ -85,6 +85,8 @@ const pgUser = isProduction ? productionDatabase :
 
 const jobNamespace = JOB_NAMESPACE || namespace
 
+const env = ENVIRONMENT
+
 const values = {
   global: {
     repository,
@@ -106,6 +108,7 @@ const values = {
     branchName,
     jobNamespace,
     sha,
+    env,
   },
 };
 
