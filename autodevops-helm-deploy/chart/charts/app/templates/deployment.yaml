@@ -24,9 +24,9 @@ spec:
       volumes:
         {{- tpl (.Values.volumes | toYaml) . | nindent 8 }}
         {{- range $volumeName := .Values.addVolumes }}
-        - name: "{{ $volumeName }}"
+        - name: "{{ tpl $volumeName $ }}"
           persistentVolumeClaim:
-            claimName: "{{ $volumeName }}"
+            claimName: "{{ tpl $volumeName $ }}"
         {{- end }}
       containers:
         - image: "{{ or .Values.image .Values.global.image }}{{ if .Values.imagePackage }}{{ (print "/" .Values.imagePackage) }}{{ end }}:{{ or .Values.imageTag .Values.global.imageTag }}"
@@ -83,6 +83,6 @@ spec:
           volumeMounts:
             {{- tpl (.Values.volumeMounts | toYaml) . | nindent 12 }}
             {{- range $volumeName := .Values.addVolumes }}
-            - name: "{{ $volumeName }}"
-              mountPath: "/mnt/{{ $volumeName }}"
+            - name: "{{ tpl $volumeName $ }}"
+              mountPath: "/mnt/{{ tpl $volumeName $ }}"
             {{- end }}
