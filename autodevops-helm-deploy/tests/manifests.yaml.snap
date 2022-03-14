@@ -6,6 +6,7 @@ metadata:
     git/branch: refs/heads/feature-branch-1
     janitor/ttl: 7d
   labels:
+    application: tests
     cert: wildcard
   name: tests-feature-branch-1
 ---

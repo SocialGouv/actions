@@ -1,4 +1,3 @@
 - op: add
-  path: "/metadata/annotations"
-  value:
-    kapp.k14s.io/delete-strategy: orphan
+  path: "/metadata/annotations/kapp.k14s.io~1delete-strategy"
+  value: orphan
