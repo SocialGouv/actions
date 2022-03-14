@@ -1,3 +1,10 @@
+# [1.39.0](https://github.com/SocialGouv/actions/compare/v1.38.0...v1.39.0) (2022-03-14)
+
+
+### Features
+
+* **helm-deploy:** add volume to app chart ([#138](https://github.com/SocialGouv/actions/issues/138)) ([7715055](https://github.com/SocialGouv/actions/commit/771505543aad432e9ba1c84b9a58af967fe57065))
+
 # [1.38.0](https://github.com/SocialGouv/actions/compare/v1.37.2...v1.38.0) (2022-03-12)
 
 
