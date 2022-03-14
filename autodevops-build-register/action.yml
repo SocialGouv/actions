@@ -33,12 +33,12 @@ runs:
         REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}
         
         IMAGE_NAME="${{ inputs.imageName }}"
-        if[ -z "$IMAGE_NAME" ]; then
+        if [ -z "$IMAGE_NAME" ]; then
           IMAGE_NAME="$REPOSITORY_NAME"
         fi
 
         IMAGE_PACKAGE="${{ inputs.imagePackage }}"
-        if[ -n "$IMAGE_PACKAGE" ]; then
+        if [ -n "$IMAGE_PACKAGE" ]; then
           IMAGE_NAME+="/$IMAGE_PACKAGE"
         fi
         
