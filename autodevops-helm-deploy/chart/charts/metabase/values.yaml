@@ -1,0 +1,9 @@
+
+application: matomo-metabase
+namespace: matomo-metabase
+
+component: my-app
+host: https://my-app-metabase.host.com
+
+global:
+  host:  
