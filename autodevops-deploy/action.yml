@@ -1,18 +1,24 @@
 name: "Deploy"
 description: "Deploy over Kubernetes"
+
 inputs:
   environment:
     description: "The deployment environment (dev | preprod | prod)"
+    required: true
   kubeconfig:
     description: "The Kubernetes authentication configuration"
+    required: true
   token:
     description: "The Github authentication token"
+    required: true
   rancherId:
     description: "The Rancher project ID"
+    required: true
 outputs:
   url:
     description: "Main URL extracted from kube manifests"
     value: ${{ steps.environment-url.outputs.url }}
+
 runs:
   using: "composite"
   steps:
@@ -27,14 +33,14 @@ runs:
     - name: Download k8s manifests
       uses: actions/download-artifact@v2
       with:
-        name: manifests-${{ inputs.environment }}.yml
+        name: ${{ inputs.manifestsName && inputs.manifestsName || 'manifests' }}-${{ inputs.environment }}.yml
 
     - name: Get namespace name
       uses: mikefarah/yq@v4.13.4
       id: namespace
       with:
         cmd: yq eval '.metadata.name' namespace-${{ inputs.environment }}.yml
-
+        
     - name: Get project and namespace names
       shell: bash
       run: |
@@ -46,14 +52,34 @@ runs:
       env:
         NAMESPACE: ${{ steps.namespace.outputs.result }}
 
+    - name: Define environment URL
+      id: environment-url
+      shell: bash
+      run: |
+        HOST=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host' -)
+        ONE_LINE_HOST=$(echo $HOST | xargs echo -n)
+        echo $ONE_LINE_HOST
+        echo "::set-output name=url::$ONE_LINE_HOST"
+
+    - name: Format the URL
+      uses: actions/github-script@v5
+      id: array-url
+      env:
+        url: ${{ steps.environment-url.outputs.url }}
+      with:
+        script: |
+          const urlArray = JSON.stringify(process.env.url.split(" --- ").map(v => v.replace(/ /g, "")).map(v => `https://${v}`));
+          process.stdout.write(`::set-output name=url::${urlArray}`);
+
     - name: Notify deployment start
-      uses: bobheadxi/deployments@v0.4.3
+      uses: maxgfr/multi-deployments@v0.1.9
       id: deployment
       with:
         step: start
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
-        env: ${{ inputs.environment == 'dev' && env.namespace || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
+        env: ${{ steps.array-url.outputs.url }}
+        log_args: true
 
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
@@ -67,13 +93,11 @@ runs:
         mkdir ~/.kube
         touch ~/.kube/config
         echo ${{ inputs.kubeconfig }} | base64 -d > ~/.kube/config
-
+        
     - name: Create k8s namespace
       shell: bash
       run: |
-        if [ $ENVIRONMENT != "prod" ]; then
-          kubectl create -f namespace-${ENVIRONMENT}.yml || true
-        fi
+        kubectl create -f namespace-${ENVIRONMENT}.yml || true
       env:
         ENVIRONMENT: ${{ inputs.environment }}
 
@@ -82,26 +106,18 @@ runs:
       run: |
         sleep 3
         kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
-
-    - name: Define environment URL
-      id: environment-url
-      shell: bash
-      run: |
-        HOST=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host' - | head -n 1)
-        echo $HOST
-        echo "::set-output name=url::https://$HOST"
-
-    - name: Notify deployment end
-      uses: bobheadxi/deployments@v0.4.3
+    
+    - name: Notify deployment
+      uses: maxgfr/multi-deployments@v0.1.9
       with:
         step: finish
         status: ${{ job.status }}
         token: ${{ inputs.token }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-        env_url: ${{ steps.environment-url.outputs.url }}
-
+        log_args: true
+        
     - name: Debug manifests
-      uses: socialgouv/actions/k8s-manifests-debug@master
+      uses: socialgouv/actions/k8s-manifests-debug@v1
       with:
         token: ${{ inputs.token }}
         path: manifests-${{ inputs.environment }}.yml
