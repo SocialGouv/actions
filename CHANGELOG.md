@@ -1,3 +1,10 @@
+## [1.42.1](https://github.com/SocialGouv/actions/compare/v1.42.0...v1.42.1) (2022-03-26)
+
+
+### Bug Fixes
+
+* build image cache ([adc1fea](https://github.com/SocialGouv/actions/commit/adc1feaa99793654e2a04be0e3081c7ed012869e))
+
 # [1.42.0](https://github.com/SocialGouv/actions/compare/v1.41.1...v1.42.0) (2022-03-25)
 
 
