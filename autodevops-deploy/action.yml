@@ -109,6 +109,7 @@ runs:
     
     - name: Notify deployment
       uses: maxgfr/multi-deployments@v0.1.11
+      continue-on-error: true
       with:
         step: finish
         status: ${{ job.status }}
