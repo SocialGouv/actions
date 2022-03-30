@@ -12,6 +12,9 @@ inputs:
     description: "PG Secret admin secretRefName"
     default: azure-pg-admin-user
     required: true
+  rancherProjectName:
+    description: "Rancher project pame, used for ci namespace, default to repository name"
+    required: false
 
 runs:
   using: "composite"
@@ -50,3 +53,4 @@ runs:
       with:
         kubeconfig: ${{ inputs.kube-config }}
         adminPgSecret: ${{ inputs.adminPgSecret }}
+        rancherProjectName: ${{ inputs.rancherProjectName }}
