@@ -1,3 +1,10 @@
+## [1.42.4](https://github.com/SocialGouv/actions/compare/v1.42.3...v1.42.4) (2022-03-31)
+
+
+### Bug Fixes
+
+* **autodevops-deploy:** action multi-deployment ([#144](https://github.com/SocialGouv/actions/issues/144)) ([04cf7fc](https://github.com/SocialGouv/actions/commit/04cf7fce9212ebe3c549ebc5eb86bfe9f091d3de))
+
 ## [1.42.3](https://github.com/SocialGouv/actions/compare/v1.42.2...v1.42.3) (2022-03-30)
 
 
