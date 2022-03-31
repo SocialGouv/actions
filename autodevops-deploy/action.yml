@@ -108,6 +108,7 @@ runs:
         kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests-${{ inputs.environment }}.yml
     
     - name: Notify deployment
+      continue-on-error: true
       uses: maxgfr/multi-deployments@v1.0.0
       with:
         step: finish
