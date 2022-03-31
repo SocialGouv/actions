@@ -1,3 +1,10 @@
+## [1.42.6](https://github.com/SocialGouv/actions/compare/v1.42.5...v1.42.6) (2022-03-31)
+
+
+### Bug Fixes
+
+* hotfix ([da84152](https://github.com/SocialGouv/actions/commit/da84152e684ae3bfbc32ecc29a59cd0324930ab8))
+
 ## [1.42.5](https://github.com/SocialGouv/actions/compare/v1.42.4...v1.42.5) (2022-03-31)
 
 
