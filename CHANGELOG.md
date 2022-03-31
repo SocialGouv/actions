@@ -1,3 +1,10 @@
+## [1.42.5](https://github.com/SocialGouv/actions/compare/v1.42.4...v1.42.5) (2022-03-31)
+
+
+### Bug Fixes
+
+* **notify:** allow failure ([#143](https://github.com/SocialGouv/actions/issues/143)) ([fb492a9](https://github.com/SocialGouv/actions/commit/fb492a9c9a7ac7b4b31eabecbda66ba17f203154))
+
 ## [1.42.4](https://github.com/SocialGouv/actions/compare/v1.42.3...v1.42.4) (2022-03-31)
 
 
