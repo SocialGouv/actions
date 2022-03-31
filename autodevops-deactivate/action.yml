@@ -12,6 +12,9 @@ inputs:
     description: "PG Secret admin secretRefName"
     default: azure-pg-admin-user
     required: true
+  rancherProjectName:
+    description: "Rancher project pame, used for ci namespace, default to repository name"
+    required: false
 
 runs:
   using: "composite"
@@ -50,11 +53,4 @@ runs:
       with:
         kubeconfig: ${{ inputs.kube-config }}
         adminPgSecret: ${{ inputs.adminPgSecret }}
-
-    - name: Mark environment as deactivated
-      uses: bobheadxi/deployments@v0.4.3
-      with:
-        step: deactivate-env
-        token: ${{ inputs.github-token }}
-        env: ${{ steps.k8s.outputs.namespace }}
-        desc: "Environment ${{ steps.k8s.outputs.namespace }} has been deactivated"
+        rancherProjectName: ${{ inputs.rancherProjectName }}

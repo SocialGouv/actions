@@ -1,3 +1,17 @@
+## [1.42.3](https://github.com/SocialGouv/actions/compare/v1.42.2...v1.42.3) (2022-03-30)
+
+
+### Bug Fixes
+
+* deactivate rancherProjectName ([58f8118](https://github.com/SocialGouv/actions/commit/58f8118bef48195875bdb9638e75114ebee2e804))
+
+## [1.42.2](https://github.com/SocialGouv/actions/compare/v1.42.1...v1.42.2) (2022-03-29)
+
+
+### Bug Fixes
+
+* remove unnecessary auto deactivation ([#142](https://github.com/SocialGouv/actions/issues/142)) ([d812b8c](https://github.com/SocialGouv/actions/commit/d812b8c73a396f42170aa1cd064d2b9714762f89))
+
 ## [1.42.1](https://github.com/SocialGouv/actions/compare/v1.42.0...v1.42.1) (2022-03-26)
 
 
