@@ -1,3 +1,10 @@
+## [1.42.15](https://github.com/SocialGouv/actions/compare/v1.42.14...v1.42.15) (2022-04-01)
+
+
+### Bug Fixes
+
+* **actions:** has no db ([#153](https://github.com/SocialGouv/actions/issues/153)) ([4ea7af7](https://github.com/SocialGouv/actions/commit/4ea7af7d02c7936ba50e284b6cb1f3ff4963b08f))
+
 ## [1.42.14](https://github.com/SocialGouv/actions/compare/v1.42.13...v1.42.14) (2022-04-01)
 
 
