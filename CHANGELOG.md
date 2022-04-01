@@ -1,3 +1,10 @@
+## [1.42.8](https://github.com/SocialGouv/actions/compare/v1.42.7...v1.42.8) (2022-04-01)
+
+
+### Bug Fixes
+
+* **autodevops-deactivate:** add mutli-deployments deactivation ([#149](https://github.com/SocialGouv/actions/issues/149)) ([ac364d9](https://github.com/SocialGouv/actions/commit/ac364d93a8a7ff7cf6ff12930f173ea7138084f0))
+
 ## [1.42.7](https://github.com/SocialGouv/actions/compare/v1.42.6...v1.42.7) (2022-04-01)
 
 
