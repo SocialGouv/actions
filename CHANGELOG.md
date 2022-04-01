@@ -1,3 +1,10 @@
+## [1.42.11](https://github.com/SocialGouv/actions/compare/v1.42.10...v1.42.11) (2022-04-01)
+
+
+### Bug Fixes
+
+* hasDb ([66fcde2](https://github.com/SocialGouv/actions/commit/66fcde2d53f9925697fe11b91b0461fff43ec7e8))
+
 ## [1.42.10](https://github.com/SocialGouv/actions/compare/v1.42.9...v1.42.10) (2022-04-01)
 
 
