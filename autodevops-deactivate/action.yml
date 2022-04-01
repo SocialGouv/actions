@@ -15,10 +15,6 @@ inputs:
   rancherProjectName:
     description: "Rancher project pame, used for ci namespace, default to repository name"
     required: false
-  hasDb:
-    description: "Has db"
-    default: true
-    required: false
 
 runs:
   using: "composite"
@@ -58,7 +54,6 @@ runs:
         kubeconfig: ${{ inputs.kube-config }}
         adminPgSecret: ${{ inputs.adminPgSecret }}
         rancherProjectName: ${{ inputs.rancherProjectName }}
-        hasDb: ${{ inputs.hasDb }}
 
     - name: Get deployment from PR
       uses: maxgfr/multi-deployments@v1.3.2
