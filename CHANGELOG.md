@@ -1,3 +1,10 @@
+## [1.42.12](https://github.com/SocialGouv/actions/compare/v1.42.11...v1.42.12) (2022-04-01)
+
+
+### Bug Fixes
+
+* indent ([891c2d8](https://github.com/SocialGouv/actions/commit/891c2d851ac02c7c06abd38cc5a514e285e8ce3d))
+
 ## [1.42.11](https://github.com/SocialGouv/actions/compare/v1.42.10...v1.42.11) (2022-04-01)
 
 
