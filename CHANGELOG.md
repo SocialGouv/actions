@@ -1,3 +1,10 @@
+## [1.42.7](https://github.com/SocialGouv/actions/compare/v1.42.6...v1.42.7) (2022-04-01)
+
+
+### Bug Fixes
+
+* **multi-deployments:** versionning ([#148](https://github.com/SocialGouv/actions/issues/148)) ([297d3db](https://github.com/SocialGouv/actions/commit/297d3db77edb8a9d9f5ac5b11ab3abef4572fbda))
+
 ## [1.42.6](https://github.com/SocialGouv/actions/compare/v1.42.5...v1.42.6) (2022-03-31)
 
 
