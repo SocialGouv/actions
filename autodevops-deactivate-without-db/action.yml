@@ -1,0 +1,58 @@
+name: Deactivate without db
+description: "Delete review branch environment and database"
+inputs:
+  kube-config:
+    description: "The base64 of the kubeconfig"
+    required: true
+  github-token:
+    description: "GitHub Token as provided by secrets"
+    default: ${{ github.token }}
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # could be extracted in some external action
+    - name: Get k8s infos
+      id: k8s
+      shell: bash
+      run: |
+        which env-slug || npm i -g @socialgouv/env-slug
+        RAW_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+        BRANCH=$(env-slug "${RAW_BRANCH}")
+        PROJECT=${GITHUB_REPOSITORY##*/}
+        NAMESPACE=$(env-slug "${PROJECT}-${RAW_BRANCH}")
+        echo "::set-output name=namespace::$(echo ${NAMESPACE})"
+        echo "::set-output name=project::$(echo ${PROJECT})"
+        echo "::set-output name=branch::$(echo ${BRANCH})"
+
+    - name: Write kubeconfig
+      uses: SocialGouv/actions/util-write-kubeconfig@v1
+      with:
+        kubeconfig: ${{ inputs.kube-config }}
+
+    - name: Delete k8s environment
+      shell: bash
+      run: |
+        echo "kubectl delete ns ${{ steps.k8s.outputs.namespace }}"
+        kubectl delete ns ${{ steps.k8s.outputs.namespace }} || true
+        echo "🪦"
+
+    - name: Get deployment from PR
+      uses: maxgfr/multi-deployments@v1.3.2
+      id: envs
+      with:
+        step: get-env
+        token: ${{ inputs.github-token }}
+        debug: true
+
+    - name: Notify deployment deactivation
+      uses: maxgfr/multi-deployments@v1.3.2
+      with:
+        step: deactivate-env
+        token: ${{ inputs.github-token }}
+        env: ${{ steps.envs.outputs.env }}
+        debug: true
