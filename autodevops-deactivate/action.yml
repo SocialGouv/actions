@@ -54,3 +54,19 @@ runs:
         kubeconfig: ${{ inputs.kube-config }}
         adminPgSecret: ${{ inputs.adminPgSecret }}
         rancherProjectName: ${{ inputs.rancherProjectName }}
+
+    - name: Get deployment from PR
+      uses: maxgfr/multi-deployments@v1.3.2
+      id: envs
+      with:
+        step: get-env
+        token: ${{ secrets.GITHUB_TOKEN }}
+        debug: true
+
+    - name: Notify deployment deactivation
+      uses: maxgfr/multi-deployments@v1.3.2
+      with:
+        step: deactivate-env
+        token: ${{ secrets.GITHUB_TOKEN }}
+        env: ${{ steps.envs.outputs.env }}
+        debug: true
