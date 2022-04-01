@@ -11,6 +11,9 @@ inputs:
     description: "Override project name"
   rancherProjectName:
     description: "The Rancher project name, usually secrets.RANCHER_PROJECT_NAME, usefull jobs that needs secrets or ci namespaces"
+  hasDb:
+    description: "Has DB"
+    default: true
 
 runs:
   using: "composite"
@@ -32,8 +35,12 @@ runs:
     - name: Setup action's env vars
       shell: bash
       run: |
+        if [ "${{ inputs.hasDb }}" = "false" ]; then
+          exit 0
+        fi
+        
         ADMIN_PG_SECRET="${{ inputs.adminPgSecret || env.ADMIN_PG_SECRET || 'azure-pg-admin-user' }}"
-
+        
         PG_USER_ADD_HOST_SUFFIX=${{ inputs.pgUserAddHostSuffix || env.PG_USER_ADD_HOST_SUFFIX }}
         if [ "$PG_USER_ADD_HOST_SUFFIX" != "false" ] && [[ $PGHOST == *"azure.com"* ]]; then
           PG_USER_ADD_HOST_SUFFIX="true"
