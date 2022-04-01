@@ -15,7 +15,7 @@ inputs:
   rancherProjectName:
     description: "Rancher project pame, used for ci namespace, default to repository name"
     required: false
-   hasDb:
+  hasDb:
     description: "Has db"
     default: true
     required: false
