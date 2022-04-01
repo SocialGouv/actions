@@ -72,7 +72,7 @@ runs:
           process.stdout.write(`::set-output name=url::${urlArray}`);
 
     - name: Notify deployment start
-      uses: maxgfr/multi-deployments@v1.0.0
+      uses: maxgfr/multi-deployments@v1.1.1
       id: deployment
       with:
         step: start
@@ -109,7 +109,7 @@ runs:
     
     - name: Notify deployment
 #      continue-on-error: true
-      uses: maxgfr/multi-deployments@v1.0.0
+      uses: maxgfr/multi-deployments@v1.1.1
       with:
         step: finish
         status: ${{ job.status }}
