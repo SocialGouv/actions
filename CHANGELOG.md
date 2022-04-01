@@ -1,3 +1,10 @@
+## [1.42.9](https://github.com/SocialGouv/actions/compare/v1.42.8...v1.42.9) (2022-04-01)
+
+
+### Bug Fixes
+
+* deactivate ([#150](https://github.com/SocialGouv/actions/issues/150)) ([0d372ab](https://github.com/SocialGouv/actions/commit/0d372abcc6c3e86170953cc27ebb7c9c02f7201f))
+
 ## [1.42.8](https://github.com/SocialGouv/actions/compare/v1.42.7...v1.42.8) (2022-04-01)
 
 
