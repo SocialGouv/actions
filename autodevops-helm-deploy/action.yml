@@ -73,14 +73,14 @@ runs:
     # end building manifests
 
     - name: Notify deployment start
-      uses: bobheadxi/deployments@v0.4.3
+      uses: bobheadxi/deployments@v1
       id: deployment
       with:
         step: start
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.NAMESPACE }}"
         env: ${{ inputs.environment == 'dev' && env.NAMESPACE || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
-        
+
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
       with:
@@ -133,13 +133,14 @@ runs:
         echo "::set-output name=url::https://$HOST"
 
     - name: Notify deployment end
-      uses: bobheadxi/deployments@v0.4.3
+      uses: bobheadxi/deployments@v1
       with:
         step: finish
         status: ${{ job.status }}
         token: ${{ inputs.token }}
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         env_url: ${{ steps.environment-url.outputs.url }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+        env: ${{ inputs.environment == 'dev' && env.NAMESPACE || inputs.environment == 'preproduction' && 'preproduction' || 'production' }}
 
     - name: Debug manifests
       uses: SocialGouv/actions/k8s-manifests-debug@v1
