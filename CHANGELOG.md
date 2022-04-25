@@ -1,3 +1,10 @@
+## [1.42.16](https://github.com/SocialGouv/actions/compare/v1.42.15...v1.42.16) (2022-04-25)
+
+
+### Bug Fixes
+
+* **harbor-build-register:** env and imagePackage ([#156](https://github.com/SocialGouv/actions/issues/156)) ([e659380](https://github.com/SocialGouv/actions/commit/e65938027a243ffaa1f246260d2e5b0ed09604ef))
+
 ## [1.42.15](https://github.com/SocialGouv/actions/compare/v1.42.14...v1.42.15) (2022-04-01)
 
 
