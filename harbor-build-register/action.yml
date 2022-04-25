@@ -4,6 +4,8 @@ inputs:
   imageName:
     description: "The image registry path"
     required: true
+  imagePackage:
+    description: "The image registry subpath"
   dockerfile:
     default: './Dockerfile'
     description: "The docker file path"
@@ -21,21 +23,42 @@ inputs:
   harborUrl:
     description: "Harbor url"
     default: harbor.fabrique.social.gouv.fr
+  environment:
+    default: 'dev'
+    description: "The deployment environment (dev | preprod | prod)"
 
 runs:
   using: "composite"
   steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      
+    - name: Get variables
+      id: variables
+      shell: bash
+      run: |
+        REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}
+        
+        IMAGE_NAME="${{ inputs.imageName }}"
+        if [ -z "$IMAGE_NAME" ]; then
+          IMAGE_NAME="$REPOSITORY_NAME"
+        fi
+        IMAGE_PACKAGE="${{ inputs.imagePackage }}"
+        if [ -n "$IMAGE_PACKAGE" ]; then
+          IMAGE_NAME+="/$IMAGE_PACKAGE"
+        fi
+        
+        echo "::set-output name=repository-name::$REPOSITORY_NAME"
+        echo "::set-output name=image-name::$IMAGE_NAME"
 
     - name: Create image labels and tags
       id: docker_meta
       uses: "crazy-max/ghaction-docker-meta@2e1a5c7fa42123697f82d479b551a1bbdb1bef88"
       with:
-        images: ${{ inputs.harborUrl}}/${{ inputs.imageName }}
+        images: ${{ inputs.harborUrl}}/${{ steps.variables.outputs.image-name }}
         labels: |
-          org.opencontainers.image.title=${{ inputs.project }}
-          org.opencontainers.image.documentation=https://github.com/SocialGouv/${{ inputs.project }}/tree/${{ github.sha }}
+          org.opencontainers.image.title=${{ steps.variables.outputs.repository-name }}
+          org.opencontainers.image.documentation=https://github.com/${{ github.repository }}/tree/${{ github.sha }}
         tags: |
           type=sha
           type=ref,event=pr
@@ -43,6 +66,8 @@ runs:
           type=semver,pattern={{version}}
           type=raw,value=sha-${{ github.sha }}
           type=semver,pattern={{major}}.{{minor}}
+          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}
+          type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}-${{ github.sha }}
 
     - name: Set up Buildx
       id: buildx
