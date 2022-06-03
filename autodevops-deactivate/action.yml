@@ -13,7 +13,7 @@ inputs:
     default: azure-pg-admin-user
     required: true
   rancherProjectName:
-    description: "Rancher project pame, used for ci namespace, default to repository name"
+    description: "Rancher project name, used for ci namespace, default to repository name"
     required: false
 
 runs:
