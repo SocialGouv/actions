@@ -1,5 +1,5 @@
 name: "🪞🔌🇫🇷"
-description: "Mirror git to https://gitlab.factory.social.gouv.fr"
+description: "Mirror git to https://gitlab.fabrique.social.gouv.fr"
 inputs:
   token:
     description: "Your token"
@@ -8,7 +8,7 @@ inputs:
   remote:
     required: false
     description: "The Git remote to push to"
-    default: "gitlab.factory.social.gouv.fr"
+    default: "gitlab.fabrique.social.gouv.fr"
 outputs: {}
 runs:
   using: "composite"
