@@ -1,3 +1,10 @@
+## [1.42.17](https://github.com/SocialGouv/actions/compare/v1.42.16...v1.42.17) (2022-06-07)
+
+
+### Bug Fixes
+
+* **gitlab:** fix default url ([26bf8d2](https://github.com/SocialGouv/actions/commit/26bf8d28aad73ad246069174de7772eeaa98cefa))
+
 ## [1.42.16](https://github.com/SocialGouv/actions/compare/v1.42.15...v1.42.16) (2022-04-25)
 
 
