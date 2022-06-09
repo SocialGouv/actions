@@ -56,7 +56,7 @@ runs:
         rancherProjectName: ${{ inputs.rancherProjectName }}
 
     - name: Get deployment from PR
-      uses: maxgfr/multi-deployments@v1.3.2
+      uses: maxgfr/github-multi-deployments@v1.3.2
       id: envs
       with:
         step: get-env
@@ -64,7 +64,7 @@ runs:
         debug: true
 
     - name: Notify deployment deactivation
-      uses: maxgfr/multi-deployments@v1.3.2
+      uses: maxgfr/github-multi-deployments@v1.3.2
       with:
         step: deactivate-env
         token: ${{ inputs.github-token }}
