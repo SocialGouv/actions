@@ -1,3 +1,10 @@
+## [1.42.18](https://github.com/SocialGouv/actions/compare/v1.42.17...v1.42.18) (2022-06-09)
+
+
+### Bug Fixes
+
+* **actions:** deployment action change naming ([#158](https://github.com/SocialGouv/actions/issues/158)) ([c90bfbd](https://github.com/SocialGouv/actions/commit/c90bfbdc25b7a258fed6210931c1be968ad7bfcc))
+
 ## [1.42.17](https://github.com/SocialGouv/actions/compare/v1.42.16...v1.42.17) (2022-06-07)
 
 
