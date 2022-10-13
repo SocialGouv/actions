@@ -35,9 +35,9 @@ runs:
         TEXT="${TEXT//$'\n'/'%0A'}"
         TEXT="${TEXT//$'\r'/'%0D'}"
 
-        echo "::set-output name=json::$JSON"
-        echo "::set-output name=markdown::$MARKDOWN"
-        echo "::set-output name=text::$TEXT"
+        echo "json=$JSON" >> $GITHUB_OUTPUT
+        echo "markdown=$MARKDOWN" >> $GITHUB_OUTPUT
+        echo "text=$TEXT" >> $GITHUB_OUTPUT
       env:
         MANIFESTS: ${{ inputs.path }}
 

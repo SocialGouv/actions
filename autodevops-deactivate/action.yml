@@ -32,9 +32,9 @@ runs:
         BRANCH=$(env-slug "${RAW_BRANCH}")
         PROJECT=${GITHUB_REPOSITORY##*/}
         NAMESPACE=$(env-slug "${PROJECT}-${RAW_BRANCH}")
-        echo "::set-output name=namespace::$(echo ${NAMESPACE})"
-        echo "::set-output name=project::$(echo ${PROJECT})"
-        echo "::set-output name=branch::$(echo ${BRANCH})"
+        echo "namespace=$(echo ${NAMESPACE})" >> $GITHUB_OUTPUT
+        echo "project=$(echo ${PROJECT})" >> $GITHUB_OUTPUT
+        echo "branch=$(echo ${BRANCH})" >> $GITHUB_OUTPUT
 
     - name: Write kubeconfig
       uses: SocialGouv/actions/util-write-kubeconfig@v1

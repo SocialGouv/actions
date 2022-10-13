@@ -42,8 +42,8 @@ runs:
           IMAGE_NAME+="/$IMAGE_PACKAGE"
         fi
         
-        echo "::set-output name=repository-name::$REPOSITORY_NAME"
-        echo "::set-output name=image-name::$IMAGE_NAME"
+        echo "repository-name=$REPOSITORY_NAME" >> $GITHUB_OUTPUT
+        echo "image-name=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
     - name: Create image labels and tags
       id: docker_meta

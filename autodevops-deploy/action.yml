@@ -59,17 +59,17 @@ runs:
         HOST=$(cat manifests-${{ inputs.environment }}.yml | yq eval-all '.spec.rules[] .host' -)
         ONE_LINE_HOST=$(echo $HOST | xargs echo -n)
         echo $ONE_LINE_HOST
-        echo "::set-output name=url::$ONE_LINE_HOST"
+        echo "url=$ONE_LINE_HOST" >> $GITHUB_OUTPUT
 
     - name: Format the URL
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6
       id: array-url
       env:
         url: ${{ steps.environment-url.outputs.url }}
       with:
+        result-encoding: string
         script: |
-          const urlArray = JSON.stringify(process.env.url.split(" --- ").map(v => v.replace(/ /g, "")).map(v => `https://${v}`));
-          process.stdout.write(`::set-output name=url::${urlArray}`);
+          return JSON.stringify(process.env.url.split(" --- ").map(v => v.replace(/ /g, "")).map(v => `https://${v}`));
 
     - name: Notify deployment start
       uses: maxgfr/github-multi-deployments@v1.3.2
@@ -78,7 +78,7 @@ runs:
         step: start
         token: ${{ inputs.token }}
         desc: "Deploying environment: ${{ env.namespace }}"
-        env: ${{ steps.array-url.outputs.url }}
+        env: ${{ steps.array-url.outputs.result }}
         debug: true
 
     - name: Install Kapp
