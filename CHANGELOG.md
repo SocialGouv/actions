@@ -1,3 +1,10 @@
+## [1.42.19](https://github.com/SocialGouv/actions/compare/v1.42.18...v1.42.19) (2022-10-14)
+
+
+### Bug Fixes
+
+* **output:** deprecated `set-output` fixed ([#161](https://github.com/SocialGouv/actions/issues/161)) ([1dcd589](https://github.com/SocialGouv/actions/commit/1dcd589acce0008b466d8acf2da870c212d5b369))
+
 ## [1.42.18](https://github.com/SocialGouv/actions/compare/v1.42.17...v1.42.18) (2022-06-09)
 
 
