@@ -1,3 +1,10 @@
+## [1.42.20](https://github.com/SocialGouv/actions/compare/v1.42.19...v1.42.20) (2022-11-17)
+
+
+### Bug Fixes
+
+* add semver input ([96f7924](https://github.com/SocialGouv/actions/commit/96f7924e733f1d48554fbde067689158b302a5c9))
+
 ## [1.42.19](https://github.com/SocialGouv/actions/compare/v1.42.18...v1.42.19) (2022-10-14)
 
 
