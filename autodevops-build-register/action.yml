@@ -18,6 +18,8 @@ inputs:
   environment:
     default: 'dev'
     description: "The deployment environment (dev | preprod | prod)"
+  semver:
+    description: "Set to 'true' to set image tag prefixed by 'v'"
 
 
 runs:
@@ -57,9 +59,9 @@ runs:
           type=sha
           type=ref,event=pr
           type=ref,event=branch
-          type=semver,pattern={{version}}
+          type=semver,pattern=${{ inputs.semver && 'v' || '' }}{{version}}
           type=raw,value=sha-${{ github.sha }}
-          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern=${{ inputs.semver && 'v' || '' }}{{major}}.{{minor}}
           type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}
           type=raw,value=${{ startsWith(github.ref, 'refs/tags/v') && 'prod' || inputs.environment }}-${{ github.sha }}
 
