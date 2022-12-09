@@ -1,3 +1,10 @@
+## [1.42.21](https://github.com/SocialGouv/actions/compare/v1.42.20...v1.42.21) (2022-12-09)
+
+
+### Bug Fixes
+
+* **k8s-manifests-debug:** newline encoding issue ([#166](https://github.com/SocialGouv/actions/issues/166)) ([3f3168e](https://github.com/SocialGouv/actions/commit/3f3168e51cba649eae972a331b798d75862953e6))
+
 ## [1.42.20](https://github.com/SocialGouv/actions/compare/v1.42.19...v1.42.20) (2022-11-17)
 
 
