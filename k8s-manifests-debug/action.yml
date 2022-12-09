@@ -26,7 +26,9 @@ runs:
         MARKDOWN=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --markdown)
         TEXT=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --text)
 
-        apt-get update -y && apt-get install -y jo
+        sudo apt-get update -y
+        sudo apt-get install -y jo
+
         jo -v
         
         echo "${TEXT}"
