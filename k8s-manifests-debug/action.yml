@@ -28,9 +28,13 @@ runs:
 
         echo "${TEXT}"
 
-        JSON="${JSON//$'\r'/'%0D'}"
-        MARKDOWN="${MARKDOWN//$'\r'/'%0D'}"
-        TEXT="${TEXT//$'\r'/'%0D'}"
+        JSON=$(jo result="$JSON")
+        MARKDOWN=$(jo result="$MARKDOWN")
+        TEXT=$(jo result="$TEXT")
+        
+        echo "DEBUG_MANIFESTS_JSON=$JSON" >> $GITHUB_ENV
+        echo "DEBUG_MANIFESTS_MARKDOWN=$MARKDOWN" >> $GITHUB_ENV
+        echo "DEBUG_MANIFESTS_TEXT=$TEXT" >> $GITHUB_ENV
 
         echo "json=$JSON" >> $GITHUB_OUTPUT
         echo "markdown=$MARKDOWN" >> $GITHUB_OUTPUT
