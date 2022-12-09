@@ -35,10 +35,6 @@ runs:
         echo "DEBUG_MANIFESTS_JSON=$JSON" >> $GITHUB_ENV
         echo "DEBUG_MANIFESTS_MARKDOWN=$MARKDOWN" >> $GITHUB_ENV
         echo "DEBUG_MANIFESTS_TEXT=$TEXT" >> $GITHUB_ENV
-
-        echo "json=$JSON" >> $GITHUB_OUTPUT
-        echo "markdown=$MARKDOWN" >> $GITHUB_OUTPUT
-        echo "text=$TEXT" >> $GITHUB_OUTPUT
       env:
         MANIFESTS: ${{ inputs.path }}
 
