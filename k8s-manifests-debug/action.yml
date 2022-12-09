@@ -53,5 +53,6 @@ runs:
         recreate: true
         message: |
           🎉 Deployment for commit ${{ github.sha }} :
-          ${{ steps.debug-manifests.outputs.markdown }}
+          
+          ${{ fromJSON(env.DEBUG_MANIFESTS_MARKDOWN).result }}
         GITHUB_TOKEN: ${{ inputs.token }}
