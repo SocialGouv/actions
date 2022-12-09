@@ -26,6 +26,8 @@ runs:
         MARKDOWN=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --markdown)
         TEXT=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --text)
 
+        jo -v
+        
         echo "${TEXT}"
 
         JSON=$(jo result="$JSON")
