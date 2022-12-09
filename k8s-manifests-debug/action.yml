@@ -26,18 +26,20 @@ runs:
         MARKDOWN=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --markdown)
         TEXT=$(cat "${MANIFESTS}" | npx @socialgouv/parse-manifests --text)
 
+        sudo apt-get update -y
+        sudo apt-get install -y jo
+
+        jo -v
+        
         echo "${TEXT}"
 
-        JSON="${JSON//$'\n'/'%0A'}"
-        JSON="${JSON//$'\r'/'%0D'}"
-        MARKDOWN="${MARKDOWN//$'\n'/'%0A'}"
-        MARKDOWN="${MARKDOWN//$'\r'/'%0D'}"
-        TEXT="${TEXT//$'\n'/'%0A'}"
-        TEXT="${TEXT//$'\r'/'%0D'}"
-
-        echo "json=$JSON" >> $GITHUB_OUTPUT
-        echo "markdown=$MARKDOWN" >> $GITHUB_OUTPUT
-        echo "text=$TEXT" >> $GITHUB_OUTPUT
+        JSON=$(jo result="$JSON")
+        MARKDOWN=$(jo result="$MARKDOWN")
+        TEXT=$(jo result="$TEXT")
+        
+        echo "DEBUG_MANIFESTS_JSON=$JSON" >> $GITHUB_ENV
+        echo "DEBUG_MANIFESTS_MARKDOWN=$MARKDOWN" >> $GITHUB_ENV
+        echo "DEBUG_MANIFESTS_TEXT=$TEXT" >> $GITHUB_ENV
       env:
         MANIFESTS: ${{ inputs.path }}
 
@@ -52,5 +54,6 @@ runs:
         recreate: true
         message: |
           🎉 Deployment for commit ${{ github.sha }} :
-          ${{ steps.debug-manifests.outputs.markdown }}
+          
+          ${{ fromJSON(env.DEBUG_MANIFESTS_MARKDOWN).result }}
         GITHUB_TOKEN: ${{ inputs.token }}
