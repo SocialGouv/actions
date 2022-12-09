@@ -23,8 +23,8 @@ jobs:
 
       - name: "json output exist"
         run: |
-          [[ -n "${{ steps.manifests-debug.outputs.json }}" ]] || (echo "No json" && exit 1)
+          [[ -n "${{ fromJSON(env.DEBUG_MANIFESTS_JSON).result }}" ]] || (echo "No json" && exit 1)
 
       - name: "markdown output exist"
         run: |
-          [[ -n "${{ steps.manifests-debug.outputs.markdown }}" ]] || (echo "No markdown" && exit 1)
+          [[ -n "${{ fromJSON(env.DEBUG_MANIFESTS_MARKDOWN).result }}" ]] || (echo "No markdown" && exit 1)
