@@ -1,3 +1,10 @@
+## [1.42.22](https://github.com/SocialGouv/actions/compare/v1.42.21...v1.42.22) (2023-03-21)
+
+
+### Bug Fixes
+
+* **autodevops-build-register:** add latest tag ([#179](https://github.com/SocialGouv/actions/issues/179)) ([e4d2adb](https://github.com/SocialGouv/actions/commit/e4d2adb7075c8fefe59d1427c8724190f033099d))
+
 ## [1.42.21](https://github.com/SocialGouv/actions/compare/v1.42.20...v1.42.21) (2022-12-09)
 
 
