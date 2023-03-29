@@ -61,7 +61,7 @@ export const deletePackageVersions = async (
   )
 
   for (const version of versions) {
-    core.debug(
+    core.info(
       `Delete version: ${packageName} -- ${version.name} -- ${
         version.updated_at
       } -- [${version.metadata?.container?.tags.join(", ")}]`

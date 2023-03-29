@@ -75,7 +75,7 @@ const deletePackageVersions = (org, packageName, versions) => __awaiter(void 0, 
     const throttle = (0, p_throttle_1.default)({ limit: 1, interval: 800 });
     const throttled = throttle((id) => __awaiter(void 0, void 0, void 0, function* () { return (0, exports.deletePackageVersion)(org, packageName, id); }));
     for (const version of versions) {
-        core.debug(`Delete version: ${packageName} -- ${version.name} -- ${version.updated_at} -- [${(_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.join(", ")}]`);
+        core.info(`Delete version: ${packageName} -- ${version.name} -- ${version.updated_at} -- [${(_b = (_a = version.metadata) === null || _a === void 0 ? void 0 : _a.container) === null || _b === void 0 ? void 0 : _b.tags.join(", ")}]`);
         yield throttled(version.id);
     }
 });
