@@ -18,6 +18,8 @@ inputs:
   environment:
     # default: 'dev'
     description: "The deployment environment (dev | preprod | prod)"
+  secrets:
+    description: "The docker secrets"
 
 
 runs:
@@ -75,6 +77,7 @@ runs:
         build-args: ${{ inputs.dockerbuildargs }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
+        secrets: ${{ inputs.secrets }}
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new
         # cache-from: "type=gha,scope=${{ inputs.imageName }}-cache"
